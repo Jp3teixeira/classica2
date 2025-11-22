@@ -2,6 +2,8 @@
   --bg-gray: #d3d3d3;
   --dock-bg: rgba(255, 255, 255, 0.65);
   --dock-border: rgba(0, 0, 0, 0.12);
+  --top-nav-bg: #b8b8b8;
+  --top-nav-border: rgba(0, 0, 0, 0.22);
   --text-main: #111111;
   --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.18);
 }
@@ -22,6 +24,40 @@ body {
     "Helvetica Neue", sans-serif;
   background: var(--bg-gray);
   color: var(--text-main);
+}
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--top-nav-bg);
+  border-bottom: 1px solid var(--top-nav-border);
+  z-index: 10;
+}
+
+.top-nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.top-nav-link {
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  color: inherit;
+  padding: 4px 0;
+}
+
+.top-nav-link:hover {
+  text-decoration: underline;
 }
 
 .desktop {
@@ -145,6 +181,18 @@ body {
 }
 
 @media (max-width: 600px) {
+  .top-nav {
+    height: 52px;
+  }
+
+  .top-nav-links {
+    gap: 16px;
+  }
+
+  .top-nav-link {
+    font-size: 0.8rem;
+  }
+
   .company-name {
     font-size: 2.1rem;
     text-align: center;

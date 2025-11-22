@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dockItems = document.querySelectorAll(".dock-item");
+  const triggers = document.querySelectorAll("[data-modal]");
   const modals = document.querySelectorAll(".modal");
 
   function openModal(key) {
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.setAttribute("aria-hidden", "true");
   }
 
-  dockItems.forEach((item) => {
+  triggers.forEach((item) => {
     item.addEventListener("click", () => {
       const key = item.getAttribute("data-modal");
       if (key) openModal(key);
