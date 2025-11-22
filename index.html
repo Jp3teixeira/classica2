@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clássica 2 — Estúdio Gráfico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="desktop">
+      <div class="company-name">Clássica 2</div>
+      <div class="dock">
+        <button class="dock-item" data-modal="livros">
+          <span class="icon">📚</span>
+          <span class="label">Livros</span>
+        </button>
+        <button class="dock-item" data-modal="embalagens">
+          <span class="icon">📦</span>
+          <span class="label">Embalagens</span>
+        </button>
+        <button class="dock-item" data-modal="caixas">
+          <span class="icon">🗃️</span>
+          <span class="label">Caixas</span>
+        </button>
+      </div>
+
+      <!-- Modals -->
+      <section class="modal" id="modal-livros" aria-hidden="true">
+        <div class="modal-window">
+          <header class="modal-header">
+            <h2>Modelos de Livros</h2>
+            <button class="modal-close" data-close>×</button>
+          </header>
+          <div class="modal-body">
+            <img src="assets/livros-placeholder.jpg" alt="Modelos de livros Clássica 2" />
+            <p>
+              Livros de arte, catálogos e edições especiais com acabamento
+              minimalista, papéis selecionados e impressão de alta precisão.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal" id="modal-embalagens" aria-hidden="true">
+        <div class="modal-window">
+          <header class="modal-header">
+            <h2>Embalagens</h2>
+            <button class="modal-close" data-close>×</button>
+          </header>
+          <div class="modal-body">
+            <img src="assets/embalagens-placeholder.jpg" alt="Embalagens gráficas Clássica 2" />
+            <p>
+              Soluções de embalagem limpas, elegantes e funcionais para marcas
+              que valorizam detalhe e simplicidade.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal" id="modal-caixas" aria-hidden="true">
+        <div class="modal-window">
+          <header class="modal-header">
+            <h2>Caixas</h2>
+            <button class="modal-close" data-close>×</button>
+          </header>
+          <div class="modal-body">
+            <img src="assets/caixas-placeholder.jpg" alt="Caixas gráficas Clássica 2" />
+            <p>
+              Caixas rígidas e dobráveis com design minimalista, perfeitas para
+              livros, produtos de luxo e edições limitadas.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
