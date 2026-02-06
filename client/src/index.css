@@ -1,0 +1,987 @@
+/* ============================================
+   Clássica 2 - macOS Style Design System
+   Professional Edition
+   ============================================ */
+
+/* CSS Reset & Variables */
+:root {
+  /* macOS Colors - More refined */
+  --macos-bg: #f5f5f7;
+  --macos-bg-gradient: linear-gradient(180deg, #e8e8ed 0%, #f5f5f7 50%, #e0e0e5 100%);
+
+  /* Menu Bar */
+  --menubar-bg: rgba(255, 255, 255, 0.72);
+  --menubar-blur: saturate(180%) blur(20px);
+  --menubar-border: rgba(0, 0, 0, 0.08);
+  --menubar-text: #1d1d1f;
+  --menubar-height: 32px;
+
+  /* Dock - Glass effect */
+  --dock-bg: rgba(255, 255, 255, 0.35);
+  --dock-blur: saturate(200%) blur(40px);
+  --dock-border: rgba(255, 255, 255, 0.6);
+  --dock-shadow: 0 10px 40px rgba(0, 0, 0, 0.15),
+    0 2px 10px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* Finder Window */
+  --finder-bg: #ffffff;
+  --finder-sidebar: #f5f5f7;
+  --finder-titlebar: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+  --finder-border: rgba(0, 0, 0, 0.12);
+  --finder-shadow: 0 30px 60px rgba(0, 0, 0, 0.25),
+    0 15px 30px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+
+  /* Traffic Lights */
+  --traffic-close: #ff5f57;
+  --traffic-minimize: #ffbd2e;
+  --traffic-maximize: #28c940;
+
+  /* Accent Colors */
+  --accent-blue: #007aff;
+  --accent-blue-hover: #0066d6;
+
+  /* Typography */
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display',
+    'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 120ms ease-out;
+  --transition-medium: 200ms ease-out;
+  --transition-slow: 350ms ease-out;
+
+  /* Z-index layers */
+  --z-desktop: 1;
+  --z-dock: 100;
+  --z-finder: 200;
+  --z-menubar: 300;
+  --z-modal: 400;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-system);
+  font-size: 13px;
+  line-height: 1.47059;
+  color: var(--menubar-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Scrollbar - macOS style */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ============================================
+   Desktop Background
+   ============================================ */
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  background: var(--macos-bg-gradient);
+  z-index: var(--z-desktop);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--menubar-height);
+  padding-bottom: 100px;
+}
+
+.desktop-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: min(480px, 65vw);
+  opacity: 0.85;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.06));
+  transition: transform var(--transition-medium), opacity var(--transition-medium);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ============================================
+   Menu Bar
+   ============================================ */
+
+.menubar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--menubar-height);
+  background: var(--menubar-bg);
+  backdrop-filter: var(--menubar-blur);
+  -webkit-backdrop-filter: var(--menubar-blur);
+  border-bottom: 1px solid var(--menubar-border);
+  z-index: var(--z-menubar);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+}
+
+.menubar-logo {
+  font-weight: 600;
+  font-size: 14px;
+  padding: 3px 12px;
+  border-radius: 5px;
+  transition: background var(--transition-fast);
+  letter-spacing: -0.01em;
+}
+
+.menubar-logo:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.menubar-logo-text {
+  background: linear-gradient(135deg, #1d1d1f 0%, #515154 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.menubar-nav {
+  display: flex;
+  gap: 2px;
+  margin-left: 8px;
+}
+
+.menubar-item {
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 400;
+  transition: background var(--transition-fast);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.menubar-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.menubar-item.active {
+  background: rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}
+
+.menubar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menubar-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.menubar-datetime {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.menubar-date {
+  font-weight: 400;
+}
+
+.menubar-time {
+  font-weight: 500;
+}
+
+/* Contacts Dropdown */
+.contacts-wrapper {
+  position: relative;
+}
+
+.contacts-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.85);
+  transition: background var(--transition-fast);
+}
+
+.contacts-btn:hover,
+.contacts-btn.active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.contacts-btn svg {
+  opacity: 0.7;
+}
+
+.contacts-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.contacts-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.contacts-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.contacts-content {
+  padding: 8px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background var(--transition-fast);
+}
+
+.contact-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.contact-item svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.contact-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* ============================================
+   Dock - macOS Style
+   ============================================ */
+
+.dock-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  z-index: var(--z-dock);
+  pointer-events: none;
+}
+
+.dock-trigger {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 12px;
+  z-index: var(--z-dock);
+  pointer-events: auto;
+}
+
+.dock {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 4px 36px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.6);
+  pointer-events: auto;
+}
+
+/* Dock reflection effect */
+.dock::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 10%;
+  right: 10%;
+  height: 6px;
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 100%);
+  border-radius: 0 0 50% 50%;
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+.dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Magnification effect on hover */
+.dock-item:hover {
+  transform: translateY(-8px) scale(1.15);
+}
+
+/* Adjacent items also slightly scale */
+.dock-item:hover+.dock-item,
+.dock-item:has(+ .dock-item:hover) {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.dock-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #ffffff 0%, #e8e8ed 100%);
+  border-radius: 11px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle shine effect */
+.dock-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+  border-radius: 11px 11px 0 0;
+}
+
+.dock-icon svg {
+  width: 26px;
+  height: 26px;
+  color: #1d1d1f;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+}
+
+.dock-item:hover .dock-icon {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Tooltip/Label */
+.dock-label {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(30, 30, 30, 0.95);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.01em;
+}
+
+/* Tooltip arrow */
+.dock-label::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(30, 30, 30, 0.95);
+}
+
+.dock-item:hover .dock-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   Finder Window
+   ============================================ */
+
+.finder-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-finder);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--menubar-height) + 20px) 20px 100px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.finder-window {
+  width: min(1000px, 90vw);
+  height: min(650px, 80vh);
+  background: var(--finder-bg);
+  border-radius: 12px;
+  box-shadow: var(--finder-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Finder Title Bar */
+.finder-titlebar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 52px;
+  background: var(--finder-titlebar);
+  border-bottom: 1px solid var(--finder-border);
+  flex-shrink: 0;
+}
+
+.finder-traffic-lights {
+  display: flex;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.traffic-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--transition-fast);
+}
+
+.traffic-light svg {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.finder-traffic-lights:hover .traffic-light svg {
+  opacity: 1;
+}
+
+.traffic-light:hover {
+  opacity: 0.9;
+}
+
+.traffic-light.close {
+  background: var(--traffic-close);
+}
+
+.traffic-light.minimize {
+  background: var(--traffic-minimize);
+}
+
+.traffic-light.maximize {
+  background: var(--traffic-maximize);
+}
+
+.finder-title {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  letter-spacing: -0.01em;
+}
+
+.finder-toolbar {
+  width: 52px;
+}
+
+/* Finder Content */
+.finder-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Finder Sidebar */
+.finder-sidebar {
+  width: 220px;
+  background: var(--finder-sidebar);
+  border-right: 1px solid var(--finder-border);
+  padding: 16px 0;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.finder-sidebar-section {
+  margin-bottom: 20px;
+}
+
+.finder-sidebar-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 20px;
+}
+
+.finder-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 20px;
+  font-size: 13px;
+  text-align: left;
+  transition: background var(--transition-fast);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.finder-sidebar-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.finder-sidebar-item.active {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.finder-sidebar-item.active svg {
+  color: white;
+}
+
+/* Finder Main Area */
+.finder-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.finder-main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.product-card:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.product-card-image {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e8e8ed;
+  margin-bottom: 12px;
+}
+
+.product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-medium);
+}
+
+.product-card:hover .product-card-image img {
+  transform: scale(1.05);
+}
+
+.product-card-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.3;
+}
+
+/* Product Detail */
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.04);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  transition: background var(--transition-fast);
+  width: fit-content;
+}
+
+.back-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.product-image-container {
+  width: 100%;
+  max-height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0f0f5;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1d1d1f;
+  letter-spacing: -0.02em;
+}
+
+.product-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.product-characteristics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.product-characteristic {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 18px;
+  background: #f5f5f7;
+  border-radius: 10px;
+  min-width: 120px;
+}
+
+.characteristic-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.characteristic-value {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 4px;
+  color: #1d1d1f;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.35);
+  padding: 40px;
+}
+
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.empty-state-text {
+  font-size: 15px;
+  max-width: 280px;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn var(--transition-medium);
+}
+
+.animate-slideUp {
+  animation: slideUp var(--transition-slow);
+}
+
+.animate-scaleIn {
+  animation: scaleIn var(--transition-medium);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+  .menubar-nav {
+    display: none;
+  }
+
+  .finder-sidebar {
+    width: 180px;
+  }
+
+  .finder-window {
+    width: 95vw;
+    height: 85vh;
+  }
+
+  .dock-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .dock-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .finder-sidebar {
+    display: none;
+  }
+
+  .dock-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dock {
+    gap: 4px;
+    padding: 6px 10px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
