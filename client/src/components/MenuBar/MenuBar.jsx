@@ -75,7 +75,7 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                                         </svg>
                                         <div className="contact-info">
                                             <span className="contact-label">Email</span>
-                                            <span className="contact-value">jt27081970@gmail.com</span>
+                                            <span className="contact-value">classicaartesgraficas2@gmail.com</span>
                                         </div>
                                     </div>
                                     <div className="contact-item">

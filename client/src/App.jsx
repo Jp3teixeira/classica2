@@ -5,6 +5,14 @@ import Desktop from './components/Desktop/Desktop'
 import Dock from './components/Dock/Dock'
 import FinderWindow from './components/Finder/FinderWindow'
 import { AdminDashboard } from './components/Admin'
+import ComingSoon from './components/ComingSoon/ComingSoon'
+
+// ========================================
+// 🚧 MODO EM BREVE
+// true  = mostra página "Em Breve" (para clientes verem)
+// false = mostra o site completo
+// ========================================
+const COMING_SOON = false;
 
 // Categories data
 const CATEGORIES = [
@@ -26,10 +34,18 @@ const CATEGORIES = [
     icon: '📚',
     description: 'Impressão de livros de alta qualidade com diversos acabamentos',
     subcategories: [
-      { id: 'livros-capa-dura', name: 'Capa Dura' },
-      { id: 'livros-brochura', name: 'Brochura' },
-      { id: 'livros-encadernacao', name: 'Encadernação Especial' },
-      { id: 'livros-edicoes-limitadas', name: 'Edições Limitadas' }
+      { id: 'livros-capa-mole', name: 'Livros de Capa Mole' },
+      { id: 'livros-capa-dura', name: 'Livros de Capa Dura' }
+    ]
+  },
+  {
+    id: 'calendarios',
+    name: 'Calendários de Parede',
+    icon: '📅',
+    description: 'Calendários de parede personalizados com vários formatos de macetes',
+    subcategories: [
+      { id: 'calendarios-3-macetes', name: 'Calendário 3 Macetes' },
+      { id: 'calendarios-4-macetes', name: 'Calendário 4 Macetes' }
     ]
   },
   {
@@ -116,6 +132,30 @@ function MainSite() {
 
   return (
     <>
+      {/* Banner de desenvolvimento */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9999,
+        background: 'linear-gradient(90deg, #1d1d1f 0%, #3a3a3c 100%)',
+        color: 'rgba(255,255,255,0.9)',
+        textAlign: 'center',
+        padding: '6px 16px',
+        fontSize: '12px',
+        fontWeight: '500',
+        letterSpacing: '0.02em',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px'
+      }}>
+        <span style={{ fontSize: '14px' }}>🚧</span>
+        <span>Site em desenvolvimento — algumas funcionalidades podem estar incompletas</span>
+        <span style={{ fontSize: '14px' }}>🚧</span>
+      </div>
+
       {/* Menu Bar */}
       <MenuBar
         categories={CATEGORIES}
@@ -147,10 +187,10 @@ function MainSite() {
 function App() {
   return (
     <Routes>
-      {/* Main site */}
-      <Route path="/" element={<MainSite />} />
+      {/* Main site or Coming Soon */}
+      <Route path="/" element={COMING_SOON ? <ComingSoon /> : <MainSite />} />
 
-      {/* Admin panel with secret token */}
+      {/* Admin panel sempre acessível */}
       <Route path="/admin/:token" element={<AdminDashboard />} />
     </Routes>
   );

@@ -1,0 +1,217 @@
+/* ============================================
+   Coming Soon Page
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.cs-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f5f5f7 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Blobs de fundo */
+.cs-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.cs-blob-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 120, 255, 0.15), transparent);
+    top: -150px;
+    left: -150px;
+    animation: blobFloat 8s ease-in-out infinite;
+}
+
+.cs-blob-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(100, 60, 255, 0.1), transparent);
+    bottom: -100px;
+    right: -100px;
+    animation: blobFloat 10s ease-in-out infinite reverse;
+}
+
+.cs-blob-3 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 200, 150, 0.1), transparent);
+    top: 50%;
+    left: 60%;
+    animation: blobFloat 12s ease-in-out infinite 2s;
+}
+
+@keyframes blobFloat {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(20px, -20px) scale(1.05);
+    }
+
+    66% {
+        transform: translate(-15px, 15px) scale(0.95);
+    }
+}
+
+/* Card principal */
+.cs-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 28px;
+    padding: 56px 64px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo */
+.cs-logo-wrap {
+    margin-bottom: 32px;
+}
+
+.cs-logo {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* Texto */
+.cs-text {
+    margin-bottom: 32px;
+}
+
+.cs-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d1d1f;
+    letter-spacing: -0.5px;
+    margin: 0 0 12px 0;
+}
+
+.cs-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0071e3;
+    margin: 0 0 16px 0;
+    min-height: 24px;
+}
+
+.cs-description {
+    font-size: 15px;
+    font-weight: 400;
+    color: #6e6e73;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Divider */
+.cs-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
+    margin: 32px 0;
+    transform-origin: left;
+}
+
+/* Contactos */
+.cs-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.cs-contact-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6e6e73;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.cs-contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.cs-contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1d1d1f;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.cs-contact-item:hover {
+    background: rgba(0, 113, 227, 0.08);
+    border-color: rgba(0, 113, 227, 0.2);
+    color: #0071e3;
+    transform: translateY(-1px);
+}
+
+.cs-contact-item svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+/* Footer */
+.cs-footer {
+    margin-top: 32px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.35);
+    font-weight: 400;
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .cs-card {
+        padding: 40px 28px;
+    }
+
+    .cs-title {
+        font-size: 22px;
+    }
+
+    .cs-contact-items {
+        flex-direction: column;
+    }
+}
