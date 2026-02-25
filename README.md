@@ -1,6 +1,6 @@
 # Clássica 2 - Artes Gráficas 🖨️
 
-Website institucional da **Clássica Artes Gráficas** com interface estilo macOS.
+Website institucional da **Clássica Artes Gráficas**
 
 ![macOS Style Interface](./classicalogo/classica2.png)
 
