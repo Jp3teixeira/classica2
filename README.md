@@ -1,150 +1,68 @@
-# Clássica 2 - Artes Gráficas 🖨️
+# Clássica Artes Gráficas — Site Oficial
 
-Website institucional da **Clássica Artes Gráficas**
+Site institucional da Clássica Artes Gráficas, disponível em [www.classicaag.pt](https://www.classicaag.pt).
 
-![macOS Style Interface](./classicalogo/classica2.png)
+## 🌐 Stack
 
-## 🚀 Stack Tecnológica
+- **Frontend**: React + Vite
+- **Deploy**: Vercel (automático via GitHub)
+- **Domínio**: amen.pt → Vercel
 
-### Frontend
-- **React 18** + Vite
-- **Framer Motion** - Animações
-- **CSS Vanilla** - Estilização (design system próprio)
-- **React Router** - Navegação
-
-### Backend
-- **Node.js** + Express
-- **MongoDB** + Mongoose
-- **JWT** - Autenticação
-- **Multer** - Upload de ficheiros
-- **Cloudinary** - Hosting de imagens (opcional)
-
-## 📁 Estrutura do Projeto
+## 📁 Estrutura
 
 ```
 classica2/
-├── client/                    # Frontend React
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Desktop/      # Fundo macOS + logo
-│   │   │   ├── Dock/         # Barra inferior animada
-│   │   │   ├── MenuBar/      # Barra superior macOS
-│   │   │   └── Finder/       # Modal estilo Finder
-│   │   ├── assets/           # Imagens e recursos
-│   │   └── index.css         # Design system
-│   └── package.json
-│
-├── server/                    # Backend Node.js
-│   ├── src/
-│   │   ├── models/           # Modelos MongoDB
-│   │   ├── routes/           # API REST
-│   │   │   ├── auth.js       # Autenticação
-│   │   │   ├── products.js   # CRUD produtos
-│   │   │   ├── categories.js # Categorias
-│   │   │   └── upload.js     # Upload imagens
-│   │   └── middleware/       # Auth middleware
-│   └── package.json
-│
-└── README.md
+└── client/
+    ├── public/
+    │   └── imagens/
+    │       ├── livros/       ← imagens dos livros
+    │       ├── calendarios/  ← imagens dos calendários
+    │       └── logo/         ← logo da empresa
+    └── src/
+        ├── App.jsx           ← categorias do menu
+        └── components/
+            └── Finder/
+                └── FinderWindow.jsx  ← produtos e imagens
 ```
 
-## 🛠️ Instalação
+## ➕ Como adicionar um produto
 
-### Requisitos
-- Node.js 18+
-- MongoDB (local ou Atlas)
+1. Abre `client/src/components/Finder/FinderWindow.jsx`
+2. Encontra a categoria certa na função `getProducts()`
+3. Adiciona um novo objeto de produto:
 
-### Passos
+```js
+{
+    id: 'id-unico',
+    name: 'Nome do Produto',
+    description: 'Descrição...',
+    image: '/imagens/pasta/ficheiro.jpg',
+    characteristics: [
+        { label: 'Papel', value: '250g' }
+    ]
+}
+```
 
-1. **Clonar o repositório**
+4. Coloca a imagem em `client/public/imagens/`
+
+## 🚀 Como publicar alterações
+
 ```bash
-git clone https://github.com/seu-user/classica2.git
-cd classica2
+git add .
+git commit -m "descrição da alteração"
+git push
 ```
 
-2. **Instalar dependências do frontend**
-```bash
-cd client
-npm install
+O Vercel atualiza o site automaticamente em 1-2 minutos.
+
+## 🔐 Painel de gestão
+
+Acede ao guia de gestão em:
+```
+https://www.classicaag.pt/admin/classica2024admin
 ```
 
-3. **Instalar dependências do backend**
-```bash
-cd ../server
-npm install
-```
+## 🚧 Banner de desenvolvimento
 
-4. **Configurar variáveis de ambiente**
-```bash
-# Copiar .env.example para .env no server/
-cp .env.example .env
-# Editar com as suas credenciais
-```
-
-5. **Iniciar MongoDB** (se local)
-```bash
-mongod
-```
-
-6. **Iniciar o servidor**
-```bash
-cd server
-npm run dev
-```
-
-7. **Iniciar o frontend** (noutra janela)
-```bash
-cd client
-npm run dev
-```
-
-8. **Aceder ao site**
-   - Frontend: http://localhost:5173
-   - API: http://localhost:5000
-
-## 📦 Categorias de Produtos
-
-- 📋 **Catálogos** - Catálogos comerciais, industriais, moda
-- 📚 **Livros** - Capa dura, brochura, encadernação especial
-- 📦 **Embalagens** - Cartão, rígidas, alimentar, cosmética
-- 🏷️ **Rotulagem** - Vinhos, alimentar, industrial, adesivas
-- 🖨️ **Impressão Digital** - Grande formato, pequeno formato, personalização
-
-## 🎨 Funcionalidades
-
-### Interface macOS
-- ✅ Menu bar superior com navegação
-- ✅ Dock animado que aparece/desaparece
-- ✅ Janelas estilo Finder
-- ✅ Animações suaves com Framer Motion
-- ✅ Traffic lights (fechar, minimizar, maximizar)
-- ✅ Sidebar de navegação no Finder
-
-### Admin (em desenvolvimento)
-- [ ] Login de administrador
-- [ ] Adicionar/editar/remover produtos
-- [ ] Upload de imagens
-- [ ] Gerir categorias
-
-## 🌐 Deploy
-
-### Frontend (Vercel)
-```bash
-cd client
-npm run build
-# Deploy via Vercel CLI ou GitHub integration
-```
-
-### Backend (Railway)
-```bash
-# Push para GitHub
-# Conectar repositório ao Railway
-```
-
-## 📝 Licença
-
-Este projeto é propriedade da Clássica Artes Gráficas.
-
----
-
-Desenvolvido com ❤️ por João Teixeira
+Para remover o banner "Em desenvolvimento", apaga o bloco marcado com
+`{/* 🚧 Banner de desenvolvimento */}` em `client/src/App.jsx` e faz push.

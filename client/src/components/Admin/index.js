@@ -1,5 +1,3 @@
-import AdminDashboard from './AdminDashboard';
-import ProductForm from './ProductForm';
-import './Admin.css';
-
-export { AdminDashboard, ProductForm };
+import AdminGuide from './AdminGuide';
+export { AdminGuide };
+export default AdminGuide;
