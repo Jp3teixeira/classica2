@@ -1,7 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Folder Icon for sidebar
 const FolderIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: '16px', height: '16px', flexShrink: 0 }}>
         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
@@ -81,10 +80,7 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
                                 <button
                                     key={sub.id}
                                     className={`finder-sidebar-item ${selectedSubcategory?.id === sub.id ? 'active' : ''}`}
-                                    onClick={() => {
-                                        setSelectedSubcategory(sub);
-                                        setSelectedProduct(null);
-                                    }}
+                                    onClick={() => { setSelectedSubcategory(sub); setSelectedProduct(null); }}
                                 >
                                     <FolderIcon />
                                     <span>{sub.name}</span>
@@ -99,17 +95,9 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
                                 {loading ? (
                                     <LoadingState key="loading" />
                                 ) : selectedProduct ? (
-                                    <ProductDetail
-                                        key="detail"
-                                        product={selectedProduct}
-                                        onBack={() => setSelectedProduct(null)}
-                                    />
+                                    <ProductDetail key="detail" product={selectedProduct} onBack={() => setSelectedProduct(null)} />
                                 ) : products.length > 0 ? (
-                                    <ProductGrid
-                                        key="grid"
-                                        products={products}
-                                        onProductClick={setSelectedProduct}
-                                    />
+                                    <ProductGrid key="grid" products={products} onProductClick={setSelectedProduct} />
                                 ) : (
                                     <EmptyState key="empty" subcategory={selectedSubcategory} />
                                 )}
@@ -154,15 +142,12 @@ const ProductDetail = memo(function ProductDetail({ product, onBack }) {
                 </svg>
                 Voltar
             </button>
-
             <div className="product-image-container">
                 <img src={product.image} alt={product.name} className="product-image" />
             </div>
-
             <div className="product-info">
                 <h2 className="product-title">{product.name}</h2>
                 <p className="product-description" style={{ whiteSpace: 'pre-line' }}>{product.description}</p>
-
                 {product.characteristics && (
                     <div className="product-characteristics">
                         {product.characteristics.map((char, index) => (
@@ -200,12 +185,11 @@ const EmptyState = memo(function EmptyState({ subcategory }) {
     );
 });
 
-// ============================================
+// ============================================================
 // PRODUTOS
-// Para adicionar um produto novo: copia um bloco
-// { id, name, description, image, characteristics }
-// e adiciona na categoria/subcategoria correta
-// ============================================
+// Para adicionar: copia um bloco { id, name, description,
+// image, characteristics } e cola na categoria correta.
+// ============================================================
 function getProducts(categoryId, subcategoryId) {
     const allProducts = {
 
@@ -251,61 +235,111 @@ function getProducts(categoryId, subcategoryId) {
                 {
                     id: 'lm2',
                     name: 'As Cores de Abril',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações literárias.',
+                    description: 'Obra em dois volumes, impressa em papel ior 90gr. com plastificação mate.\n\nVolume 1: 404 páginas impressas a 1/1 cor (preto).\nVolume 2: 288 páginas impressas a 1/1 cor (preto).\n\nCapa impressa a 4/0 cores + plastificação mate em cartolina cromo v/ branco 270gr.\nAcabamento: Brochado.',
                     image: '/imagens/livros/AsCoresDeAbril_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Volumes', value: '2' },
+                        { label: 'Páginas Vol. 1', value: '404' },
+                        { label: 'Páginas Vol. 2', value: '288' },
+                        { label: 'Impressão miolo', value: '1/1 cor (preto)' },
+                        { label: 'Papel miolo', value: 'Ior 90gr' },
+                        { label: 'Impressão capa', value: '4/0 cores' },
+                        { label: 'Plastificação', value: 'Mate' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 270gr' },
+                        { label: 'Acabamento', value: 'Brochado' }
                     ]
                 },
                 {
                     id: 'lm3',
                     name: 'Gramática da Língua Chinesa',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações académicas.',
+                    description: 'Formato 17x24cm. com 128 páginas impressas a 1/1 cor em papel ior 80gr.\n\nCapa impressa a 4/0 cores + plastificação em cromo v/ branco 280gr.\nAcabamento: cosido e brochado.',
                     image: '/imagens/livros/GramaticaLinguaChinesa_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Formato', value: '17 x 24 cm' },
+                        { label: 'Páginas', value: '128' },
+                        { label: 'Impressão miolo', value: '1/1 cor' },
+                        { label: 'Papel miolo', value: 'Ior 80gr' },
+                        { label: 'Impressão capa', value: '4/0 cores' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 280gr' },
+                        { label: 'Acabamento', value: 'Cosido e brochado' }
                     ]
                 },
                 {
                     id: 'lm4',
-                    name: 'Livro Chinês 1',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações académicas.',
+                    name: 'Manual Chinês 123 — Livro 1',
+                    description: 'Formato A4, com 132 páginas impressas a 4/4 cores em papel ior 100gr.\n\nCapa com 2 badanas integrais, impressa a 4/4 cores + plastificação em cartolina cromo v/ branco 280gr.\nAcabamento: cosido e brochado.',
                     image: '/imagens/livros/LivroChines1_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Formato', value: 'A4' },
+                        { label: 'Páginas', value: '132' },
+                        { label: 'Impressão miolo', value: '4/4 cores' },
+                        { label: 'Papel miolo', value: 'Ior 100gr' },
+                        { label: 'Capa', value: '2 badanas integrais' },
+                        { label: 'Impressão capa', value: '4/4 cores + plastificação' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 280gr' },
+                        { label: 'Acabamento', value: 'Cosido e brochado' }
                     ]
                 },
                 {
                     id: 'lm5',
-                    name: 'Livro Chinês 2',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações académicas.',
+                    name: 'Manual Chinês 123 — Livro 2',
+                    description: 'Formato A4, com 160 páginas impressas a 4/4 cores em papel ior 100gr.\n\nCapa com 2 badanas integrais, impressa a 4/4 cores + plastificação em cartolina cromo v/ branco 280gr.\nAcabamento: cosido e brochado.',
                     image: '/imagens/livros/LivroChines2_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Formato', value: 'A4' },
+                        { label: 'Páginas', value: '160' },
+                        { label: 'Impressão miolo', value: '4/4 cores' },
+                        { label: 'Papel miolo', value: 'Ior 100gr' },
+                        { label: 'Capa', value: '2 badanas integrais' },
+                        { label: 'Impressão capa', value: '4/4 cores + plastificação' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 280gr' },
+                        { label: 'Acabamento', value: 'Cosido e brochado' }
                     ]
                 },
                 {
                     id: 'lm6',
-                    name: 'Livro de Diálogos',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações académicas.',
+                    name: 'Diálogos Inter-Culturais Portugal — China',
+                    description: 'Formato 17x24cm. com 440 páginas impressas a 1/1 cor em papel ior 80gr.\n\nCapa impressa a 4/0 cores + plastificação em cartolina cromo v/ branco 300gr.\nAcabamento: cosido e brochado.',
                     image: '/imagens/livros/LivroDialogos_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Formato', value: '17 x 24 cm' },
+                        { label: 'Páginas', value: '440' },
+                        { label: 'Impressão miolo', value: '1/1 cor' },
+                        { label: 'Papel miolo', value: 'Ior 80gr' },
+                        { label: 'Impressão capa', value: '4/0 cores + plastificação' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 300gr' },
+                        { label: 'Acabamento', value: 'Cosido e brochado' }
                     ]
                 },
                 {
                     id: 'lm7',
-                    name: 'Rotas do Oriente',
-                    description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura.',
+                    name: 'Rotas a Oriente',
+                    description: 'Revista no formato 17x24cm. com 256 páginas.\n\n240 páginas impressas a 2/2 cores + 16 páginas impressas a 4/4 cores, em papel ior 80gr.\n\nCapa impressa a 2/0 cores + plastificação mate em cartolina cromo v/ branco 300gr.\nAcabamento: cosidos e brochados.',
                     image: '/imagens/livros/RotasDoOriente_M.jpg',
                     characteristics: [
-                        { label: 'Encadernação', value: 'Capa Mole' },
-                        { label: 'Acabamento', value: 'Brochura' }
+                        { label: 'Formato', value: '17 x 24 cm' },
+                        { label: 'Páginas totais', value: '256' },
+                        { label: 'Impressão miolo', value: '240p a 2/2 + 16p a 4/4 cores' },
+                        { label: 'Papel miolo', value: 'Ior 80gr' },
+                        { label: 'Impressão capa', value: '2/0 cores' },
+                        { label: 'Plastificação', value: 'Mate' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 300gr' },
+                        { label: 'Acabamento', value: 'Cosidos e brochados' }
+                    ]
+                },
+                {
+                    id: 'lm8',
+                    name: 'Obras Portuguesas em Macau e Sentimentos Orientais',
+                    description: 'Formato 17x24cm. com 128 páginas impressas a 4/4 cores em papel Ior 135gr.\n\nCapa impressa a 4/0 cores + plastificação em cartolina cromo v/ branco 300gr.\nAcabamento: cosidos e brochados.',
+                    image: '/imagens/livros/ArteEPoesia_M.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '17 x 24 cm' },
+                        { label: 'Páginas', value: '128' },
+                        { label: 'Impressão miolo', value: '4/4 cores' },
+                        { label: 'Papel miolo', value: 'Ior 135gr' },
+                        { label: 'Impressão capa', value: '4/0 cores + plastificação' },
+                        { label: 'Papel capa', value: 'Cromo v/ branco 300gr' },
+                        { label: 'Acabamento', value: 'Cosidos e brochados' }
                     ]
                 }
             ],
@@ -408,11 +442,7 @@ function getProducts(categoryId, subcategoryId) {
 
     const categoryData = allProducts[categoryId];
     if (!categoryData) return [];
-
-    if (!Array.isArray(categoryData)) {
-        return categoryData[subcategoryId] || [];
-    }
-
+    if (!Array.isArray(categoryData)) return categoryData[subcategoryId] || [];
     return categoryData;
 }
 
