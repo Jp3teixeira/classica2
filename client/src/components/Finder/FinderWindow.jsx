@@ -35,13 +35,7 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
     }, [selectedSubcategory, category]);
 
     return (
-        <motion.div
-            className="finder-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-        >
+        <motion.div className="finder-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
             <motion.div
                 className="finder-window"
                 onClick={(e) => e.stopPropagation()}
@@ -53,19 +47,13 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
                 <header className="finder-titlebar">
                     <div className="finder-traffic-lights">
                         <button className="traffic-light close" onClick={onClose} aria-label="Fechar janela">
-                            <svg viewBox="0 0 12 12" fill="none">
-                                <path d="M3 3l6 6M9 3l-6 6" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
+                            <svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
                         </button>
-                        <button className="traffic-light minimize" aria-label="Minimizar janela" disabled>
-                            <svg viewBox="0 0 12 12" fill="none">
-                                <path d="M2 6h8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
+                        <button className="traffic-light minimize" disabled>
+                            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
                         </button>
-                        <button className="traffic-light maximize" aria-label="Maximizar janela" disabled>
-                            <svg viewBox="0 0 12 12" fill="none">
-                                <path d="M2 2l8 8M10 2l-8 8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
+                        <button className="traffic-light maximize" disabled>
+                            <svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
                         </button>
                     </div>
                     <h1 className="finder-title">{category.name}</h1>
@@ -115,13 +103,10 @@ const ProductGrid = memo(function ProductGrid({ products, onProductClick }) {
         <motion.div className="product-grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             {products.map((product, index) => (
                 <motion.button
-                    key={product.id}
-                    className="product-card"
+                    key={product.id} className="product-card"
                     onClick={() => onProductClick(product)}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ scale: 1.02 }}
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }} whileHover={{ scale: 1.02 }}
                 >
                     <div className="product-card-image">
                         <img src={product.image} alt={product.name} />
@@ -193,33 +178,38 @@ const EmptyState = memo(function EmptyState({ subcategory }) {
 function getProducts(categoryId, subcategoryId) {
     const allProducts = {
 
-        // ---- CATÁLOGOS ----
-        'catalogos': [
-            {
-                id: 'cat1',
-                name: 'Catálogo Premium A4',
-                description: 'Catálogo de alta qualidade em papel couché 250g, com acabamento brilhante.',
-                image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Formato', value: 'A4' },
-                    { label: 'Papel', value: 'Couché 250g' },
-                    { label: 'Acabamento', value: 'Brilhante' }
-                ]
-            },
-            {
-                id: 'cat2',
-                name: 'Catálogo Económico A5',
-                description: 'Solução económica para catálogos de grande tiragem.',
-                image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Formato', value: 'A5' },
-                    { label: 'Papel', value: 'Offset 120g' },
-                    { label: 'Acabamento', value: 'Mate' }
-                ]
-            }
-        ],
+        // ================================================================
+        // CATÁLOGOS
+        // ================================================================
+        'catalogos': {
+            'catalogos-todos': [
+                {
+                    id: 'cat1',
+                    name: 'Catálogo Frato',
+                    description: 'Catálogo profissional de alta qualidade.',
+                    image: '/imagens/catalogo/Catalogo_Frato_1.jpg',
+                    characteristics: []
+                },
+                {
+                    id: 'cat2',
+                    name: 'Catálogo Madalena',
+                    description: 'Catálogo profissional de alta qualidade.',
+                    image: '/imagens/catalogo/Catalogo_Madalena_2.jpg',
+                    characteristics: []
+                },
+                {
+                    id: 'cat3',
+                    name: 'Catálogo Valadares',
+                    description: 'Catálogo profissional de alta qualidade.',
+                    image: '/imagens/catalogo/Catalogo_Valadares_3.jpg',
+                    characteristics: []
+                }
+            ]
+        },
 
-        // ---- LIVROS ----
+        // ================================================================
+        // LIVROS
+        // ================================================================
         'livros': {
             'livros-capa-mole': [
                 {
@@ -341,6 +331,26 @@ function getProducts(categoryId, subcategoryId) {
                         { label: 'Papel capa', value: 'Cromo v/ branco 300gr' },
                         { label: 'Acabamento', value: 'Cosidos e brochados' }
                     ]
+                },
+                {
+                    id: 'lm9',
+                    name: 'Livro Agora',
+                    description: 'Livro de capa mole com acabamento profissional.',
+                    image: '/imagens/livros/Livro_Agora_M.jpg',
+                    characteristics: [
+                        { label: 'Encadernação', value: 'Capa Mole' },
+                        { label: 'Acabamento', value: 'Brochura' }
+                    ]
+                },
+                {
+                    id: 'lm10',
+                    name: 'Diálogos (Resumos)',
+                    description: 'Livro de capa mole com acabamento profissional.',
+                    image: '/imagens/livros/Livro_Dialogos(resumos)_M.jpg',
+                    characteristics: [
+                        { label: 'Encadernação', value: 'Capa Mole' },
+                        { label: 'Acabamento', value: 'Brochura' }
+                    ]
                 }
             ],
             'livros-capa-dura': [
@@ -353,11 +363,44 @@ function getProducts(categoryId, subcategoryId) {
                         { label: 'Encadernação', value: 'Capa Dura' },
                         { label: 'Acabamento', value: 'Premium' }
                     ]
+                },
+                {
+                    id: 'ld2',
+                    name: 'GPS da Vida Cristã',
+                    description: 'Formato 9x14cm. com 200 páginas impressas a 2/2 cores em papel Munken Pure 90gr.\n\nGuardas sem impressão em Munken Pure 150gr.\nCapa dura com gravação a seco.\nAcabamento: cosido e cartonado.',
+                    image: '/imagens/livros/Livro_GPS_D.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '9 x 14 cm' },
+                        { label: 'Páginas', value: '200' },
+                        { label: 'Impressão miolo', value: '2/2 cores' },
+                        { label: 'Papel miolo', value: 'Munken Pure 90gr' },
+                        { label: 'Guardas', value: 'Munken Pure 150gr (sem impressão)' },
+                        { label: 'Capa', value: 'Dura com gravação a seco' },
+                        { label: 'Acabamento', value: 'Cosido e cartonado' }
+                    ]
+                },
+                {
+                    id: 'ld3',
+                    name: 'O Arquivo da Venerável Ordem Terceira de São Francisco do Porto',
+                    description: 'Formato 23x29cm. com 204 páginas impressas a 4/4 cores + verniz proteção em couché 135gr.\n\nGuardas impressas a 4/4 cores em couché 200gr.\nCapa dura cartão 2,5mm com plano impresso a 4/0 cores + plastificação.\nAcabamento: cosido e cartonado, lombo redondo, transfil e fitilho. Embalados individualmente em plástico.',
+                    image: '/imagens/livros/Livro_Ordem_D.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '23 x 29 cm' },
+                        { label: 'Páginas', value: '204' },
+                        { label: 'Impressão miolo', value: '4/4 cores + verniz' },
+                        { label: 'Papel miolo', value: 'Couché 135gr' },
+                        { label: 'Guardas', value: 'Couché 200gr, 4/4 cores' },
+                        { label: 'Capa', value: 'Dura cartão 2,5mm + plastificação' },
+                        { label: 'Acabamento', value: 'Cosido e cartonado, lombo redondo' },
+                        { label: 'Extras', value: 'Transfil, fitilho, embalagem individual' }
+                    ]
                 }
             ]
         },
 
-        // ---- CALENDÁRIOS DE PAREDE ----
+        // ================================================================
+        // CALENDÁRIOS DE PAREDE
+        // ================================================================
         'calendarios': {
             'calendarios-3-macetes': [
                 {
@@ -379,7 +422,7 @@ function getProducts(categoryId, subcategoryId) {
             ],
             'calendarios-4-macetes': [
                 {
-                    id: 'cal4',
+                    id: 'cal4a',
                     name: 'Calendário de Parede 4 Macetes',
                     description: 'Base no formato 34,5x99,5cm., impressa a 4/0 cores + verniz proteção + cortante especial + ilhó em cartolina v/ branco 350gr.\n\n4 macetes de calendário mensal formato 32,5x15,5cm, com 12 folhas impressas a 2/0 cores em papel ior 90gr., colados no topo.\n\nAcabamento final: colagem dos 4 macetes na base, colocação de ilhó, colocação de marcador e dobra.',
                     image: '/imagens/calendarios/MockUpCalendario4M.jpg',
@@ -393,51 +436,258 @@ function getProducts(categoryId, subcategoryId) {
                         { label: 'Impressão base', value: '4/0 cores + verniz' },
                         { label: 'Impressão macetes', value: '2/0 cores' }
                     ]
+                },
+                {
+                    id: 'cal4b',
+                    name: 'Calendário Grupolis 4 Macetes',
+                    description: 'Calendário de parede 4 macetes personalizado.',
+                    image: '/imagens/calendarios/Calendario_Grupolis_2_4M.jpg',
+                    characteristics: [
+                        { label: 'Nº de Macetes', value: '4' }
+                    ]
                 }
             ]
         },
 
-        // ---- EMBALAGENS ----
-        'embalagens': [
-            {
-                id: 'emb1',
-                name: 'Caixa Premium',
-                description: 'Caixa rígida com acabamento premium, perfeita para produtos de luxo e presentes corporativos.',
-                image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Material', value: 'Cartão Rígido' },
-                    { label: 'Acabamento', value: 'Soft Touch' }
-                ]
-            }
-        ],
+        // ================================================================
+        // EMBALAGENS
+        // ================================================================
+        'embalagens': {
+            'embalagens-micro-canelado': [
+                {
+                    id: 'mc1',
+                    name: 'Embalagem Way Up',
+                    description: 'Formato 130x220x185mm. Micro canelado, fundo automático.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_WAYUP_MC_1.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '130 x 220 x 185 mm' },
+                        { label: 'Material', value: 'Micro canelado' },
+                        { label: 'Fundo', value: 'Automático' }
+                    ]
+                },
+                {
+                    id: 'mc2',
+                    name: 'Embalagem Sport',
+                    description: 'Formato 148x193x100mm. Micro canelado.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_Sport_MC_2.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '148 x 193 x 100 mm' },
+                        { label: 'Material', value: 'Micro canelado' }
+                    ]
+                },
+                {
+                    id: 'mc3',
+                    name: 'Embalagem Kefood',
+                    description: 'Formato 127x285x150mm. Micro canelado, fundo automático.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_Kefood_MC_3.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '127 x 285 x 150 mm' },
+                        { label: 'Material', value: 'Micro canelado' },
+                        { label: 'Fundo', value: 'Automático' }
+                    ]
+                },
+                {
+                    id: 'mc4a',
+                    name: 'Embalagem Redo (Aberta)',
+                    description: 'Formato 160x137x60mm. Mini micro canelado.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Aberta.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '160 x 137 x 60 mm' },
+                        { label: 'Material', value: 'Mini micro canelado' }
+                    ]
+                },
+                {
+                    id: 'mc4b',
+                    name: 'Embalagem Redo (Fechada)',
+                    description: 'Formato 160x137x60mm. Mini micro canelado.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Fechada.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '160 x 137 x 60 mm' },
+                        { label: 'Material', value: 'Mini micro canelado' }
+                    ]
+                },
+                {
+                    id: 'mc5',
+                    name: 'Embalagem Way Up Snack Proteico',
+                    description: 'Formato 125x287x150mm. Micro canelado, fundo automático.',
+                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_WAYUP(proteico)_MC_5.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '125 x 287 x 150 mm' },
+                        { label: 'Material', value: 'Micro canelado' },
+                        { label: 'Fundo', value: 'Automático' }
+                    ]
+                }
+            ],
+            'embalagens-cartolina': [
+                {
+                    id: 'ct1a',
+                    name: 'Caixa Celeiro (Aberta)',
+                    description: 'Formato 80x55x145mm. Cartolina 380gr.',
+                    image: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Aberta.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '80 x 55 x 145 mm' },
+                        { label: 'Material', value: 'Cartolina 380gr' }
+                    ]
+                },
+                {
+                    id: 'ct1b',
+                    name: 'Caixa Celeiro (Fechada)',
+                    description: 'Formato 80x55x145mm. Cartolina 380gr.',
+                    image: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Fechada.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '80 x 55 x 145 mm' },
+                        { label: 'Material', value: 'Cartolina 380gr' }
+                    ]
+                },
+                {
+                    id: 'ct2',
+                    name: 'Caixa Sun Booster',
+                    description: 'Formato 70x70x137mm. Cartolina 380gr., fundo automático.',
+                    image: '/imagens/embalagens/Cartolina/Cartolina_SUNBOOSTER_2.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '70 x 70 x 137 mm' },
+                        { label: 'Material', value: 'Cartolina 380gr' },
+                        { label: 'Fundo', value: 'Automático' }
+                    ]
+                },
+                {
+                    id: 'ct3',
+                    name: 'Caixa Ptit Truc',
+                    description: 'Caixa impressa a 4/0 cores em cartolina com plastificação alimentar no interior.',
+                    image: '/imagens/embalagens/Cartolina/Cartolina_PTITTRUC _3_Fechada.jpg',
+                    characteristics: [
+                        { label: 'Impressão', value: '4/0 cores' },
+                        { label: 'Interior', value: 'Plastificação alimentar' }
+                    ]
+                }
+            ]
+        },
 
-        // ---- ROTULAGEM ----
-        'rotulagem': [
-            {
-                id: 'rot1',
-                name: 'Rótulo Vinho Premium',
-                description: 'Rótulos de vinho com acabamentos especiais: relevos, hot stamping e papéis texturados.',
-                image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Acabamento', value: 'Hot Stamping' },
-                    { label: 'Papel', value: 'Texturado' }
-                ]
-            }
-        ],
+        // ================================================================
+        // ROTULAGEM
+        // ================================================================
+        'rotulagem': {
+            'rotulos': [
+                {
+                    id: 'rot1',
+                    name: 'Rótulo Vinho Premium',
+                    description: 'Rótulos de vinho com acabamentos especiais: relevos, hot stamping e papéis texturados.',
+                    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=400&fit=crop',
+                    characteristics: [
+                        { label: 'Acabamento', value: 'Hot Stamping' },
+                        { label: 'Papel', value: 'Texturado' }
+                    ]
+                }
+            ]
+        },
 
-        // ---- IMPRESSÃO DIGITAL ----
-        'impressao-digital': [
-            {
-                id: 'imp1',
-                name: 'Grande Formato',
-                description: 'Impressão digital de grande formato para outdoors, lonas e sinalética.',
-                image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Largura', value: 'Até 5m' },
-                    { label: 'Resolução', value: '1440 dpi' }
-                ]
-            }
-        ]
+        // ================================================================
+        // OUTROS
+        // ================================================================
+        'outros': {
+            'outros-brochuras': [
+                {
+                    id: 'bro1',
+                    name: 'Brochura Nutribullet',
+                    description: 'Formato 10x20cm. com 20 páginas.',
+                    image: '/imagens/outros/Brochuras/Brochura_nutribullet_1.png',
+                    characteristics: [
+                        { label: 'Formato', value: '10 x 20 cm' },
+                        { label: 'Páginas', value: '20' }
+                    ]
+                },
+                {
+                    id: 'bro2',
+                    name: 'Brochura Kenwood',
+                    description: 'Formato 10x20cm. com 12 páginas em couché 150gr. + capa.\n\nImpressas a 4/4 cores + verniz proteção.\nAcabamento: agrafadas a 2 pontos.',
+                    image: '/imagens/outros/Brochuras/Brochura_Kenwood_1.png',
+                    characteristics: [
+                        { label: 'Formato', value: '10 x 20 cm' },
+                        { label: 'Páginas', value: '12' },
+                        { label: 'Papel', value: 'Couché 150gr' },
+                        { label: 'Impressão', value: '4/4 cores + verniz' },
+                        { label: 'Acabamento', value: 'Agrafadas a 2 pontos' }
+                    ]
+                }
+            ],
+            'outros-postais': [
+                {
+                    id: 'pos1',
+                    name: 'Postal Ordem (Fechado)',
+                    description: 'Postais a preto e branco, formato 105x150mm.\n\nPlano total 64,3x15cm., impressos a 2/1 cores + verniz UV geral frente, em cartolina cromo v/ branco 260gr.\nAplicação de vincos e dobra manual.',
+                    image: '/imagens/outros/Postais/Postal_Ordem_1_Fechado.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '105 x 150 mm' },
+                        { label: 'Plano total', value: '64,3 x 15 cm' },
+                        { label: 'Impressão', value: '2/1 cores + verniz UV frente' },
+                        { label: 'Papel', value: 'Cromo v/ branco 260gr' },
+                        { label: 'Acabamento', value: 'Vincos e dobra manual' }
+                    ]
+                },
+                {
+                    id: 'pos2a',
+                    name: 'Postal Ordem a Cores (Aberto)',
+                    description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.\nAplicação de vincos, fita cola duas faces e dobra manual.',
+                    image: '/imagens/outros/Postais/Postal_Ordem_2_Aberto.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '105 x 150 mm' },
+                        { label: 'Plano total', value: '129,6 x 15 cm' },
+                        { label: 'Impressão', value: '4/1 cor + verniz UV mate' },
+                        { label: 'Papel', value: 'Cromo v/ branco 260gr' },
+                        { label: 'Acabamento', value: 'Vincos, fita dupla face e dobra manual' }
+                    ]
+                },
+                {
+                    id: 'pos2b',
+                    name: 'Postal Ordem a Cores (Fechado)',
+                    description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.',
+                    image: '/imagens/outros/Postais/Postal_Ordem_2_Fechado.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '105 x 150 mm' },
+                        { label: 'Impressão', value: '4/1 cor + verniz UV mate' },
+                        { label: 'Papel', value: 'Cromo v/ branco 260gr' }
+                    ]
+                }
+            ],
+            'outros-calendarios-secretaria': [
+                {
+                    id: 'csec1a',
+                    name: 'Calendário de Secretária JMV 2025 (Aberto)',
+                    description: 'Formato 12x16cm.\n\n12 folhas impressas a 4/4 cores + verniz proteção em couché mate 250gr.\n1 folha impressa a 4/4 cores + verniz proteção em couché mate 350gr.\nBase formato aberto 46x12cm., impressa a 1/0 cor em cartolina cromo v/ branco 400gr.\n\nAcabamento: espiral metálica.',
+                    image: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Aberto.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '12 x 16 cm' },
+                        { label: 'Folhas mensais', value: '12' },
+                        { label: 'Papel folhas', value: 'Couché mate 250gr' },
+                        { label: 'Folha separadora', value: 'Couché mate 350gr' },
+                        { label: 'Base aberta', value: '46 x 12 cm, cromo 400gr' },
+                        { label: 'Impressão', value: '4/4 cores + verniz' },
+                        { label: 'Acabamento', value: 'Espiral metálica' }
+                    ]
+                },
+                {
+                    id: 'csec1b',
+                    name: 'Calendário de Secretária JMV 2025 (Fechado)',
+                    description: 'Vista fechada do Calendário de Secretária JMV 2025.',
+                    image: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Fechado.jpg',
+                    characteristics: [
+                        { label: 'Formato', value: '12 x 16 cm' },
+                        { label: 'Acabamento', value: 'Espiral metálica' }
+                    ]
+                }
+            ],
+            'outros-embalagens-redondas': [
+                {
+                    id: 'emr1',
+                    name: 'Embalagem Redonda',
+                    description: 'Embalagem redonda personalizada.',
+                    image: '/imagens/outros/Embalagens_Redondas/Embalagem_Redonda_1.jpg',
+                    characteristics: [
+                        { label: 'Forma', value: 'Redonda' }
+                    ]
+                }
+            ]
+        }
     };
 
     const categoryData = allProducts[categoryId];

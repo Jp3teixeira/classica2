@@ -14,10 +14,7 @@ const CATEGORIES = [
     icon: '📋',
     description: 'Catálogos profissionais para apresentação de produtos e serviços',
     subcategories: [
-      { id: 'catalogos-comerciais', name: 'Catálogos Comerciais' },
-      { id: 'catalogos-industriais', name: 'Catálogos Industriais' },
-      { id: 'catalogos-moda', name: 'Catálogos de Moda' },
-      { id: 'catalogos-gastronomia', name: 'Catálogos Gastronómicos' }
+      { id: 'catalogos-todos', name: 'Catálogos' }
     ]
   },
   {
@@ -46,11 +43,8 @@ const CATEGORIES = [
     icon: '📦',
     description: 'Embalagens personalizadas para diversos produtos',
     subcategories: [
-      { id: 'embalagens-cartao', name: 'Cartão Canelado' },
-      { id: 'embalagens-rigidas', name: 'Caixas Rígidas' },
-      { id: 'embalagens-alimentar', value: 'Embalagem Alimentar' },
-      { id: 'embalagens-cosmeticos', name: 'Embalagem Cosméticos' },
-      { id: 'embalagens-luxo', name: 'Embalagem de Luxo' }
+      { id: 'embalagens-micro-canelado', name: 'Micro Canelado' },
+      { id: 'embalagens-cartolina', name: 'Cartolina' }
     ]
   },
   {
@@ -59,27 +53,23 @@ const CATEGORIES = [
     icon: '🏷️',
     description: 'Rótulos e etiquetas para todos os tipos de produtos',
     subcategories: [
-      { id: 'rotulos-vinhos', name: 'Rótulos de Vinhos' },
-      { id: 'rotulos-alimentar', name: 'Rótulos Alimentar' },
-      { id: 'rotulos-industriais', name: 'Rótulos Industriais' },
-      { id: 'etiquetas-adesivas', name: 'Etiquetas Adesivas' }
+      { id: 'rotulos', name: 'Rótulos' }
     ]
   },
   {
-    id: 'impressao-digital',
-    name: 'Impressão Digital',
-    icon: '🖨️',
-    description: 'Impressão digital de alta qualidade para pequenas e grandes tiragens',
+    id: 'outros',
+    name: 'Outros',
+    icon: '🗂️',
+    description: 'Outros produtos gráficos: brochuras, postais, calendários de secretária e mais',
     subcategories: [
-      { id: 'impressao-grande-formato', name: 'Grande Formato' },
-      { id: 'impressao-pequeno-formato', name: 'Pequeno Formato' },
-      { id: 'impressao-personalizacao', name: 'Personalização' },
-      { id: 'impressao-prototipagem', name: 'Prototipagem' }
+      { id: 'outros-brochuras', name: 'Brochuras' },
+      { id: 'outros-postais', name: 'Postais' },
+      { id: 'outros-calendarios-secretaria', name: 'Calendários de Secretária' },
+      { id: 'outros-embalagens-redondas', name: 'Embalagens Redondas' }
     ]
   }
 ];
 
-// Main site component
 function MainSite() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [isFinderOpen, setIsFinderOpen] = useState(false);
@@ -138,7 +128,6 @@ function MainSite() {
   );
 }
 
-// App routes
 function App() {
   return (
     <Routes>
