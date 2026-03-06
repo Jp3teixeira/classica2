@@ -45,20 +45,6 @@ function MainSite() {
 
   return (
     <>
-      {/* 🚧 Banner de desenvolvimento — remover quando o site estiver pronto */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
-        background: 'linear-gradient(90deg, #1d1d1f 0%, #3a3a3c 100%)',
-        color: 'rgba(255,255,255,0.9)', textAlign: 'center',
-        padding: '6px 16px', fontSize: '12px', fontWeight: '500',
-        letterSpacing: '0.02em', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', gap: '8px'
-      }}>
-        <span style={{ fontSize: '14px' }}>🚧</span>
-        <span>Site em desenvolvimento — algumas funcionalidades podem estar incompletas</span>
-        <span style={{ fontSize: '14px' }}>🚧</span>
-      </div>
-
       <MenuBar categories={CATEGORIES} onCategoryClick={openCategory} currentTime={currentTime} />
       <Desktop />
       <Dock categories={CATEGORIES} onCategoryClick={openCategory} />
