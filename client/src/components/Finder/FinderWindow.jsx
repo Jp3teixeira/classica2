@@ -101,24 +101,35 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
 const ProductGrid = memo(function ProductGrid({ products, onProductClick }) {
     return (
         <motion.div className="product-grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {products.map((product, index) => (
-                <motion.button
-                    key={product.id} className="product-card"
-                    onClick={() => onProductClick(product)}
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }} whileHover={{ scale: 1.02 }}
-                >
-                    <div className="product-card-image">
-                        <img src={product.image} alt={product.name} />
-                    </div>
-                    <span className="product-card-name">{product.name}</span>
-                </motion.button>
-            ))}
+            {products.map((product, index) => {
+                // Support both single image and images array
+                const thumbSrc = product.images ? product.images[0].src : product.image;
+                return (
+                    <motion.button
+                        key={product.id} className="product-card"
+                        onClick={() => onProductClick(product)}
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }} whileHover={{ scale: 1.02 }}
+                    >
+                        <div className="product-card-image">
+                            <img src={thumbSrc} alt={product.name} />
+                        </div>
+                        <span className="product-card-name">{product.name}</span>
+                    </motion.button>
+                );
+            })}
         </motion.div>
     );
 });
 
 const ProductDetail = memo(function ProductDetail({ product, onBack }) {
+    // Build image list: support both `images` array and single `image`
+    const imageList = product.images
+        ? product.images
+        : [{ src: product.image, label: null }];
+
+    const [activeIdx, setActiveIdx] = useState(0);
+
     return (
         <motion.div className="product-detail" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <button className="back-btn" onClick={onBack}>
@@ -127,9 +138,40 @@ const ProductDetail = memo(function ProductDetail({ product, onBack }) {
                 </svg>
                 Voltar
             </button>
+
+            {/* Main image */}
             <div className="product-image-container">
-                <img src={product.image} alt={product.name} className="product-image" />
+                <AnimatePresence mode="wait">
+                    <motion.img
+                        key={activeIdx}
+                        src={imageList[activeIdx].src}
+                        alt={imageList[activeIdx].label || product.name}
+                        className="product-image"
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                    />
+                </AnimatePresence>
             </div>
+
+            {/* Thumbnails — só aparece se houver mais de 1 imagem */}
+            {imageList.length > 1 && (
+                <div className="product-thumbnails">
+                    {imageList.map((img, idx) => (
+                        <button
+                            key={idx}
+                            className={`product-thumb ${activeIdx === idx ? 'active' : ''}`}
+                            onClick={() => setActiveIdx(idx)}
+                            aria-label={img.label || `Imagem ${idx + 1}`}
+                        >
+                            <img src={img.src} alt={img.label || `Imagem ${idx + 1}`} />
+                            {img.label && <span className="product-thumb-label">{img.label}</span>}
+                        </button>
+                    ))}
+                </div>
+            )}
+
             <div className="product-info">
                 <h2 className="product-title">{product.name}</h2>
                 <p className="product-description" style={{ whiteSpace: 'pre-line' }}>{product.description}</p>
@@ -147,6 +189,8 @@ const ProductDetail = memo(function ProductDetail({ product, onBack }) {
         </motion.div>
     );
 });
+
+
 
 const LoadingState = memo(function LoadingState() {
     return (
@@ -487,20 +531,13 @@ function getProducts(categoryId, subcategoryId) {
                     ]
                 },
                 {
-                    id: 'mc4a',
-                    name: 'Embalagem Redo (Aberta)',
+                    id: 'mc4',
+                    name: 'Embalagem Redo',
                     description: 'Formato 160x137x60mm. Mini micro canelado.',
-                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Aberta.jpg',
-                    characteristics: [
-                        { label: 'Formato', value: '160 x 137 x 60 mm' },
-                        { label: 'Material', value: 'Mini micro canelado' }
-                    ]
-                },
-                {
-                    id: 'mc4b',
-                    name: 'Embalagem Redo (Fechada)',
-                    description: 'Formato 160x137x60mm. Mini micro canelado.',
-                    image: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Fechada.jpg',
+                    images: [
+                        { src: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Aberta.jpg', label: 'Aberta' },
+                        { src: '/imagens/embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Fechada.jpg', label: 'Fechada' }
+                    ],
                     characteristics: [
                         { label: 'Formato', value: '160 x 137 x 60 mm' },
                         { label: 'Material', value: 'Mini micro canelado' }
@@ -520,20 +557,13 @@ function getProducts(categoryId, subcategoryId) {
             ],
             'embalagens-cartolina': [
                 {
-                    id: 'ct1a',
-                    name: 'Caixa Celeiro (Aberta)',
+                    id: 'ct1',
+                    name: 'Caixa Celeiro',
                     description: 'Formato 80x55x145mm. Cartolina 380gr.',
-                    image: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Aberta.jpg',
-                    characteristics: [
-                        { label: 'Formato', value: '80 x 55 x 145 mm' },
-                        { label: 'Material', value: 'Cartolina 380gr' }
-                    ]
-                },
-                {
-                    id: 'ct1b',
-                    name: 'Caixa Celeiro (Fechada)',
-                    description: 'Formato 80x55x145mm. Cartolina 380gr.',
-                    image: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Fechada.jpg',
+                    images: [
+                        { src: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Aberta.jpg', label: 'Aberta' },
+                        { src: '/imagens/embalagens/Cartolina/Cartolina_Celeiro_1_Fechada.jpg', label: 'Fechada' }
+                    ],
                     characteristics: [
                         { label: 'Formato', value: '80 x 55 x 145 mm' },
                         { label: 'Material', value: 'Cartolina 380gr' }
@@ -613,9 +643,12 @@ function getProducts(categoryId, subcategoryId) {
             'outros-postais': [
                 {
                     id: 'pos1',
-                    name: 'Postal Ordem (Fechado)',
+                    name: 'Postal a Preto e Branco',
                     description: 'Postais a preto e branco, formato 105x150mm.\n\nPlano total 64,3x15cm., impressos a 2/1 cores + verniz UV geral frente, em cartolina cromo v/ branco 260gr.\nAplicação de vincos e dobra manual.',
-                    image: '/imagens/outros/Postais/Postal_Ordem_1_Fechado.jpg',
+                    images: [
+                        { src: '/imagens/outros/Postais/Postal_Ordem_2_Aberto.jpg', label: 'Aberto' },
+                        { src: '/imagens/outros/Postais/Postal_Ordem_2_Fechado.jpg', label: 'Fechado' }
+                    ],
                     characteristics: [
                         { label: 'Formato', value: '105 x 150 mm' },
                         { label: 'Plano total', value: '64,3 x 15 cm' },
@@ -625,10 +658,10 @@ function getProducts(categoryId, subcategoryId) {
                     ]
                 },
                 {
-                    id: 'pos2a',
-                    name: 'Postal Ordem a Cores (Aberto)',
+                    id: 'pos2',
+                    name: 'Postal a Cores',
                     description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.\nAplicação de vincos, fita cola duas faces e dobra manual.',
-                    image: '/imagens/outros/Postais/Postal_Ordem_2_Aberto.jpg',
+                    image: '/imagens/outros/Postais/Postal_Ordem_1_Fechado.jpg',
                     characteristics: [
                         { label: 'Formato', value: '105 x 150 mm' },
                         { label: 'Plano total', value: '129,6 x 15 cm' },
@@ -636,25 +669,17 @@ function getProducts(categoryId, subcategoryId) {
                         { label: 'Papel', value: 'Cromo v/ branco 260gr' },
                         { label: 'Acabamento', value: 'Vincos, fita dupla face e dobra manual' }
                     ]
-                },
-                {
-                    id: 'pos2b',
-                    name: 'Postal Ordem a Cores (Fechado)',
-                    description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.',
-                    image: '/imagens/outros/Postais/Postal_Ordem_2_Fechado.jpg',
-                    characteristics: [
-                        { label: 'Formato', value: '105 x 150 mm' },
-                        { label: 'Impressão', value: '4/1 cor + verniz UV mate' },
-                        { label: 'Papel', value: 'Cromo v/ branco 260gr' }
-                    ]
                 }
             ],
             'outros-calendarios-secretaria': [
                 {
-                    id: 'csec1a',
-                    name: 'Calendário de Secretária JMV 2025 (Aberto)',
+                    id: 'csec1',
+                    name: 'Calendário de Secretária JMV 2025',
                     description: 'Formato 12x16cm.\n\n12 folhas impressas a 4/4 cores + verniz proteção em couché mate 250gr.\n1 folha impressa a 4/4 cores + verniz proteção em couché mate 350gr.\nBase formato aberto 46x12cm., impressa a 1/0 cor em cartolina cromo v/ branco 400gr.\n\nAcabamento: espiral metálica.',
-                    image: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Aberto.jpg',
+                    images: [
+                        { src: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Aberto.jpg', label: 'Aberto' },
+                        { src: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Fechado.jpg', label: 'Fechado' }
+                    ],
                     characteristics: [
                         { label: 'Formato', value: '12 x 16 cm' },
                         { label: 'Folhas mensais', value: '12' },
@@ -662,16 +687,6 @@ function getProducts(categoryId, subcategoryId) {
                         { label: 'Folha separadora', value: 'Couché mate 350gr' },
                         { label: 'Base aberta', value: '46 x 12 cm, cromo 400gr' },
                         { label: 'Impressão', value: '4/4 cores + verniz' },
-                        { label: 'Acabamento', value: 'Espiral metálica' }
-                    ]
-                },
-                {
-                    id: 'csec1b',
-                    name: 'Calendário de Secretária JMV 2025 (Fechado)',
-                    description: 'Vista fechada do Calendário de Secretária JMV 2025.',
-                    image: '/imagens/outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Fechado.jpg',
-                    characteristics: [
-                        { label: 'Formato', value: '12 x 16 cm' },
                         { label: 'Acabamento', value: 'Espiral metálica' }
                     ]
                 }
