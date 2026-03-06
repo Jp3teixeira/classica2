@@ -1,0 +1,10 @@
+# robots.txt — Clássica Artes Gráficas
+# https://www.classicaag.pt
+
+User-agent: *
+Allow: /
+
+# Não indexar o painel de admin
+Disallow: /admin/
+
+Sitemap: https://www.classicaag.pt/sitemap.xml
