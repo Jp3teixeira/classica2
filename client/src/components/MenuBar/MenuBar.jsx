@@ -18,8 +18,6 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
             {/* Logo */}
             <div className="menubar-logo">
                 <span className="menubar-logo-text">Clássica</span>
-                {/* Chip discreto de "em desenvolvimento" */}
-                <span className="menubar-beta-chip">Em desenvolvimento</span>
             </div>
 
             {/* Navegação por categorias */}
@@ -36,8 +34,13 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                 ))}
             </nav>
 
-            {/* Direita — Contactos + Data/Hora */}
+            {/* Direita — Chip + Contactos + Data/Hora */}
             <div className="menubar-right">
+                {/* Chip discreto de "Em desenvolvimento" */}
+                <span className="menubar-beta-chip">Em desenvolvimento</span>
+
+                <div className="menubar-divider"></div>
+
                 {/* Dropdown de contactos */}
                 <div className="contacts-wrapper">
                     <button
