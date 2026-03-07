@@ -402,16 +402,7 @@ const PRODUCTS = {
     // ================================================================
     'rotulagem': {
         'rotulos': [
-            {
-                id: 'rot1',
-                name: 'Rótulo Vinho Premium',
-                description: 'Rótulos de vinho com acabamentos especiais: relevos, hot stamping e papéis texturados.',
-                image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=400&fit=crop',
-                characteristics: [
-                    { label: 'Acabamento', value: 'Hot Stamping' },
-                    { label: 'Papel', value: 'Texturado' }
-                ]
-            }
+            // Adicionar rótulos aqui quando houver informação disponível
         ]
     },
 

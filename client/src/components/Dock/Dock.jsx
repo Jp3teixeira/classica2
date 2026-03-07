@@ -1,7 +1,8 @@
 import { useState, useCallback, memo, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// Professional SVG Icons for each category
+// ─── Ícones SVG por categoria ─────────────────────────────────────────────────
+
 const ICONS = {
     catalogos: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -50,12 +51,13 @@ const ICONS = {
     )
 };
 
+// ─── Dock ─────────────────────────────────────────────────────────────────────
+
 const Dock = memo(function Dock({ categories, onCategoryClick }) {
     const [isVisible, setIsVisible] = useState(false);
     const hideTimeoutRef = useRef(null);
 
-    // Handle mouse entering the trigger zone
-    const handleTriggerEnter = useCallback(() => {
+    const show = useCallback(() => {
         if (hideTimeoutRef.current) {
             clearTimeout(hideTimeoutRef.current);
             hideTimeoutRef.current = null;
@@ -63,42 +65,60 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
         setIsVisible(true);
     }, []);
 
-    // Handle mouse entering the dock
-    const handleDockEnter = useCallback(() => {
-        if (hideTimeoutRef.current) {
-            clearTimeout(hideTimeoutRef.current);
-            hideTimeoutRef.current = null;
-        }
-        setIsVisible(true);
-    }, []);
-
-    // Handle mouse leaving the dock
-    const handleDockLeave = useCallback(() => {
-        hideTimeoutRef.current = setTimeout(() => {
-            setIsVisible(false);
-        }, 300);
+    const hide = useCallback(() => {
+        hideTimeoutRef.current = setTimeout(() => setIsVisible(false), 300);
     }, []);
 
     return (
         <div className="dock-container">
-            {/* Invisible trigger zone at the bottom of the screen */}
+            {/* Handle — pílula visível quando o dock está escondido */}
+            <AnimatePresence>
+                {!isVisible && (
+                    <motion.button
+                        className="dock-handle"
+                        onClick={show}
+                        onMouseEnter={show}
+                        aria-label="Mostrar barra de navegação"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <svg
+                            viewBox="0 0 24 8"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="dock-handle-arrow"
+                        >
+                            <polyline points="4,6 12,2 20,6" />
+                        </svg>
+                        <span className="dock-handle-label">Categorias</span>
+                    </motion.button>
+                )}
+            </AnimatePresence>
+
+            {/* Zona invisível de trigger ao fundo */}
             <div
                 className="dock-trigger"
-                onMouseEnter={handleTriggerEnter}
+                onMouseEnter={show}
                 aria-hidden="true"
             />
 
             {/* Dock */}
             <motion.div
                 className="dock"
-                onMouseEnter={handleDockEnter}
-                onMouseLeave={handleDockLeave}
+                onMouseEnter={show}
+                onMouseLeave={hide}
                 role="toolbar"
                 aria-label="Barra de aplicações"
                 initial={{ opacity: 0, y: 100 }}
                 animate={{
                     opacity: isVisible ? 1 : 0,
-                    y: isVisible ? 0 : 100
+                    y: isVisible ? 0 : 100,
+                    pointerEvents: isVisible ? 'auto' : 'none'
                 }}
                 transition={{
                     type: 'spring',
@@ -119,7 +139,8 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
     );
 });
 
-// Individual Dock Item
+// ─── Item individual da Dock ──────────────────────────────────────────────────
+
 const DockItem = memo(function DockItem({ category, icon, onClick }) {
     return (
         <motion.button
