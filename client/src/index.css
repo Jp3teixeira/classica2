@@ -1052,23 +1052,53 @@ img {
 }
 
 /* ============================================
-   Responsive
+   Dock backdrop (mobile) — fecha ao tocar fora
+   ============================================ */
+
+.dock-backdrop {
+  position: fixed;
+  inset: 0;
+  bottom: 80px;
+  /* deixa o dock visível */
+  z-index: calc(var(--z-dock) - 1);
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* ============================================
+   Responsive — Tablet (≤768px)
    ============================================ */
 
 @media (max-width: 768px) {
+
+  /* MenuBar — esconde nav, mostra dica do dock */
   .menubar-nav {
     display: none;
   }
 
+  .menubar-beta-chip {
+    display: none;
+    /* evita overflow no mobile */
+  }
+
+  /* Barra fina — maior para touch */
+  .dock-thin-bar {
+    height: 6px;
+    width: 80vw;
+    max-width: 420px;
+  }
+
+  /* Finder */
   .finder-sidebar {
-    width: 180px;
+    width: 160px;
   }
 
   .finder-window {
     width: 95vw;
-    height: 85vh;
+    height: 88vh;
   }
 
+  /* Dock icons */
   .dock-icon {
     width: 44px;
     height: 44px;
@@ -1079,28 +1109,60 @@ img {
     height: 22px;
   }
 
+  /* Gap maior entre ícones para touch */
+  .dock {
+    gap: 16px;
+    padding: 6px 24px;
+  }
+
+  /* Produtos */
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 
+/* ============================================
+   Responsive — Mobile pequeno (≤480px)
+   ============================================ */
+
 @media (max-width: 480px) {
+
+  /* Esconde sidebar e usa toda a largura */
   .finder-sidebar {
     display: none;
   }
 
+  /* Dock mais compacto */
   .dock-icon {
     width: 40px;
     height: 40px;
   }
 
   .dock {
-    gap: 4px;
-    padding: 6px 10px;
+    gap: 8px;
+    padding: 6px 12px;
   }
 
+  /* Barra fina — quase toda a largura */
+  .dock-thin-bar {
+    width: 92vw;
+  }
+
+  /* Produtos em 2 colunas */
   .product-grid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
+  }
+
+  /* Finder quase full screen */
+  .finder-window {
+    width: 100vw;
+    height: 92vh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .finder-overlay {
+    padding: 0;
+    align-items: flex-end;
   }
 }

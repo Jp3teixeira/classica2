@@ -1,4 +1,4 @@
-import { useState, useCallback, memo, useRef } from 'react';
+import { useState, useCallback, useEffect, memo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Ícones SVG por categoria ─────────────────────────────────────────────────
@@ -55,7 +55,21 @@ const ICONS = {
 
 const Dock = memo(function Dock({ categories, onCategoryClick }) {
     const [isVisible, setIsVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const hideTimeoutRef = useRef(null);
+
+    // Detectar se é dispositivo touch
+    useEffect(() => {
+        const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        setIsMobile(touch);
+
+        // Em mobile, mostrar brevemente no load para o utilizador descobrir
+        if (touch) {
+            setIsVisible(true);
+            const timer = setTimeout(() => setIsVisible(false), 2500);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     const show = useCallback(() => {
         if (hideTimeoutRef.current) {
@@ -65,22 +79,50 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
         setIsVisible(true);
     }, []);
 
-    const hide = useCallback(() => {
-        hideTimeoutRef.current = setTimeout(() => setIsVisible(false), 300);
+    // Desktop: esconde com delay. Mobile: esconde imediatamente ao tocar fora
+    const hide = useCallback((immediate = false) => {
+        if (immediate) {
+            setIsVisible(false);
+        } else {
+            hideTimeoutRef.current = setTimeout(() => setIsVisible(false), 300);
+        }
     }, []);
+
+    const handleItemClick = useCallback((categoryId) => {
+        onCategoryClick(categoryId);
+        // Em mobile, fecha o dock após abrir uma categoria
+        if (isMobile) hide(true);
+    }, [onCategoryClick, isMobile, hide]);
 
     return (
         <div className="dock-container">
-            {/* Barra fina — visível quando o dock está escondido */}
+
+            {/* Barra fina azul — visível quando o dock está escondido */}
             <motion.div
                 className="dock-thin-bar"
-                onMouseEnter={show}
+                onMouseEnter={show}            // desktop
+                onTouchStart={show}            // mobile
                 aria-hidden="true"
                 animate={{ opacity: isVisible ? 0 : 1 }}
                 transition={{ duration: 0.25 }}
             />
 
-            {/* Zona de trigger invisível no fundo */}
+            {/* Backdrop invisível — fecha o dock ao tocar fora (mobile) */}
+            <AnimatePresence>
+                {isMobile && isVisible && (
+                    <motion.div
+                        className="dock-backdrop"
+                        onTouchStart={() => hide(true)}
+                        onClick={() => hide(true)}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Zona de trigger invisível no fundo (desktop) */}
             <div
                 className="dock-trigger"
                 onMouseEnter={show}
@@ -91,7 +133,7 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
             <motion.div
                 className="dock"
                 onMouseEnter={show}
-                onMouseLeave={hide}
+                onMouseLeave={() => hide(false)}   // desktop
                 role="toolbar"
                 aria-label="Barra de aplicações"
                 initial={{ opacity: 0, y: 100 }}
@@ -100,18 +142,14 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
                     y: isVisible ? 0 : 100,
                     pointerEvents: isVisible ? 'auto' : 'none'
                 }}
-                transition={{
-                    type: 'spring',
-                    stiffness: 400,
-                    damping: 35
-                }}
+                transition={{ type: 'spring', stiffness: 400, damping: 35 }}
             >
                 {categories.map((category) => (
                     <DockItem
                         key={category.id}
                         category={category}
                         icon={ICONS[category.id]}
-                        onClick={() => onCategoryClick(category.id)}
+                        onClick={() => handleItemClick(category.id)}
                     />
                 ))}
             </motion.div>
@@ -132,7 +170,7 @@ const DockItem = memo(function DockItem({ category, icon, onClick }) {
                 y: -14,
                 transition: { type: 'spring', stiffness: 400, damping: 17 }
             }}
-            whileTap={{ scale: 1.1 }}
+            whileTap={{ scale: 1.05, y: -6 }}
         >
             <div className="dock-icon">
                 {icon}
