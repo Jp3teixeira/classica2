@@ -71,36 +71,16 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
 
     return (
         <div className="dock-container">
-            {/* Handle — pílula visível quando o dock está escondido */}
-            <AnimatePresence>
-                {!isVisible && (
-                    <motion.button
-                        className="dock-handle"
-                        onClick={show}
-                        onMouseEnter={show}
-                        aria-label="Mostrar barra de navegação"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <svg
-                            viewBox="0 0 24 8"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="dock-handle-arrow"
-                        >
-                            <polyline points="4,6 12,2 20,6" />
-                        </svg>
-                        <span className="dock-handle-label">Categorias</span>
-                    </motion.button>
-                )}
-            </AnimatePresence>
+            {/* Barra fina — visível quando o dock está escondido */}
+            <motion.div
+                className="dock-thin-bar"
+                onMouseEnter={show}
+                aria-hidden="true"
+                animate={{ opacity: isVisible ? 0 : 1 }}
+                transition={{ duration: 0.25 }}
+            />
 
-            {/* Zona invisível de trigger ao fundo */}
+            {/* Zona de trigger invisível no fundo */}
             <div
                 className="dock-trigger"
                 onMouseEnter={show}
