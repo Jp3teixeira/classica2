@@ -7,21 +7,20 @@
  * 3. Coloca a imagem em client/public/imagens/pasta-correta/
  * 4. Faz git add . && git commit -m "novo produto" && git push
  *
- * ESTRUTURA DE PASTAS:
+ * ESTRUTURA DE PASTAS (Sem acentos para evitar erros no servidor):
  * imagens/
- *   Calendários/3M/       → calendários de parede 3 macetes
- *   Calendários/4M/       → calendários de parede 4 macetes
+ *   Calendarios/3M/       → calendários de parede 3 macetes
+ *   Calendarios/4M/       → calendários de parede 4 macetes
  *   Catalogos/            → catálogos
  *   Embalagens/Cartolina/ → embalagens em cartolina
- *   Embalagens/MicroCanelado(MC)/ → embalagens micro canelado
+ *   Embalagens/Micro_Canelado_MC/ → embalagens micro canelado
  *   Livros/Capa_Dura/     → livros capa dura
  *   Livros/Capa_Mole/     → livros capa mole
  *   Logos/                → logos da empresa
  *   Outros/Brochuras/
- *   Outros/Calendarios_Secretária/
+ *   Outros/Calendarios_Secretaria/
  *   Outros/Embalagens_Redondas/
  *   Outros/Postais/
- *   Rotulos/              → (em breve)
  */
 
 const PRODUCTS = {
@@ -294,7 +293,7 @@ const PRODUCTS = {
                 id: 'cal3',
                 name: 'Calendário de Parede 3 Macetes',
                 description: 'Base no formato 34,5x79,5cm., impressa a 4/0 cores + verniz proteção + cortante especial + ilhó em cartolina v/ branco 350gr.\n\n3 macetes de calendário mensal formato 32,5x15,5cm, com 12 folhas impressas a 2/0 cores em papel ior 90gr., colados no topo.\n\nAcabamento final: colagem dos 3 macetes na base, colocação de ilhó, colocação de marcador e dobra.',
-                image: '/imagens/Calendários/3M/MockUpCalendario3M.jpg',
+                image: '/imagens/Calendarios/3M/MockUpCalendario3M.jpg',
                 characteristics: [
                     { label: 'Base', value: '34,5 x 79,5 cm' },
                     { label: 'Nº de Macetes', value: '3' },
@@ -312,7 +311,7 @@ const PRODUCTS = {
                 id: 'cal4a',
                 name: 'Calendário de Parede 4 Macetes',
                 description: 'Base no formato 34,5x99,5cm., impressa a 4/0 cores + verniz proteção + cortante especial + ilhó em cartolina v/ branco 350gr.\n\n4 macetes de calendário mensal formato 32,5x15,5cm, com 12 folhas impressas a 2/0 cores em papel ior 90gr., colados no topo.\n\nAcabamento final: colagem dos 4 macetes na base, colocação de ilhó, colocação de marcador e dobra.',
-                image: '/imagens/Calendários/4M/MockUpCalendario4M.jpg',
+                image: '/imagens/Calendarios/4M/MockUpCalendario4M.jpg',
                 characteristics: [
                     { label: 'Base', value: '34,5 x 99,5 cm' },
                     { label: 'Nº de Macetes', value: '4' },
@@ -329,8 +328,8 @@ const PRODUCTS = {
                 name: 'Calendário Grupolis 4 Macetes',
                 description: 'Calendário de parede 4 macetes personalizado.',
                 images: [
-                    { src: '/imagens/Calendários/4M/Calendario_Grupolis_2_4M.jpg', label: 'Fechado' },
-                    { src: '/imagens/Calendários/4M/Calendario_Grupolis_2_Aberto_4M.jpg', label: 'Aberto' }
+                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_4M.jpg', label: 'Fechado' },
+                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_Aberto_4M.jpg', label: 'Aberto' }
                 ],
                 characteristics: [
                     { label: 'Nº de Macetes', value: '4' }
@@ -348,7 +347,7 @@ const PRODUCTS = {
                 id: 'mc1',
                 name: 'Embalagem Way Up',
                 description: 'Formato 130x220x185mm. Micro canelado, fundo automático.',
-                image: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_WAYUP_MC_1.jpg',
+                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_WAYUP_MC_1.jpg',
                 characteristics: [
                     { label: 'Formato', value: '130 x 220 x 185 mm' },
                     { label: 'Material', value: 'Micro canelado' },
@@ -359,7 +358,7 @@ const PRODUCTS = {
                 id: 'mc2',
                 name: 'Embalagem Sport',
                 description: 'Formato 148x193x100mm. Micro canelado.',
-                image: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_Sport_MC_2.jpg',
+                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_Sport_MC_2.jpg',
                 characteristics: [
                     { label: 'Formato', value: '148 x 193 x 100 mm' },
                     { label: 'Material', value: 'Micro canelado' }
@@ -369,7 +368,7 @@ const PRODUCTS = {
                 id: 'mc3',
                 name: 'Embalagem Kefood',
                 description: 'Formato 127x285x150mm. Micro canelado, fundo automático.',
-                image: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_Kefood_MC_3.jpg',
+                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_Kefood_MC_3.jpg',
                 characteristics: [
                     { label: 'Formato', value: '127 x 285 x 150 mm' },
                     { label: 'Material', value: 'Micro canelado' },
@@ -381,8 +380,8 @@ const PRODUCTS = {
                 name: 'Embalagem Redo',
                 description: 'Formato 160x137x60mm. Mini micro canelado.',
                 images: [
-                    { src: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Aberta.jpg', label: 'Aberta' },
-                    { src: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_REDO_MC_4_Fechada.jpg', label: 'Fechada' }
+                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Aberta.jpg', label: 'Aberta' },
+                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Fechada.jpg', label: 'Fechada' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '160 x 137 x 60 mm' },
@@ -393,7 +392,7 @@ const PRODUCTS = {
                 id: 'mc5',
                 name: 'Embalagem Way Up Snack Proteico',
                 description: 'Formato 125x287x150mm. Micro canelado, fundo automático.',
-                image: '/imagens/Embalagens/MicroCanelado(MC)/Embalagem_WAYUP(proteico)_MC_5.jpg',
+                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_WAYUP(proteico)_MC_5.jpg',
                 characteristics: [
                     { label: 'Formato', value: '125 x 287 x 150 mm' },
                     { label: 'Material', value: 'Micro canelado' },
@@ -430,7 +429,7 @@ const PRODUCTS = {
                 id: 'ct3',
                 name: 'Caixa Ptit Truc',
                 description: 'Caixa impressa a 4/0 cores em cartolina com plastificação alimentar no interior.',
-                image: '/imagens/Embalagens/Cartolina/Cartolina_PTITTRUC _3_Fechada.jpg',
+                image: '/imagens/Embalagens/Cartolina/Cartolina_PTITTRUC_3_Fechada.jpg',
                 characteristics: [
                     { label: 'Impressão', value: '4/0 cores' },
                     { label: 'Interior', value: 'Plastificação alimentar' }
@@ -517,8 +516,8 @@ const PRODUCTS = {
                 name: 'Calendário de Secretária JMV 2025',
                 description: 'Formato 12x16cm.\n\n12 folhas impressas a 4/4 cores + verniz proteção em couché mate 250gr.\n1 folha impressa a 4/4 cores + verniz proteção em couché mate 350gr.\nBase formato aberto 46x12cm., impressa a 1/0 cor em cartolina cromo v/ branco 400gr.\n\nAcabamento: espiral metálica.',
                 images: [
-                    { src: '/imagens/Outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Aberto.jpg', label: 'Aberto' },
-                    { src: '/imagens/Outros/Calendarios_Secretária/Calendario_De_Secretária_JMV_1_Fechado.jpg', label: 'Fechado' }
+                    { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Aberto.jpg', label: 'Aberto' },
+                    { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Fechado.jpg', label: 'Fechado' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '12 x 16 cm' },
