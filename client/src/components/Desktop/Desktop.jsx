@@ -1,11 +1,10 @@
 import { memo } from 'react';
-import logo from '../../assets/classica2.png';
 
 const Desktop = memo(function Desktop() {
     return (
         <main className="desktop">
             <img
-                src={logo}
+                src="/imagens/Logos/classica2.png"
                 alt="Clássica Artes Gráficas"
                 className="desktop-logo animate-fadeIn"
                 draggable={false}
