@@ -34,23 +34,47 @@ const PRODUCTS = {
             {
                 id: 'cat1',
                 name: 'Catálogo Frato',
-                description: 'Catálogo profissional de alta qualidade.',
+                description: 'Catálogos formato A4 (21x29,7cm.) com 132 páginas impressas a 4/4 cores em papel "Edixion" 140gr. + capa em "Edixion" 350gr. com termo estampagem.\n\nAcabamento: cosidos e brochados.',
                 image: '/imagens/catalogo/Catalogo_Frato_1.jpg',
-                characteristics: []
+                characteristics: [
+                    { label: 'Formato', value: 'A4 (21 x 29,7 cm)' },
+                    { label: 'Páginas', value: '132' },
+                    { label: 'Impressão miolo', value: '4/4 cores' },
+                    { label: 'Papel miolo', value: 'Edixion 140gr' },
+                    { label: 'Papel capa', value: 'Edixion 350gr' },
+                    { label: 'Capa', value: 'Com termo estampagem' },
+                    { label: 'Acabamento', value: 'Cosidos e brochados' }
+                ]
             },
             {
                 id: 'cat2',
                 name: 'Catálogo Madalena',
-                description: 'Catálogo profissional de alta qualidade.',
+                description: '100 Brochuras no formato A4 com 24 páginas impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
                 image: '/imagens/catalogo/Catalogo_Madalena_2.jpg',
-                characteristics: []
+                characteristics: [
+                    { label: 'Formato', value: 'A4' },
+                    { label: 'Páginas', value: '24' },
+                    { label: 'Impressão miolo', value: '4/4 cores' },
+                    { label: 'Papel miolo', value: 'Munken Lynx 150gr' },
+                    { label: 'Capa', value: 'Com aba, Munken Lynx 300gr' },
+                    { label: 'Impressão capa', value: '4/4 cores' },
+                    { label: 'Acabamento', value: 'Agrafado' }
+                ]
             },
             {
                 id: 'cat3',
                 name: 'Catálogo Valadares',
-                description: 'Catálogo profissional de alta qualidade.',
+                description: '100 Brochuras no formato A4 com 24 páginas impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
                 image: '/imagens/catalogo/Catalogo_Valadares_3.jpg',
-                characteristics: []
+                characteristics: [
+                    { label: 'Formato', value: 'A4' },
+                    { label: 'Páginas', value: '24' },
+                    { label: 'Impressão miolo', value: '4/4 cores' },
+                    { label: 'Papel miolo', value: 'Munken Lynx 150gr' },
+                    { label: 'Capa', value: 'Com aba, Munken Lynx 300gr' },
+                    { label: 'Impressão capa', value: '4/4 cores' },
+                    { label: 'Acabamento', value: 'Agrafado' }
+                ]
             }
         ]
     },
@@ -242,6 +266,21 @@ const PRODUCTS = {
                     { label: 'Acabamento', value: 'Cosido e cartonado, lombo redondo' },
                     { label: 'Extras', value: 'Transfil, fitilho, embalagem individual' }
                 ]
+            },
+            {
+                id: 'ld4',
+                name: 'GPS Peregrino',
+                description: 'Formato 9x14cm. com 200 páginas impressas a 2/2 cores em papel Munken Pure 90gr.\n\nGuardas sem impressão em Munken Pure 150gr.\nCapa dura com gravação a seco.\nAcabamento: cosido e cartonado.',
+                image: '/imagens/livros/Livro_GPS_D.jpg',
+                characteristics: [
+                    { label: 'Formato', value: '9 x 14 cm' },
+                    { label: 'Páginas', value: '200' },
+                    { label: 'Impressão miolo', value: '2/2 cores' },
+                    { label: 'Papel miolo', value: 'Munken Pure 90gr' },
+                    { label: 'Guardas', value: 'Munken Pure 150gr (sem impressão)' },
+                    { label: 'Capa', value: 'Dura com gravação a seco' },
+                    { label: 'Acabamento', value: 'Cosido e cartonado' }
+                ]
             }
         ]
     },
@@ -289,7 +328,10 @@ const PRODUCTS = {
                 id: 'cal4b',
                 name: 'Calendário Grupolis 4 Macetes',
                 description: 'Calendário de parede 4 macetes personalizado.',
-                image: '/imagens/calendarios/Calendario_Grupolis_2_4M.jpg',
+                images: [
+                    { src: '/imagens/calendarios/Calendario_Grupolis_2_4M.jpg', label: 'Fechado' },
+                    { src: '/imagens/calendarios/Calendario_Grupolis_2_4M_Aberto.jpg', label: 'Aberto' }
+                ],
                 characteristics: [
                     { label: 'Nº de Macetes', value: '4' }
                 ]
@@ -438,8 +480,8 @@ const PRODUCTS = {
         'outros-postais': [
             {
                 id: 'pos1',
-                name: 'Postal a Preto e Branco',
-                description: 'Postais a preto e branco, formato 105x150mm.\n\nPlano total 64,3x15cm., impressos a 2/1 cores + verniz UV geral frente, em cartolina cromo v/ branco 260gr.\nAplicação de vincos e dobra manual.',
+                name: 'Postal Duotone',
+                description: 'Postais duotone, formato 105x150mm.\n\nPlano total 64,3x15cm., impressos a 2/1 cores + verniz UV geral frente, em cartolina cromo v/ branco 260gr.\nAplicação de vincos e dobra manual.',
                 images: [
                     { src: '/imagens/outros/Postais/Postal_Ordem_2_Aberto.jpg', label: 'Aberto' },
                     { src: '/imagens/outros/Postais/Postal_Ordem_2_Fechado.jpg', label: 'Fechado' }
@@ -456,7 +498,10 @@ const PRODUCTS = {
                 id: 'pos2',
                 name: 'Postal a Cores',
                 description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.\nAplicação de vincos, fita cola duas faces e dobra manual.',
-                image: '/imagens/outros/Postais/Postal_Ordem_1_Fechado.jpg',
+                images: [
+                    { src: '/imagens/outros/Postais/Postal_Ordem_1_Fechado.jpg', label: 'Fechado' },
+                    { src: '/imagens/outros/Postais/Postal_Ordem_1_Aberto.jpg', label: 'Aberto' }
+                ],
                 characteristics: [
                     { label: 'Formato', value: '105 x 150 mm' },
                     { label: 'Plano total', value: '129,6 x 15 cm' },
@@ -490,10 +535,11 @@ const PRODUCTS = {
             {
                 id: 'emr1',
                 name: 'Embalagem Redonda',
-                description: 'Embalagem redonda personalizada.',
+                description: 'Embalagem em tubo "Collagen Lemon".\n\nFormato 9,5x17cm.',
                 image: '/imagens/outros/Embalagens_Redondas/Embalagem_Redonda_1.jpg',
                 characteristics: [
-                    { label: 'Forma', value: 'Redonda' }
+                    { label: 'Formato', value: '9,5 x 17 cm' },
+                    { label: 'Forma', value: 'Tubo redondo' }
                 ]
             }
         ]
