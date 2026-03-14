@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CONTACT_EMAIL = 'geral@classicaag.pt';
@@ -6,12 +6,27 @@ const CONTACT_PHONE = '917 206 097';
 
 const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime }) {
     const [showContacts, setShowContacts] = useState(false);
+    const contactsRef = useRef(null);
 
     const formatTime = (date) =>
         date.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', hour12: false });
 
     const formatDate = (date) =>
         date.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' });
+
+    // Fix #13: Fechar dropdown ao clicar fora
+    useEffect(() => {
+        if (!showContacts) return;
+
+        const handleClickOutside = (e) => {
+            if (contactsRef.current && !contactsRef.current.contains(e.target)) {
+                setShowContacts(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showContacts]);
 
     return (
         <header className="menubar">
@@ -42,7 +57,7 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                 <div className="menubar-divider"></div>
 
                 {/* Dropdown de contactos */}
-                <div className="contacts-wrapper">
+                <div className="contacts-wrapper" ref={contactsRef}>
                     <button
                         className={`contacts-btn ${showContacts ? 'active' : ''}`}
                         onClick={() => setShowContacts(!showContacts)}
@@ -64,10 +79,10 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                                     <h3>Contacte-nos</h3>
                                 </div>
                                 <div className="contacts-content">
-                                    {/* Email — clicável, abre cliente de email */}
+                                    {/* Email */}
                                     <a
                                         href={`mailto:${CONTACT_EMAIL}`}
-                                        className="contact-item contact-item-link"
+                                        className="contact-item"
                                         aria-label={`Enviar email para ${CONTACT_EMAIL}`}
                                     >
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -80,10 +95,10 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                                         </div>
                                     </a>
 
-                                    {/* Telefone — clicável, abre app de chamadas */}
+                                    {/* Telefone */}
                                     <a
                                         href={`tel:+351${CONTACT_PHONE.replace(/\s/g, '')}`}
-                                        className="contact-item contact-item-link"
+                                        className="contact-item"
                                         aria-label={`Ligar para ${CONTACT_PHONE}`}
                                     >
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

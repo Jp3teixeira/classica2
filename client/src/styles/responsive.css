@@ -1,0 +1,162 @@
+/* ============================================
+   Responsive — Tablet (≤768px)
+   ============================================ */
+
+@media (max-width: 768px) {
+
+  /* MenuBar — esconde nav */
+  .menubar-nav {
+    display: none;
+  }
+
+  .menubar-beta-chip {
+    display: none;
+  }
+
+  /* Barra fina — maior para touch */
+  .dock-thin-bar {
+    height: 6px;
+    width: 80vw;
+    max-width: 420px;
+  }
+
+  /* Finder */
+  .finder-sidebar {
+    width: 160px;
+  }
+
+  .finder-window {
+    width: 95vw;
+    height: 88vh;
+  }
+
+  /* Dock icons */
+  .dock-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .dock-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Gap para touch */
+  .dock {
+    gap: 16px;
+    padding: 6px 24px;
+  }
+
+  /* Produtos */
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+/* ============================================
+   Responsive — Mobile pequeno (≤480px)
+   ============================================ */
+
+@media (max-width: 480px) {
+
+  /* Esconde sidebar e usa toda a largura */
+  .finder-sidebar {
+    display: none;
+  }
+
+  /* Dock mais compacto */
+  .dock-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dock {
+    gap: 8px;
+    padding: 6px 12px;
+  }
+
+  /* Barra fina — quase toda a largura */
+  .dock-thin-bar {
+    width: 92vw;
+  }
+
+  /* Produtos em 2 colunas */
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Finder quase full screen */
+  .finder-window {
+    width: 100vw;
+    height: 92vh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .finder-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+}
+
+/* ============================================
+   NotFound Page
+   ============================================ */
+
+.not-found {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-system);
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  padding: 32px;
+  gap: 24px;
+}
+
+.not-found-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.6;
+}
+
+.not-found-code {
+  font-size: 96px;
+  font-weight: 700;
+  letter-spacing: -4px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.not-found-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.not-found-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.not-found-btn {
+  margin-top: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}

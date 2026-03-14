@@ -1,0 +1,29 @@
+/* ============================================
+   Desktop Background
+   ============================================ */
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  background: var(--macos-bg-gradient);
+  z-index: var(--z-desktop);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(var(--menubar-height) + 8px);
+  padding-bottom: 100px;
+}
+
+.desktop-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: min(480px, 65vw);
+  opacity: 0.85;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.06));
+  transition: transform var(--transition-medium), opacity var(--transition-medium);
+  user-select: none;
+  pointer-events: none;
+}

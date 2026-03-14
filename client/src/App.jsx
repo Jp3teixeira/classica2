@@ -5,7 +5,6 @@ import MenuBar from './components/MenuBar/MenuBar';
 import Desktop from './components/Desktop/Desktop';
 import Dock from './components/Dock/Dock';
 import FinderWindow from './components/Finder/FinderWindow';
-import AdminGuide from './components/Admin/AdminGuide';
 import NotFound from './components/NotFound/NotFound';
 
 import CATEGORIES from './data/categories';
@@ -62,7 +61,6 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainSite />} />
-      <Route path="/admin/:token" element={<AdminGuide />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
