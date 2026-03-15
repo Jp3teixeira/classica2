@@ -14,12 +14,14 @@ const Dock = memo(function Dock({ categories, onCategoryClick }) {
         const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         setIsMobile(touch);
 
-        // Em mobile, mostrar brevemente no load para o utilizador descobrir
-        if (touch) {
-            setIsVisible(true);
-            const timer = setTimeout(() => setIsVisible(false), 2500);
-            return () => clearTimeout(timer);
-        }
+        // Mostrar brevemente no load para todos os utilizadores descobrirem o dock
+        const showTimer = setTimeout(() => setIsVisible(true), 2800);
+        const hideTimer = setTimeout(() => setIsVisible(false), 6500);
+
+        return () => {
+            clearTimeout(showTimer);
+            clearTimeout(hideTimer);
+        };
     }, []);
 
     const show = useCallback(() => {

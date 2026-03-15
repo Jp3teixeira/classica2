@@ -13,17 +13,74 @@
   justify-content: center;
   padding-top: calc(var(--menubar-height) + 8px);
   padding-bottom: 100px;
+  gap: 0;
 }
 
 .desktop-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
-  width: min(480px, 65vw);
+  width: min(420px, 55vw);
   opacity: 0.85;
   filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.06));
-  transition: transform var(--transition-medium), opacity var(--transition-medium);
   user-select: none;
   pointer-events: none;
+  margin-bottom: 32px;
+  border-radius: 8px;
+}
+
+/* ============================================
+   Tagline — "Fique com boa impressão nossa"
+   ============================================ */
+
+.desktop-tagline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 0;
+}
+
+.tagline-text {
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.tagline-char {
+  display: inline-block;
+}
+
+/* Linha decorativa fina abaixo da tagline */
+.tagline-line {
+  width: 60px;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 20%,
+    rgba(0, 0, 0, 0.15) 80%,
+    transparent 100%);
+  transform-origin: center;
+}
+
+/* ============================================
+   Hint — "Explore os nossos trabalhos ↓"
+   ============================================ */
+
+.desktop-hint {
+  position: absolute;
+  bottom: 80px;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.22);
+  letter-spacing: 0.04em;
+  animation: hintPulse 3s ease-in-out infinite;
+  animation-delay: 3s;
+  user-select: none;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(4px); }
 }

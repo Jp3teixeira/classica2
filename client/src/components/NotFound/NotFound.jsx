@@ -8,7 +8,7 @@ export default function NotFound() {
         <div className="not-found">
             {/* Logo */}
             <motion.img
-                src="/imagens/Logos/classica2.png"
+                src="/imagens/Logos/logo_white.jpg"
                 alt="Clássica Artes Gráficas"
                 className="not-found-logo"
                 initial={{ opacity: 0, y: -20 }}
