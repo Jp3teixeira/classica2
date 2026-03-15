@@ -1,7 +1,19 @@
-import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { memo, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Desktop = memo(function Desktop() {
+    const [showHint, setShowHint] = useState(false);
+
+    // Mostrar hint depois da tagline animar, depois esconder passado uns segundos
+    useEffect(() => {
+        const showTimer = setTimeout(() => setShowHint(true), 2600);
+        const hideTimer = setTimeout(() => setShowHint(false), 8000);
+        return () => {
+            clearTimeout(showTimer);
+            clearTimeout(hideTimer);
+        };
+    }, []);
+
     return (
         <main className="desktop">
             {/* Logo */}
@@ -47,15 +59,20 @@ const Desktop = memo(function Desktop() {
                 />
             </motion.div>
 
-            {/* Hint sutil — convida a explorar */}
-            <motion.p
-                className="desktop-hint"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 2.8 }}
-            >
-                Explore os nossos trabalhos ↓
-            </motion.p>
+            {/* Hint — aparece e desaparece suavemente */}
+            <AnimatePresence>
+                {showHint && (
+                    <motion.div
+                        className="desktop-hint"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <span className="hint-arrow">↓</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </main>
     );
 });

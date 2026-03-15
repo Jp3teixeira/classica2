@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, memo } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CONTACT_EMAIL = 'geral@classicaag.pt';
-const CONTACT_PHONE = '917 206 097';
+const CONTACT_EMAIL = 'classicaartesgraficas2@gmail.com';
+const CONTACT_PHONE = '+351917206097';
+const CONTACT_PHONE_DISPLAY = '917 206 097';
 
 const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime }) {
     const [showContacts, setShowContacts] = useState(false);
@@ -14,7 +15,7 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
     const formatDate = (date) =>
         date.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' });
 
-    // Fix #13: Fechar dropdown ao clicar fora
+    // Fechar dropdown ao clicar fora
     useEffect(() => {
         if (!showContacts) return;
 
@@ -27,6 +28,27 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [showContacts]);
+
+    // Handlers explícitos para contactos — evita bugs com links dentro de dropdowns animados
+    const handleEmail = useCallback((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = `mailto:${CONTACT_EMAIL}`;
+    }, []);
+
+    const handlePhone = useCallback((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = `tel:${CONTACT_PHONE}`;
+    }, []);
+
+    const handleCopyEmail = useCallback((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
+            // Visual feedback briefly
+        });
+    }, []);
 
     return (
         <header className="menubar">
@@ -49,9 +71,8 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                 ))}
             </nav>
 
-            {/* Direita — Chip + Contactos + Data/Hora */}
+            {/* Direita */}
             <div className="menubar-right">
-                {/* Chip discreto de "Em desenvolvimento" */}
                 <span className="menubar-beta-chip">Em desenvolvimento</span>
 
                 <div className="menubar-divider"></div>
@@ -79,11 +100,12 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                                     <h3>Contacte-nos</h3>
                                 </div>
                                 <div className="contacts-content">
-                                    {/* Email */}
-                                    <a
-                                        href={`mailto:${CONTACT_EMAIL}`}
+                                    {/* Email — botão com handler explícito */}
+                                    <button
                                         className="contact-item"
-                                        aria-label={`Enviar email para ${CONTACT_EMAIL}`}
+                                        onClick={handleEmail}
+                                        onContextMenu={handleCopyEmail}
+                                        title={`Enviar email para ${CONTACT_EMAIL}`}
                                     >
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -93,22 +115,22 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
                                             <span className="contact-label">Email</span>
                                             <span className="contact-value">{CONTACT_EMAIL}</span>
                                         </div>
-                                    </a>
+                                    </button>
 
-                                    {/* Telefone */}
-                                    <a
-                                        href={`tel:+351${CONTACT_PHONE.replace(/\s/g, '')}`}
+                                    {/* Telefone — botão com handler explícito */}
+                                    <button
                                         className="contact-item"
-                                        aria-label={`Ligar para ${CONTACT_PHONE}`}
+                                        onClick={handlePhone}
+                                        title={`Ligar para ${CONTACT_PHONE_DISPLAY}`}
                                     >
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                         </svg>
                                         <div className="contact-info">
                                             <span className="contact-label">Telefone</span>
-                                            <span className="contact-value">{CONTACT_PHONE}</span>
+                                            <span className="contact-value">{CONTACT_PHONE_DISPLAY}</span>
                                         </div>
-                                    </a>
+                                    </button>
                                 </div>
                             </motion.div>
                         )}

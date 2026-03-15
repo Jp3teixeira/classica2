@@ -225,13 +225,18 @@
 }
 
 /* ============================================
-   Product Detail
+   Product Detail — Split Layout
    ============================================ */
 
 .product-detail {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
 }
 
 .back-btn {
@@ -252,9 +257,28 @@
   background: rgba(0, 0, 0, 0.08);
 }
 
+/* Split: imagem à esquerda, info à direita */
+.detail-layout {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  min-height: 0;
+}
+
+/* Coluna da imagem */
+.detail-media {
+  flex: 0 0 55%;
+  max-width: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+}
+
 .product-image-container {
   width: 100%;
-  max-height: 420px;
+  max-height: 380px;
   border-radius: 12px;
   background: transparent;
   display: flex;
@@ -266,7 +290,7 @@
 
 .product-image {
   width: 100%;
-  max-height: 400px;
+  max-height: 360px;
   object-fit: contain;
   mix-blend-mode: multiply;
   filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.12));
@@ -275,36 +299,37 @@
 /* Thumbnail gallery */
 .product-thumbnails {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .product-thumb {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   border-radius: 10px;
-  padding: 6px;
+  padding: 5px;
   border: 2px solid transparent;
   background: rgba(0, 0, 0, 0.03);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
-  width: 90px;
+  width: 80px;
 }
 
 .product-thumb img {
-  width: 76px;
-  height: 64px;
+  width: 68px;
+  height: 56px;
   object-fit: contain;
   mix-blend-mode: multiply;
   border-radius: 6px;
 }
 
 .product-thumb-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.45);
   letter-spacing: 0.01em;
 }
 
@@ -313,63 +338,122 @@
 }
 
 .product-thumb.active {
-  border-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.04);
 }
 
 .product-thumb.active .product-thumb-label {
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.75);
   font-weight: 600;
 }
 
-.product-info {
+/* Coluna da informação */
+.detail-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  padding-top: 4px;
+  overflow-y: auto;
+  max-height: calc(min(650px, 80vh) - 120px);
 }
 
 .product-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   color: #1d1d1f;
   letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+/* Secções com ícone e título */
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.detail-section-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.detail-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.35);
 }
 
 .product-description {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(0, 0, 0, 0.65);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: pre-line;
 }
 
-.product-characteristics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.product-characteristic {
+/* Specs — grelha de linhas label:value */
+.detail-specs {
   display: flex;
   flex-direction: column;
-  padding: 14px 18px;
-  background: #f5f5f7;
+  gap: 0;
   border-radius: 10px;
-  min-width: 120px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.characteristic-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.4);
+.detail-spec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #fafafa;
+}
+
+.detail-spec:nth-child(even) {
+  background: #ffffff;
+}
+
+.spec-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.45);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
-.characteristic-value {
-  font-size: 15px;
+.spec-value {
+  font-size: 13px;
   font-weight: 500;
-  margin-top: 4px;
   color: #1d1d1f;
+  text-align: right;
+}
+
+/* Responsivo — empilha em ecrãs pequenos */
+@media (max-width: 700px) {
+  .detail-layout {
+    flex-direction: column;
+  }
+
+  .detail-media {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .detail-info {
+    max-height: none;
+  }
 }
 
 /* Empty & Loading States */
