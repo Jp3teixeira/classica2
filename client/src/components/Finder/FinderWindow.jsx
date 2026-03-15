@@ -40,11 +40,10 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
             <motion.div
                 className="finder-window"
                 onClick={(e) => e.stopPropagation()}
-                style={{ transformOrigin: 'bottom center' }}
-                initial={{ opacity: 0, scale: 0.1, y: 400, borderRadius: '50px' }}
-                animate={{ opacity: 1, scale: 1, y: 0, borderRadius: '12px' }}
-                exit={{ opacity: 0, scale: 0.1, y: 400, borderRadius: '50px' }}
-                transition={{ type: 'spring', stiffness: 280, damping: 24, mass: 0.8 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
                 <header className="finder-titlebar">
                     <div className="finder-traffic-lights">
