@@ -39,19 +39,6 @@
   background-clip: text;
 }
 
-/* Chip "Em desenvolvimento" */
-.menubar-beta-chip {
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.45);
-  background: rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  padding: 1px 6px;
-  letter-spacing: 0.01em;
-  -webkit-text-fill-color: rgba(0, 0, 0, 0.45);
-  white-space: nowrap;
-}
 
 .menubar-nav {
   display: flex;
@@ -106,109 +93,35 @@
 }
 
 /* ============================================
-   Contacts Dropdown
+   Contactos estáticos na menubar
    ============================================ */
 
-.contacts-wrapper {
-  position: relative;
-}
-
-.contacts-btn {
+.menubar-contacts-static {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 5px;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.85);
-  transition: background var(--transition-fast);
+  gap: 10px;
 }
 
-.contacts-btn:hover,
-.contacts-btn.active {
-  background: rgba(0, 0, 0, 0.06);
-}
-
-.contacts-btn svg {
-  opacity: 0.7;
-}
-
-.contacts-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 280px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  z-index: 10;
-}
-
-.contacts-header {
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.contacts-header h3 {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.contacts-content {
-  padding: 8px;
-}
-
-/* Fix #14: Consolidated contact-item styles (removed duplication) */
-.contact-item {
+.menubar-contact-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  transition: background var(--transition-fast);
-  text-decoration: none;
-  cursor: pointer;
-  width: 100%;
+  gap: 5px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.55);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  user-select: text;
 }
 
-.contact-item:hover {
-  background: rgba(0, 120, 255, 0.06);
-}
-
-.contact-item:hover .contact-value {
-  color: var(--accent-blue);
-}
-
-.contact-item svg {
-  width: 20px;
-  height: 20px;
-  color: var(--accent-blue);
+.menubar-contact-item svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
   flex-shrink: 0;
 }
 
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.contact-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.45);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.contact-value {
+.menubar-divider-dot {
   font-size: 14px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(0, 0, 0, 0.2);
+  line-height: 1;
 }
