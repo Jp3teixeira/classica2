@@ -14,8 +14,8 @@
 }
 
 .finder-window {
-  width: min(1120px, 95vw);  /* Ligeiramente reduzido de 1200px para um equilíbrio melhor */
-  height: min(820px, 88vh);  /* Mantido generoso para a verticalidade */
+  width: min(1100px, 92vw);
+  height: min(700px, 80vh);
   background: var(--finder-bg);
   border-radius: 12px;
   box-shadow: var(--finder-shadow);

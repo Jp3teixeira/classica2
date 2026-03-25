@@ -443,7 +443,66 @@ const PRODUCTS = {
     // ================================================================
     'rotulagem': {
         'rotulos': [
-            // Adicionar rótulos aqui quando houver informação disponível
+            {
+                id: 'rot1',
+                name: 'Rótulo To Skin — Colagénio Café',
+                description: 'Rótulo autocolante em bobine da gama "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                image: '/imagens/Rotulos/Rotulo_Toskin_Cafe.jpg',
+                characteristics: [
+                    { label: 'Marca', value: 'To Skin' },
+                    { label: 'Formato', value: '111 x 335 mm' },
+                    { label: 'Tipo', value: 'Autocolante bobine' },
+                    { label: 'Sabor/Aroma', value: 'Colagénio Café' }
+                ]
+            },
+            {
+                id: 'rot2',
+                name: 'Rótulo To Skin — Colagénio Frutos Vermelhos',
+                description: 'Rótulo autocolante em bobine da gama "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                image: '/imagens/Rotulos/Rotulo_Toskin_Colageno-frutos-vermelhos.jpg',
+                characteristics: [
+                    { label: 'Marca', value: 'To Skin' },
+                    { label: 'Formato', value: '111 x 335 mm' },
+                    { label: 'Tipo', value: 'Autocolante bobine' },
+                    { label: 'Sabor/Aroma', value: 'Colagénio Frutos Vermelhos' }
+                ]
+            },
+            {
+                id: 'rot3',
+                name: 'Rótulo Nutrimoa — Baunilha',
+                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                image: '/imagens/Rotulos/Rotulo_Nutrimoa_Baunilha.png',
+                characteristics: [
+                    { label: 'Marca', value: 'Nutrimoa' },
+                    { label: 'Formato', value: '172 x 320 mm' },
+                    { label: 'Tipo', value: 'Autocolante bobine' },
+                    { label: 'Sabor/Aroma', value: 'Baunilha' }
+                ]
+            },
+            {
+                id: 'rot4',
+                name: 'Rótulo Nutrimoa — Café',
+                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                image: '/imagens/Rotulos/Rotulo_Nutrimoa_Café.png',
+                characteristics: [
+                    { label: 'Marca', value: 'Nutrimoa' },
+                    { label: 'Formato', value: '172 x 320 mm' },
+                    { label: 'Tipo', value: 'Autocolante bobine' },
+                    { label: 'Sabor/Aroma', value: 'Café' }
+                ]
+            },
+            {
+                id: 'rot5',
+                name: 'Rótulo Nutrimoa — Chocolate',
+                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                image: '/imagens/Rotulos/Rotulo_Nutrimoa_Chocolate.png',
+                characteristics: [
+                    { label: 'Marca', value: 'Nutrimoa' },
+                    { label: 'Formato', value: '172 x 320 mm' },
+                    { label: 'Tipo', value: 'Autocolante bobine' },
+                    { label: 'Sabor/Aroma', value: 'Chocolate' }
+                ]
+            }
         ]
     },
 
