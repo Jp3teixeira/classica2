@@ -48,11 +48,10 @@ const PRODUCTS = {
             {
                 id: 'cat2',
                 name: 'Catálogo Madalena',
-                description: '100 Brochuras no formato A4 com 24 páginas impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
+                description: 'Brochuras no formato A4 impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
                 image: '/imagens/Catalogos/Catalogo_Madalena_2.jpg',
                 characteristics: [
                     { label: 'Formato', value: 'A4' },
-                    { label: 'Páginas', value: '24' },
                     { label: 'Impressão miolo', value: '4/4 cores' },
                     { label: 'Papel miolo', value: 'Munken Lynx 150gr' },
                     { label: 'Capa', value: 'Com aba, Munken Lynx 300gr' },
@@ -63,11 +62,10 @@ const PRODUCTS = {
             {
                 id: 'cat3',
                 name: 'Catálogo Valadares',
-                description: '100 Brochuras no formato A4 com 24 páginas impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
+                description: 'Brochuras no formato A4 impressas a 4/4 cores em Munken Lynx 150gr.\n\nCapa com aba impressa a 4/4 cores em Munken Lynx 300gr.\nAcabamento: agrafado.',
                 image: '/imagens/Catalogos/Catalogo_Valadares_3.jpg',
                 characteristics: [
                     { label: 'Formato', value: 'A4' },
-                    { label: 'Páginas', value: '24' },
                     { label: 'Impressão miolo', value: '4/4 cores' },
                     { label: 'Papel miolo', value: 'Munken Lynx 150gr' },
                     { label: 'Capa', value: 'Com aba, Munken Lynx 300gr' },
@@ -84,19 +82,9 @@ const PRODUCTS = {
     'livros': {
         'livros-capa-mole': [
             {
-                id: 'lm1',
-                name: 'Arte e Poesia',
-                description: 'Livro de capa mole com acabamento profissional. Encadernação em brochura ideal para publicações literárias e de arte.',
-                image: '/imagens/Livros/Capa_Mole/ArteEPoesia_M.jpg',
-                characteristics: [
-                    { label: 'Encadernação', value: 'Capa Mole' },
-                    { label: 'Acabamento', value: 'Brochura' }
-                ]
-            },
-            {
                 id: 'lm2',
                 name: 'As Cores de Abril',
-                description: 'Obra em dois volumes, impressa em papel ior 90gr. com plastificação mate.\n\nVolume 1: 404 páginas impressas a 1/1 cor (preto).\nVolume 2: 288 páginas impressas a 1/1 cor (preto).\n\nCapa impressa a 4/0 cores + plastificação mate em cartolina cromo v/ branco 270gr.\nAcabamento: Brochado.',
+                description: 'Obra em dois volumes, impressa em papel ior 90gr. com plastificação mate.\n\nVolume 1: 404 páginas impressas a 1/1 cor (preto).\nVolume 2: 288 páginas impressas a 1/1 cor (preto).\n\nCapa impressa a 4/0 cores + plastificação mate em cartolina cromo v/ branco 270gr.\nAcabamento: cosido e brochado.',
                 image: '/imagens/Livros/Capa_Mole/AsCoresDeAbril_M.jpg',
                 characteristics: [
                     { label: 'Volumes', value: '2' },
@@ -107,7 +95,7 @@ const PRODUCTS = {
                     { label: 'Impressão capa', value: '4/0 cores' },
                     { label: 'Plastificação', value: 'Mate' },
                     { label: 'Papel capa', value: 'Cromo v/ branco 270gr' },
-                    { label: 'Acabamento', value: 'Brochado' }
+                    { label: 'Acabamento', value: 'Cosido e brochado' }
                 ]
             },
             {
@@ -160,7 +148,7 @@ const PRODUCTS = {
             {
                 id: 'lm6',
                 name: 'Diálogos Inter-Culturais Portugal — China',
-                description: 'Formato 17x24cm. com 440 páginas impressas a 1/1 cor em papel ior 80gr.\n\nCapa impressa a 4/0 cores + plastificação em cartolina cromo v/ branco 300gr.\nAcabamento: cosido e brochado.',
+                description: 'Livro "Diálogos Inter Culturais Portugal - China".\n\nFormato 17x24cm. com 440 páginas impressas a 1/1 cor em papel ior 80gr.\n\nCapa impressa a 4/0 cores + plastificação em cartolina cromo v/ branco 300gr.\nAcabamento: cosido e brochado.',
                 image: '/imagens/Livros/Capa_Mole/LivroDialogos_M.jpg',
                 characteristics: [
                     { label: 'Formato', value: '17 x 24 cm' },
@@ -205,12 +193,18 @@ const PRODUCTS = {
             },
             {
                 id: 'lm9',
-                name: 'Livro Agora',
-                description: 'Livro de capa mole com acabamento profissional.',
+                name: 'Revista Ágora',
+                description: 'Livro "Revista Ágora".\n\nFormato 17x24cm. com 340 páginas impressas a 1/1 cor (preto) em papel ior 90gr.\n\nCapa impressa a 4/0 cores em cartolina cromo v/ branco 270gr. com plastificação mate.\nAcabamento: cosido e brochado.',
                 image: '/imagens/Livros/Capa_Mole/Livro_Agora_M.jpg',
                 characteristics: [
-                    { label: 'Encadernação', value: 'Capa Mole' },
-                    { label: 'Acabamento', value: 'Brochura' }
+                    { label: 'Formato', value: '17 x 24 cm' },
+                    { label: 'Páginas', value: '340' },
+                    { label: 'Impressão miolo', value: '1/1 cor (preto)' },
+                    { label: 'Papel miolo', value: 'Ior 90gr' },
+                    { label: 'Impressão capa', value: '4/0 cores' },
+                    { label: 'Plastificação capa', value: 'Mate' },
+                    { label: 'Papel capa', value: 'Cromo v/ branco 270gr' },
+                    { label: 'Acabamento', value: 'Cosido e brochado' }
                 ]
             },
             {
@@ -326,13 +320,20 @@ const PRODUCTS = {
             {
                 id: 'cal4b',
                 name: 'Calendário Grupolis 4 Macetes',
-                description: 'Calendário de parede 4 macetes personalizado.',
+                description: 'Base no formato 34,5x99,5cm., impressa a 4/0 cores + verniz proteção + cortante especial + ilhó em cartolina v/ branco 350gr.\n\n4 macetes de calendário mensal formato 32,5x15,5cm, com 12 folhas impressas a 2/0 cores em papel ior 90gr., colados no topo.\n\nAcabamento final: colagem dos 4 macetes na base, colocação de ilhó, colocação de marcador e dobra.',
                 images: [
-                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_4M.jpg', label: 'Fechado' },
-                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_Aberto_4M.jpg', label: 'Aberto' }
+                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_4M.jpg' },
+                    { src: '/imagens/Calendarios/4M/Calendario_Grupolis_2_Aberto_4M.jpg' }
                 ],
                 characteristics: [
-                    { label: 'Nº de Macetes', value: '4' }
+                    { label: 'Base', value: '34,5 x 99,5 cm' },
+                    { label: 'Nº de Macetes', value: '4' },
+                    { label: 'Formato macete', value: '32,5 x 15,5 cm' },
+                    { label: 'Folhas por macete', value: '12' },
+                    { label: 'Papel base', value: 'Cartolina branco 350gr' },
+                    { label: 'Papel macetes', value: 'Ior 90gr' },
+                    { label: 'Impressão base', value: '4/0 cores + verniz' },
+                    { label: 'Impressão macetes', value: '2/0 cores' }
                 ]
             }
         ]
@@ -380,8 +381,8 @@ const PRODUCTS = {
                 name: 'Embalagem Redo',
                 description: 'Formato 160x137x60mm. Mini micro canelado.',
                 images: [
-                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Aberta.jpg', label: 'Aberta' },
-                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Fechada.jpg', label: 'Fechada' }
+                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Aberta.jpg' },
+                    { src: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_REDO_MC_4_Fechada.jpg' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '160 x 137 x 60 mm' },
@@ -404,34 +405,35 @@ const PRODUCTS = {
             {
                 id: 'ct1',
                 name: 'Caixa Celeiro',
-                description: 'Formato 80x55x145mm. Cartolina 380gr.',
+                description: 'Formato 80x55x145mm.\n\nImpressão a 4/0 cores com verniz proteção e colagem lateral.',
                 images: [
-                    { src: '/imagens/Embalagens/Cartolina/Cartolina_Celeiro_1_Aberta.jpg', label: 'Aberta' },
-                    { src: '/imagens/Embalagens/Cartolina/Cartolina_Celeiro_1_Fechada.jpg', label: 'Fechada' }
+                    { src: '/imagens/Embalagens/Cartolina/Cartolina_Celeiro_1_Aberta.jpg' },
+                    { src: '/imagens/Embalagens/Cartolina/Cartolina_Celeiro_1_Fechada.jpg' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '80 x 55 x 145 mm' },
-                    { label: 'Material', value: 'Cartolina 380gr' }
+                    { label: 'Impressão', value: '4/0 cores + verniz proteção' },
+                    { label: 'Acabamento', value: 'Colagem lateral' }
                 ]
             },
             {
                 id: 'ct2',
                 name: 'Caixa Sun Booster',
-                description: 'Formato 70x70x137mm. Cartolina 380gr., fundo automático.',
+                description: 'Formato 70x70x137mm.\n\nImpressão a 4/4 cores com plastificação brilho.',
                 image: '/imagens/Embalagens/Cartolina/Cartolina_SUNBOOSTER_2.jpg',
                 characteristics: [
                     { label: 'Formato', value: '70 x 70 x 137 mm' },
-                    { label: 'Material', value: 'Cartolina 380gr' },
-                    { label: 'Fundo', value: 'Automático' }
+                    { label: 'Impressão', value: '4/4 cores' },
+                    { label: 'Acabamento', value: 'Plastificação brilho' }
                 ]
             },
             {
                 id: 'ct3',
                 name: 'Caixa Ptit Truc',
-                description: 'Caixa impressa a 4/0 cores em cartolina com plastificação alimentar no interior.',
+                description: 'Impressão a 4/0 cores com verniz proteção.\n\nInterior com plastificação alimentar.',
                 image: '/imagens/Embalagens/Cartolina/Cartolina_PTITTRUC_3_Fechada.jpg',
                 characteristics: [
-                    { label: 'Impressão', value: '4/0 cores' },
+                    { label: 'Impressão', value: '4/0 cores + verniz proteção' },
                     { label: 'Interior', value: 'Plastificação alimentar' }
                 ]
             }
@@ -446,61 +448,61 @@ const PRODUCTS = {
             {
                 id: 'rot1',
                 name: 'Rótulo To Skin — Colagénio Café',
-                description: 'Rótulo autocolante em bobine da gama "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                description: 'Rótulo autocolante em bobine "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
                 image: '/imagens/Rotulos/Rotulo_Toskin_Cafe.jpg',
                 characteristics: [
                     { label: 'Marca', value: 'To Skin' },
                     { label: 'Formato', value: '111 x 335 mm' },
                     { label: 'Tipo', value: 'Autocolante bobine' },
-                    { label: 'Sabor/Aroma', value: 'Colagénio Café' }
+                    { label: 'Material', value: 'Autoadesivo couché semi-mate 90g' }
                 ]
             },
             {
                 id: 'rot2',
                 name: 'Rótulo To Skin — Colagénio Frutos Vermelhos',
-                description: 'Rótulo autocolante em bobine da gama "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                description: 'Rótulo autocolante em bobine "To Skin".\n\nFormato 111x335mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
                 image: '/imagens/Rotulos/Rotulo_Toskin_Colageno-frutos-vermelhos.jpg',
                 characteristics: [
                     { label: 'Marca', value: 'To Skin' },
                     { label: 'Formato', value: '111 x 335 mm' },
                     { label: 'Tipo', value: 'Autocolante bobine' },
-                    { label: 'Sabor/Aroma', value: 'Colagénio Frutos Vermelhos' }
+                    { label: 'Material', value: 'Autoadesivo couché semi-mate 90g' }
                 ]
             },
             {
                 id: 'rot3',
                 name: 'Rótulo Nutrimoa — Baunilha',
-                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                description: 'Rótulo autocolante em bobine "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
                 image: '/imagens/Rotulos/Rotulo_Nutrimoa_Baunilha.png',
                 characteristics: [
                     { label: 'Marca', value: 'Nutrimoa' },
                     { label: 'Formato', value: '172 x 320 mm' },
                     { label: 'Tipo', value: 'Autocolante bobine' },
-                    { label: 'Sabor/Aroma', value: 'Baunilha' }
+                    { label: 'Material', value: 'Autoadesivo couché semi-mate 90g' }
                 ]
             },
             {
                 id: 'rot4',
                 name: 'Rótulo Nutrimoa — Café',
-                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                description: 'Rótulo autocolante em bobine "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
                 image: '/imagens/Rotulos/Rotulo_Nutrimoa_Café.png',
                 characteristics: [
                     { label: 'Marca', value: 'Nutrimoa' },
                     { label: 'Formato', value: '172 x 320 mm' },
                     { label: 'Tipo', value: 'Autocolante bobine' },
-                    { label: 'Sabor/Aroma', value: 'Café' }
+                    { label: 'Material', value: 'Autoadesivo couché semi-mate 90g' }
                 ]
             },
             {
                 id: 'rot5',
                 name: 'Rótulo Nutrimoa — Chocolate',
-                description: 'Rótulo autocolante em bobine da gama "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em material autocolante de alta qualidade.',
+                description: 'Rótulo autocolante em bobine "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
                 image: '/imagens/Rotulos/Rotulo_Nutrimoa_Chocolate.png',
                 characteristics: [
                     { label: 'Marca', value: 'Nutrimoa' },
                     { label: 'Formato', value: '172 x 320 mm' },
                     { label: 'Tipo', value: 'Autocolante bobine' },
-                    { label: 'Sabor/Aroma', value: 'Chocolate' }
+                    { label: 'Material', value: 'Autoadesivo couché semi-mate 90g' }
                 ]
             }
         ]
@@ -514,24 +516,31 @@ const PRODUCTS = {
             {
                 id: 'bro1',
                 name: 'Brochura Nutribullet',
-                description: 'Formato 10x20cm. com 20 páginas.',
+                description: 'Formato 10x20cm, com interior de 16 páginas impressas a 4 cores + verniz água neutro geral em papel couché semi-mate de 150grs.\n\nCapa impressa a 4/4 cores + verniz água neutro geral em papel couché semi-mate de 250grs.\nAgrafado com 2 pontos de arame.',
                 image: '/imagens/Outros/Brochuras/Brochura_nutribullet_1.png',
                 characteristics: [
                     { label: 'Formato', value: '10 x 20 cm' },
-                    { label: 'Páginas', value: '20' }
+                    { label: 'Páginas', value: '16' },
+                    { label: 'Papel miolo', value: 'Couché semi-mate 150gr' },
+                    { label: 'Impressão miolo', value: '4/4 cores + verniz' },
+                    { label: 'Papel capa', value: 'Couché semi-mate 250gr' },
+                    { label: 'Impressão capa', value: '4/4 cores + verniz' },
+                    { label: 'Acabamento', value: 'Agrafado 2 pontos de arame' }
                 ]
             },
             {
                 id: 'bro2',
                 name: 'Brochura Kenwood',
-                description: 'Formato 10x20cm. com 12 páginas em couché 150gr. + capa.\n\nImpressas a 4/4 cores + verniz proteção.\nAcabamento: agrafadas a 2 pontos.',
+                description: 'Formato 10x20cm, com interior de 12 páginas impressas a 4 cores + verniz água neutro geral em papel couché semi-mate de 150grs.\n\nCapa impressa a 4/4 cores + verniz água neutro geral em papel couché semi-mate de 250grs.\nAgrafado com 2 pontos de arame.',
                 image: '/imagens/Outros/Brochuras/Brochura_Kenwood_1.png',
                 characteristics: [
                     { label: 'Formato', value: '10 x 20 cm' },
                     { label: 'Páginas', value: '12' },
-                    { label: 'Papel', value: 'Couché 150gr' },
-                    { label: 'Impressão', value: '4/4 cores + verniz' },
-                    { label: 'Acabamento', value: 'Agrafadas a 2 pontos' }
+                    { label: 'Papel miolo', value: 'Couché semi-mate 150gr' },
+                    { label: 'Impressão miolo', value: '4/4 cores + verniz' },
+                    { label: 'Papel capa', value: 'Couché semi-mate 250gr' },
+                    { label: 'Impressão capa', value: '4/4 cores + verniz' },
+                    { label: 'Acabamento', value: 'Agrafado 2 pontos de arame' }
                 ]
             }
         ],
@@ -541,8 +550,8 @@ const PRODUCTS = {
                 name: 'Postal Duotone',
                 description: 'Postais duotone, formato 105x150mm.\n\nPlano total 64,3x15cm., impressos a 2/1 cores + verniz UV geral frente, em cartolina cromo v/ branco 260gr.\nAplicação de vincos e dobra manual.',
                 images: [
-                    { src: '/imagens/Outros/Postais/Postal_Ordem_2_Aberto.jpg', label: 'Aberto' },
-                    { src: '/imagens/Outros/Postais/Postal_Ordem_2_Fechado.jpg', label: 'Fechado' }
+                    { src: '/imagens/Outros/Postais/Postal_Ordem_2_Aberto.jpg' },
+                    { src: '/imagens/Outros/Postais/Postal_Ordem_2_Fechado.jpg' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '105 x 150 mm' },
@@ -557,8 +566,8 @@ const PRODUCTS = {
                 name: 'Postal a Cores',
                 description: 'Postais a cores, formato 105x150mm.\n\nPlano total 129,6x15cm. (2 planos fto. 64,3x15cm colados com fita dupla face), impressos a 4/1 cor + verniz UV mate geral, em cartolina cromo v/ branco 260gr.\nAplicação de vincos, fita cola duas faces e dobra manual.',
                 images: [
-                    { src: '/imagens/Outros/Postais/Postal_Ordem_1_Fechado.jpg', label: 'Fechado' },
-                    { src: '/imagens/Outros/Postais/Postal_Ordem_1_Aberto.jpg', label: 'Aberto' }
+                    { src: '/imagens/Outros/Postais/Postal_Ordem_1_Fechado.jpg' },
+                    { src: '/imagens/Outros/Postais/Postal_Ordem_1_Aberto.jpg' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '105 x 150 mm' },
