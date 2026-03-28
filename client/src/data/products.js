@@ -601,12 +601,15 @@ const PRODUCTS = {
         'outros-embalagens-redondas': [
             {
                 id: 'emr1',
-                name: 'Embalagem Redonda',
-                description: 'Embalagem em tubo "Collagen Lemon".\n\nFormato 9,5x17cm.',
+                name: 'Tubos',
+                description: 'Tubo "Collagen Lemon".\n\nTubo com diâmetro de 9,5cm e com 17cm de altura, com tampas metálicas.\nForra exterior em papel offset 120g, impresso a 4/0 cores.\nCom tampas em preto mate.',
                 image: '/imagens/Outros/Embalagens_Redondas/Embalagem_Redonda_1.jpg',
                 characteristics: [
-                    { label: 'Formato', value: '9,5 x 17 cm' },
-                    { label: 'Forma', value: 'Tubo redondo' }
+                    { label: 'Diâmetro', value: '9,5 cm' },
+                    { label: 'Altura', value: '17 cm' },
+                    { label: 'Tampas', value: 'Metálicas, preto mate' },
+                    { label: 'Forra exterior', value: 'Papel offset 120g' },
+                    { label: 'Impressão', value: '4/0 cores' }
                 ]
             }
         ]

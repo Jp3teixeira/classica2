@@ -32,14 +32,21 @@ const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime
 
             {/* Direita */}
             <div className="menubar-right">
-                {/* Email estático */}
-                <span className="menubar-contact-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                    </svg>
-                    {CONTACT_EMAIL}
-                </span>
+                {/* Contactos com hover dropdown */}
+                <div className="contacts-hover-wrapper">
+                    <button className="menubar-item contacts-trigger">
+                        Contactos
+                    </button>
+                    <div className="contacts-hover-dropdown">
+                        <div className="contacts-hover-content">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            <span>{CONTACT_EMAIL}</span>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="menubar-divider"></div>
 
