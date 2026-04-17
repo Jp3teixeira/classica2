@@ -207,16 +207,6 @@ const PRODUCTS = {
                     { label: 'Acabamento', value: 'Cosido e brochado' }
                 ]
             },
-            {
-                id: 'lm10',
-                name: 'Diálogos (Resumos)',
-                description: 'Livro de capa mole com acabamento profissional.',
-                image: '/imagens/Livros/Capa_Mole/Livro_Dialogos_resumo_M.jpg',
-                characteristics: [
-                    { label: 'Encadernação', value: 'Capa Mole' },
-                    { label: 'Acabamento', value: 'Brochura' }
-                ]
-            }
         ],
         'livros-capa-dura': [
             {
@@ -226,7 +216,14 @@ const PRODUCTS = {
                 image: '/imagens/Livros/Capa_Dura/GramaticaLinguaChinesa_D.jpg',
                 characteristics: [
                     { label: 'Encadernação', value: 'Capa Dura' },
-                    { label: 'Acabamento', value: 'Premium' }
+                    { label: 'Acabamento', value: 'Premium' },
+                    { label: 'Formato', value: '17 x 24 cm' },
+                    { label: 'Páginas', value: '128' },
+                    { label: 'Impressão miolo', value: '1/1 cor' },
+                    { label: 'Papel miolo', value: 'Ior 80gr' },
+                    { label: 'Impressão capa', value: '4/0 cores + plastificação' },
+                    { label: 'Papel capa', value: 'Cromo v/ branco 280gr' },
+                    { label: 'Acabamento capa', value: 'Cosido e brochado' }
                 ]
             },
             {
@@ -413,7 +410,8 @@ const PRODUCTS = {
                 characteristics: [
                     { label: 'Formato', value: '80 x 55 x 145 mm' },
                     { label: 'Impressão', value: '4/0 cores + verniz proteção' },
-                    { label: 'Acabamento', value: 'Colagem lateral' }
+                    { label: 'Acabamento', value: 'Colagem lateral' },
+                    { label: 'Matéria prima', value: 'Cartolina 375g' }
                 ]
             },
             {
@@ -424,7 +422,8 @@ const PRODUCTS = {
                 characteristics: [
                     { label: 'Formato', value: '70 x 70 x 137 mm' },
                     { label: 'Impressão', value: '4/4 cores' },
-                    { label: 'Acabamento', value: 'Plastificação brilho' }
+                    { label: 'Acabamento', value: 'Plastificação brilho' },
+                    { label: 'Matéria prima', value: 'Cartolina 375g' }
                 ]
             },
             {
@@ -434,7 +433,8 @@ const PRODUCTS = {
                 image: '/imagens/Embalagens/Cartolina/Cartolina_PTITTRUC_3_Fechada.jpg',
                 characteristics: [
                     { label: 'Impressão', value: '4/0 cores + verniz proteção' },
-                    { label: 'Interior', value: 'Plastificação alimentar' }
+                    { label: 'Interior', value: 'Plastificação alimentar' },
+                    { label: 'Matéria prima', value: 'Cartolina 375g' }
                 ]
             }
         ]
