@@ -585,7 +585,8 @@ const PRODUCTS = {
                 description: 'Formato 12x16cm.\nIMPRESSÃO ESTOCÁSTICA.\n\n12 folhas impressas a 4/4 cores + verniz proteção em couché mate 250gr.\n1 folha impressa a 4/4 cores + verniz proteção em couché mate 350gr.\nBase formato aberto 46x12cm., impressa a 1/0 cor em cartolina cromo v/ branco 400gr.\n\nAcabamento: espiral metálica.',
                 images: [
                     { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Aberto.jpg', label: 'Aberto' },
-                    { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Fechado.jpg', label: 'Fechado' }
+                    { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Fechado.jpg', label: 'Fechado' },
+                    { src: '/imagens/Outros/Calendarios_Secretaria/Calendario_De_Secretaria_JMV_1_Lado.jpg', label: 'Lado' }
                 ],
                 characteristics: [
                     { label: 'Formato', value: '12 x 16 cm' },

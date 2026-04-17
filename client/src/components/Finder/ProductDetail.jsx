@@ -96,16 +96,10 @@ const ProductDetail = memo(function ProductDetail({ product, onBack }) {
                         </div>
                         <div className="detail-specs">
                             {product.characteristics.map((char, i) => (
-                                <motion.div
-                                    key={i}
-                                    className="detail-spec"
-                                    initial={{ opacity: 0, y: 8 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2 + i * 0.05 }}
-                                >
+                                <div key={i} className="detail-spec">
                                     <span className="spec-label">{char.label}</span>
                                     <span className="spec-value">{char.value}</span>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>

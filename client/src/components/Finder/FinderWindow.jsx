@@ -80,7 +80,7 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
 
                     <div className="finder-main">
                         <div className="finder-main-content">
-                            <AnimatePresence mode="wait">
+                            <AnimatePresence mode="sync">
                                 {selectedProduct ? (
                                     <ProductDetail key="detail" product={selectedProduct} onBack={() => setSelectedProduct(null)} />
                                 ) : products.length > 0 ? (
