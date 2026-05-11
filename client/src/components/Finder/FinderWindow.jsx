@@ -1,6 +1,5 @@
 import { useState, useEffect, memo } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getProducts } from '../../data/products';
 
 // Componentes extraídos (Single Responsibility Principle)
