@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import MenuBar from './components/MenuBar/MenuBar';
@@ -6,6 +6,7 @@ import Desktop from './components/Desktop/Desktop';
 import Dock from './components/Dock/Dock';
 import FinderWindow from './components/Finder/FinderWindow';
 import NotFound from './components/NotFound/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import CATEGORIES from './data/categories';
 
@@ -22,25 +23,25 @@ function MainSite() {
     return () => clearInterval(timer);
   }, []);
 
-  const openCategory = (categoryId) => {
+  const openCategory = useCallback((categoryId) => {
     const category = CATEGORIES.find(c => c.id === categoryId);
     if (category) {
       setActiveCategory(category);
       setIsFinderOpen(true);
     }
-  };
+  }, []);
 
-  const closeFinder = () => {
+  const closeFinder = useCallback(() => {
     setIsFinderOpen(false);
     setTimeout(() => setActiveCategory(null), 300);
-  };
+  }, []);
 
   // Fechar janela com Escape
   useEffect(() => {
     const handleKeyDown = (e) => { if (e.key === 'Escape' && isFinderOpen) closeFinder(); };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFinderOpen]);
+  }, [isFinderOpen, closeFinder]);
 
   return (
     <>
@@ -59,10 +60,12 @@ function MainSite() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainSite />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<MainSite />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </ErrorBoundary>
   );
 }
 
