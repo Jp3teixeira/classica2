@@ -2,59 +2,67 @@
 <html lang="pt">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f5f5f7" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preload da imagem LCP (logótipo) na variante realmente usada -->
+    <link rel="preload" href="/imagens/Logos/logo_white-900.avif" as="image" type="image/avif" />
 
-    <!-- Preload LCP image -->
-    <link rel="preload" href="/imagens/Logos/logo_white.jpg" as="image" />
-
-    <!-- SEO Primary -->
+    <!-- SEO -->
     <title>Clássica Artes Gráficas — Impressão de Qualidade no Porto</title>
     <meta name="description" content="Clássica Artes Gráficas — gráfica especializada em impressão estocástica, livros, catálogos, embalagens, rótulos, calendários e brochuras. Impressão offset e digital de alta qualidade no Porto, Portugal." />
-    <meta name="keywords" content="Clássica, Clássica Artes Gráficas, gráfica, gráfica Porto, impressão estocástica, impressão offset, impressão digital, artes gráficas, catálogos, livros, livros capa dura, livros capa mole, calendários de parede, calendários de secretária, embalagens, embalagens cartolina, embalagens micro canelado, rotulagem, rótulos, rótulos autocolantes, rótulos bobine, brochuras, postais, encadernação, acabamentos gráficos, plastificação, plastificação mate, plastificação brilho, verniz UV, verniz proteção, cosido e brochado, cosido e cartonado, capa dura, capa mole, impressão 4 cores, impressão livros, impressão catálogos, impressão embalagens, impressão rótulos, impressão brochuras, impressão calendários, design gráfico, pré-impressão, Porto, Portugal" />
     <meta name="author" content="Clássica Artes Gráficas" />
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="PT-13" />
     <meta name="geo.placename" content="Porto" />
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://www.classicaag.pt/" />
 
-    <!-- Open Graph (partilha em redes sociais) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.classicaag.pt/" />
     <meta property="og:title" content="Clássica Artes Gráficas — Impressão Estocástica e Offset no Porto" />
     <meta property="og:description" content="Gráfica especializada em impressão estocástica, livros, catálogos, embalagens, rótulos, calendários e brochuras. Qualidade e profissionalismo no Porto." />
-    <meta property="og:image" content="https://www.classicaag.pt/imagens/Logos/logo_white.jpg" />
+    <meta property="og:image" content="https://www.classicaag.pt/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clássica Artes Gráficas" />
     <meta property="og:locale" content="pt_PT" />
     <meta property="og:site_name" content="Clássica Artes Gráficas" />
 
-    <!-- Twitter Card -->
+    <!-- Twitter/X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Clássica Artes Gráficas — Impressão Estocástica e Offset no Porto" />
     <meta name="twitter:description" content="Gráfica especializada em impressão estocástica, livros, catálogos, embalagens, rótulos, calendários e brochuras." />
-    <meta name="twitter:image" content="https://www.classicaag.pt/imagens/Logos/logo_white.jpg" />
+    <meta name="twitter:image" content="https://www.classicaag.pt/og-image.jpg" />
 
-    <!-- Structured Data — Local Business (Google Rich Results) -->
+    <!--
+      Dados estruturados — LocalBusiness.
+      Os valores de contacto repetem client/src/data/contact.js porque são lidos
+      antes de o JavaScript correr. Se alterar num sítio, altere no outro.
+      Para juntar morada, acrescentar "streetAddress" e "postalCode" ao endereço.
+    -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Clássica Artes Gráficas",
       "url": "https://www.classicaag.pt",
-      "logo": "https://www.classicaag.pt/imagens/Logos/logo_white.jpg",
+      "logo": "https://www.classicaag.pt/og-image.jpg",
+      "image": "https://www.classicaag.pt/og-image.jpg",
       "email": "geral@classicaag.pt",
+      "telephone": "+351917206087",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Porto",
         "addressRegion": "Porto",
         "addressCountry": "PT"
       },
+      "areaServed": "PT",
       "description": "Gráfica especializada em impressão estocástica, impressão offset e digital de livros, catálogos, embalagens, rótulos, calendários e brochuras no Porto, Portugal.",
       "priceRange": "€€",
       "knowsAbout": [
@@ -78,24 +86,15 @@
       ]
     }
     </script>
-
-    <!-- Structured Data — WebSite (Google Search Box) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Clássica Artes Gráficas",
-      "url": "https://www.classicaag.pt"
-    }
-    </script>
   </head>
   <body>
     <noscript>
       <div style="text-align:center;padding:60px 20px;font-family:system-ui,sans-serif;">
         <h1>Clássica Artes Gráficas</h1>
         <p>Gráfica especializada em impressão estocástica, livros, catálogos, embalagens, rótulos, calendários e brochuras.</p>
-        <p>Contacto: <strong>geral@classicaag.pt</strong></p>
-        <p><em>Este site requer JavaScript para funcionar.</em></p>
+        <p>Email: <a href="mailto:geral@classicaag.pt">geral@classicaag.pt</a></p>
+        <p>Telefone: <a href="tel:+351917206087">917 206 087</a></p>
+        <p><em>Este site requer JavaScript para mostrar o portfólio de trabalhos.</em></p>
       </div>
     </noscript>
     <div id="root"></div>

@@ -1,91 +1,126 @@
-import { useState, useEffect, memo } from 'react';
+import { useCallback, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getProducts } from '../../data/products';
+import { useNavigate } from 'react-router-dom';
 
-// Componentes extraídos (Single Responsibility Principle)
+import SubcategoryNav from './SubcategoryNav';
 import ProductGrid from './ProductGrid';
 import ProductDetail from './ProductDetail';
-import { FolderIcon, LoadingState, EmptyState } from './FinderStates';
+import { EmptyState } from './FinderStates';
 
-// ─── Janela principal Finder ──────────────────────────────────────────────────
+import { buildPath } from '../../data/navigation';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useIsCompact } from '../../hooks/useMediaQuery';
 
-const FinderWindow = memo(function FinderWindow({ category, onClose }) {
-    const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-    const [products, setProducts] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+/**
+ * Janela do Finder — diálogo modal com sidebar de subcategorias, grelha de
+ * produtos e vista de detalhe.
+ *
+ * Sem estado próprio: categoria, subcategoria e produto vêm do URL. Isto
+ * elimina a cascata de três efeitos encadeados que existia antes (e o flash de
+ * produtos da categoria anterior ao trocar de categoria).
+ *
+ * Acessibilidade: é um `role="dialog"` `aria-modal` com foco preso, foco
+ * inicial dentro da janela, devolução de foco ao fechar e Escape hierárquico
+ * (do detalhe volta à grelha; da grelha fecha a janela).
+ */
+export default function FinderWindow({ category, subcategory, product, onClose }) {
+    const navigate = useNavigate();
+    const isCompact = useIsCompact();
+    const titleId = useId();
 
-    // Reset ao mudar de categoria
-    useEffect(() => {
-        setSelectedSubcategory(null);
-        setSelectedProduct(null);
-    }, [category]);
+    const products = subcategory?.products ?? [];
 
-    // Selecionar primeira subcategoria automaticamente
-    useEffect(() => {
-        if (category?.subcategories?.length > 0 && !selectedSubcategory) {
-            setSelectedSubcategory(category.subcategories[0]);
-        }
-    }, [category, selectedSubcategory]);
+    // Escape sai um nível de cada vez, como qualquer navegação hierárquica.
+    const handleEscape = useCallback(() => {
+        if (product) navigate(buildPath(category, subcategory));
+        else onClose();
+    }, [product, category, subcategory, navigate, onClose]);
 
-    // Carregar produtos quando muda subcategoria (sem setTimeout artificial)
-    useEffect(() => {
-        if (selectedSubcategory) {
-            setProducts(getProducts(category.id, selectedSubcategory.id));
-        }
-    }, [selectedSubcategory, category]);
+    const dialogRef = useFocusTrap(true, handleEscape);
+
+    const backToGrid = useCallback(
+        () => navigate(buildPath(category, subcategory)),
+        [navigate, category, subcategory]
+    );
 
     return (
-        <motion.div className="finder-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+        <motion.div
+            className="finder-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+        >
             <motion.div
                 className="finder-window"
+                ref={dialogRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={titleId}
                 onClick={(e) => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                initial={{ opacity: 0, scale: 0.96, y: 24 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                exit={{ opacity: 0, scale: 0.96, y: 24 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
                 <header className="finder-titlebar">
                     <div className="finder-traffic-lights">
-                        <button className="traffic-light close" onClick={onClose} aria-label="Fechar janela">
-                            <svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                        <button
+                            type="button"
+                            className="traffic-light close"
+                            onClick={onClose}
+                            aria-label="Fechar janela"
+                            data-autofocus
+                        >
+                            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                            </svg>
                         </button>
-                        <button className="traffic-light minimize" disabled>
-                            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                        </button>
-                        <button className="traffic-light maximize" disabled>
-                            <svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                        </button>
+                        <span className="traffic-light minimize" aria-hidden="true" />
+                        <span className="traffic-light maximize" aria-hidden="true" />
                     </div>
-                    <h1 className="finder-title">{category.name}</h1>
-                    <div className="finder-toolbar"></div>
+
+                    <h1 className="finder-title" id={titleId}>
+                        {category.name}
+                        {subcategory && products.length > 0 && (
+                            <span className="finder-title-count"> · {products.length} {products.length === 1 ? 'trabalho' : 'trabalhos'}</span>
+                        )}
+                    </h1>
+
+                    <button
+                        type="button"
+                        className="finder-close-text"
+                        onClick={onClose}
+                        aria-label="Fechar janela"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                            <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                    </button>
                 </header>
 
                 <div className="finder-content">
-                    <aside className="finder-sidebar">
-                        <div className="finder-sidebar-section">
-                            <h2 className="finder-sidebar-title">Tipos de {category.name}</h2>
-                            {category.subcategories?.map((sub) => (
-                                <button
-                                    key={sub.id}
-                                    className={`finder-sidebar-item ${selectedSubcategory?.id === sub.id ? 'active' : ''}`}
-                                    onClick={() => { setSelectedSubcategory(sub); setSelectedProduct(null); }}
-                                >
-                                    <FolderIcon />
-                                    <span>{sub.name}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </aside>
+                    <SubcategoryNav
+                        category={category}
+                        subcategory={subcategory}
+                        isCompact={isCompact}
+                    />
 
                     <div className="finder-main">
-                        <div className="finder-main-content">
-                            <AnimatePresence mode="sync">
-                                {selectedProduct ? (
-                                    <ProductDetail key="detail" product={selectedProduct} onBack={() => setSelectedProduct(null)} />
+                        <div className="finder-main-content" id="finder-conteudo" tabIndex={-1}>
+                            <AnimatePresence mode="wait" initial={false}>
+                                {product ? (
+                                    <ProductDetail key={`detail-${product.id}`} product={product} onBack={backToGrid} />
                                 ) : products.length > 0 ? (
-                                    <ProductGrid key="grid" products={products} onProductClick={setSelectedProduct} />
+                                    <ProductGrid
+                                        key={`grid-${subcategory?.id}`}
+                                        products={products}
+                                        category={category}
+                                        subcategory={subcategory}
+                                    />
                                 ) : (
-                                    <EmptyState key="empty" subcategory={selectedSubcategory} />
+                                    <EmptyState key="empty" subcategory={subcategory} />
                                 )}
                             </AnimatePresence>
                         </div>
@@ -94,6 +129,4 @@ const FinderWindow = memo(function FinderWindow({ category, onClose }) {
             </motion.div>
         </motion.div>
     );
-});
-
-export default FinderWindow;
+}

@@ -2,10 +2,22 @@
  * Base de dados de produtos da Clássica Artes Gráficas.
  *
  * COMO ADICIONAR UM PRODUTO:
- * 1. Encontra a categoria correta (ex: 'livros' > 'livros-capa-mole')
- * 2. Copia um bloco existente e ajusta id, name, description, image e characteristics
- * 3. Coloca a imagem em client/public/imagens/pasta-correta/
- * 4. Faz git add . && git commit -m "novo produto" && git push
+ * 1. Coloca a FOTOGRAFIA ORIGINAL em client/assets-source/imagens/PASTA-CORRETA/
+ *    (a original pode ser grande — é convertida automaticamente)
+ * 2. Corre `cd client && npm run images`
+ *    → gera AVIF/WebP em 3 tamanhos em public/imagens/ e atualiza o manifesto
+ * 3. Encontra a categoria correta aqui (ex: 'livros' > 'livros-capa-mole'),
+ *    copia um bloco existente e ajusta id, name, description, image e characteristics
+ * 4. Corre `npm run validate` para confirmar que está tudo coerente
+ * 5. git add . && git commit -m "novo produto" && git push
+ *
+ * NOTAS
+ *  - O caminho em `image` continua a ser escrito com a extensão do original
+ *    ('/imagens/Catalogos/foto.jpg'); o componente <SmartImage> escolhe sozinho
+ *    o melhor formato e tamanho para cada ecrã.
+ *  - Nomes de ficheiro: só letras sem acentos, números, `_`, `-` e `.`
+ *    (acentos e parênteses são normalizados pelo script, mas é melhor evitá-los).
+ *  - O nome do produto define o URL: 'GPS Peregrino' → /livros/capa-dura/gps-peregrino
  *
  * ESTRUTURA DE PASTAS (Sem acentos para evitar erros no servidor):
  * imagens/
@@ -390,7 +402,7 @@ const PRODUCTS = {
                 id: 'mc5',
                 name: 'Embalagem Way Up Snack Proteico',
                 description: 'Formato 125x287x150mm. Micro canelado, fundo automático.',
-                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_WAYUP(proteico)_MC_5.jpg',
+                image: '/imagens/Embalagens/Micro_Canelado_MC/Embalagem_WAYUPproteico_MC_5.jpg',
                 characteristics: [
                     { label: 'Formato', value: '125 x 287 x 150 mm' },
                     { label: 'Material', value: 'Micro canelado' },
@@ -485,7 +497,7 @@ const PRODUCTS = {
                 id: 'rot4',
                 name: 'Rótulo Nutrimoa — Café',
                 description: 'Rótulo autocolante em bobine "Nutrimoa".\n\nFormato 172x320mm, impresso a 4/0 cores em autoadesivo couché semi-mate 90g.',
-                image: '/imagens/Rotulos/Rotulo_Nutrimoa_Café.png',
+                image: '/imagens/Rotulos/Rotulo_Nutrimoa_Cafe.png',
                 characteristics: [
                     { label: 'Marca', value: 'Nutrimoa' },
                     { label: 'Formato', value: '172 x 320 mm' },

@@ -1,159 +1,331 @@
 /* ============================================
-   Responsive — Tablet (≤768px)
+   Responsivo
+   ============================================
+   Estratégia: o modelo macOS mantém-se intacto em desktop. Em ecrãs compactos
+   muda o MODELO DE INTERAÇÃO, não só as medidas — a Dock dá lugar a uma barra
+   de navegação permanente, a sidebar dá lugar a um segmented control e a janela
+   passa a ecrã inteiro.
+
+   Breakpoints (têm de coincidir com hooks/useMediaQuery.js):
+     ≤900px  compacto  → TabBar + Finder em ecrã inteiro
+     ≤480px  telefone  → grelha em 2 colunas, espaçamentos menores
+     altura ≤500px em paisagem → layout de baixa altura
    ============================================ */
 
-@media (max-width: 768px) {
+/* ============================================
+   TabBar — navegação em ecrãs compactos
+   ============================================ */
 
-  /* MenuBar — esconde nav */
-  .menubar-nav {
-    display: none;
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-dock);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--hairline);
+  /* Respeita o home indicator do iPhone */
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+.tabbar-list {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 4px 4px 2px;
+}
+
+.tabbar-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+}
+
+.tabbar-link {
+  flex: 1;
+  min-width: 0;
+  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 5px 2px;
+  border-radius: 10px;
+  color: var(--text-tertiary);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.tabbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.tabbar-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Os nomes das categorias estão SEMPRE visíveis — em mobile a Dock só os
+   mostrava em hover, o que deixava seis ícones sem texto. */
+.tabbar-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: -0.01em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabbar-link.active {
+  color: var(--accent-blue);
+  background: var(--accent-blue-soft);
+  font-weight: 600;
+}
+
+/* ============================================
+   ≤900px — modo compacto
+   ============================================ */
+
+@media (max-width: 900px) {
+  :root {
+    /* A barra inferior passa a ser a TabBar; a superior cresce para acomodar
+       alvos de toque de 44px. Ambos os valores são tokens porque o .desktop e
+       o .finder-overlay calculam o seu espaço a partir deles. */
+    --dock-height: var(--tabbar-height);
+    --menubar-height: 52px;
   }
 
-
-  /* Barra fina — maior para touch */
-  .dock-thin-bar {
-    height: 6px;
-    width: 80vw;
-    max-width: 420px;
+  .menubar-item {
+    min-height: var(--touch-target);
+    padding: 8px 12px;
   }
 
-  /* Finder */
-  .finder-sidebar {
-    width: 160px;
+  /* Finder em ecrã inteiro, encaixado ENTRE a MenuBar e a TabBar.
+     O espaço é reservado com padding no overlay (não com margem na janela),
+     para que a altura de 100% seja a altura realmente disponível. */
+  .finder-overlay {
+    padding:
+      calc(var(--menubar-height) + var(--safe-top))
+      var(--safe-right)
+      calc(var(--tabbar-height) + var(--safe-bottom))
+      var(--safe-left);
+    align-items: stretch;
+    justify-content: stretch;
+    background: transparent;
   }
 
   .finder-window {
-    width: 95vw;
-    height: 88vh;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  /* Dock icons */
-  .dock-icon {
-    width: 44px;
-    height: 44px;
+  .finder-titlebar {
+    min-height: 56px;
+    padding: 0 8px 0 14px;
   }
 
-  .dock-icon svg {
-    width: 22px;
-    height: 22px;
+  /* Em ecrã inteiro os semáforos do macOS deixam de fazer sentido:
+     dá lugar a um botão de fechar explícito e tocável. */
+  .finder-traffic-lights,
+  .finder-titlebar::after {
+    display: none;
   }
 
-  /* Gap para touch */
-  .dock {
-    gap: 16px;
-    padding: 6px 24px;
+  .finder-close-text {
+    display: flex;
+    order: 2;
   }
 
-  /* Produtos */
+  .finder-title {
+    text-align: left;
+    order: 1;
+    font-size: 17px;
+  }
+
+  .finder-title-count {
+    display: none;
+  }
+
+  /* A sidebar dá lugar à barra horizontal de subcategorias */
+  .finder-content {
+    flex-direction: column;
+  }
+
+  .finder-sidebar {
+    display: none;
+  }
+
+  .subcat-strip {
+    display: block;
+  }
+
+  .finder-main-content {
+    padding: 18px 16px calc(24px + var(--safe-bottom));
+  }
+
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .product-card {
+    max-width: none;
+  }
+
+  .gallery-stage {
+    max-width: 100%;
+  }
+
+  /* As setas laterais dariam pouco espaço à imagem: em toque usa-se swipe */
+  .gallery-arrow {
+    display: none;
+  }
+
+  .gallery-image {
+    max-height: 46vh;
+  }
+
+  .detail-info {
+    padding-bottom: 16px;
+  }
+
+  /* Especificações em duas linhas: label acima, valor abaixo.
+     Em ~340px de largura o layout lado a lado quebrava as duas colunas. */
+  .detail-spec {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 11px 14px;
+  }
+
+  .spec-value {
+    text-align: left;
+    font-size: 15px;
   }
 }
 
 /* ============================================
-   Responsive — Mobile pequeno (≤480px)
+   ≤480px — telefone
    ============================================ */
 
 @media (max-width: 480px) {
-
-  /* Esconde sidebar e usa toda a largura */
-  .finder-sidebar {
-    display: none;
-  }
-
-  /* Dock mais compacto */
-  .dock-icon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .dock {
-    gap: 8px;
-    padding: 6px 12px;
-  }
-
-  /* Barra fina — quase toda a largura */
-  .dock-thin-bar {
-    width: 92vw;
-  }
-
-  /* Produtos em 2 colunas */
   .product-grid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  /* Finder quase full screen */
-  .finder-window {
-    width: 100vw;
-    height: 92vh;
-    border-radius: 12px 12px 0 0;
+  .product-card-link {
+    padding: 10px;
+    gap: 8px;
   }
 
-  .finder-overlay {
-    padding: 0;
-    align-items: flex-end;
+  .product-card-name {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .product-card-cta {
+    font-size: 11px;
+  }
+
+  .finder-main-content {
+    padding: 14px 12px calc(20px + var(--safe-bottom));
+  }
+
+  .gallery-thumb {
+    width: 76px;
+  }
+
+  .gallery-thumb picture,
+  .gallery-thumb img {
+    height: 48px;
+  }
+
+  .contact-panel {
+    padding: 18px 16px;
   }
 }
 
 /* ============================================
-   NotFound Page
+   Paisagem em telefone (altura reduzida)
    ============================================ */
 
-.not-found {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-system);
-  color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  padding: 32px;
-  gap: 24px;
+@media (max-height: 500px) and (orientation: landscape) {
+  .desktop {
+    gap: 10px;
+    padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+  }
+
+  .desktop-logo-wrap {
+    width: min(300px, 42vw);
+    max-height: 30vh;
+  }
+
+  .tagline-text {
+    font-size: clamp(11px, 1.6vw, 16px);
+    letter-spacing: 0.08em;
+  }
+
+  .tagline-line {
+    display: none;
+  }
+
+  /* A galeria não pode ocupar toda a altura ou o texto fica inacessível */
+  .gallery-image {
+    max-height: 60vh;
+  }
+
+  .finder-titlebar {
+    min-height: 46px;
+  }
+
+  .tabbar-link {
+    min-height: 44px;
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .tabbar-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .lightbox-nav {
+    padding: 4px 0 8px;
+  }
+
+  .lightbox-nav button {
+    width: 44px;
+    height: 44px;
+  }
 }
 
-.not-found-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.6;
-}
+/* ============================================
+   Ecrãs muito estreitos (≤340px)
+   ============================================ */
 
-.not-found-code {
-  font-size: 96px;
-  font-weight: 700;
-  letter-spacing: -4px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.15);
-}
+@media (max-width: 340px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 
-.not-found-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.not-found-text {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0;
-  max-width: 360px;
-  line-height: 1.6;
-}
-
-.not-found-btn {
-  margin-top: 8px;
-  padding: 12px 28px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
+  .tabbar-label {
+    font-size: 9.5px;
+  }
 }

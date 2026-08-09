@@ -1,0 +1,18 @@
+# Normaliza fins de linha.
+#
+# O projeto é editado em Windows dentro de uma pasta OneDrive, o que fazia com
+# que 10 ficheiros aparecessem permanentemente como "modificados" em `git status`
+# apenas por diferenças de CRLF/LF — tornando `git diff` inútil e criando o risco
+# de commitar 179 linhas de alterações vazias que escondem uma alteração real.
+* text=auto eol=lf
+
+# Binários — nunca converter
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

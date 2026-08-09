@@ -1,8 +1,44 @@
 {
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "rewrites": [
         {
-            "source": "/(.*)",
+            "//": "Rewrite de SPA restrito. Antes era /(.*) → index.html, o que fazia com que um asset inexistente devolvesse HTML com estado 200. Agora só caminhos que NÃO tenham extensão de ficheiro e não sejam /imagens|/assets caem no index.html; tudo o resto devolve 404 real.",
+            "source": "/((?!imagens/|assets/|favicon|apple-touch-icon|og-image|robots\\.txt|sitemap\\.xml|google[a-z0-9]+\\.html)[^.]*)",
             "destination": "/index.html"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "//": "CSP: o site não carrega qualquer script, tipo de letra ou imagem de terceiros, pelo que uma política restritiva é possível sem 'unsafe-eval' nem 'unsafe-inline' em script-src. O hash cobre o único script inline (dados estruturados schema.org do index.html) e é verificado no postbuild por scripts/check-csp.mjs. 'unsafe-inline' em style-src é necessário porque o React e o Framer Motion escrevem atributos style.",
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' 'sha256-o1wtZhUlHxfJDGrwWaOhdulaOdtD+Dkg5tStmvEXUKU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; upgrade-insecure-requests"
+                },
+                { "key": "X-Content-Type-Options", "value": "nosniff" },
+                { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+                { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" },
+                { "key": "X-Frame-Options", "value": "DENY" },
+                { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+                { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" }
+            ]
+        },
+        {
+            "//": "As imagens têm nome estável (nome-largura.formato). Cache longa com revalidação: se uma fotografia for substituída, mudar o nome do ficheiro.",
+            "source": "/imagens/(.*)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+            ]
+        },
+        {
+            "//": "Os assets gerados pelo Vite têm hash no nome — imutáveis.",
+            "source": "/assets/(.*)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+            ]
         }
     ]
 }

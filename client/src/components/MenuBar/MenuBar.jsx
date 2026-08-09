@@ -1,60 +1,75 @@
-import { memo } from 'react';
+import { useState, useEffect, memo } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
-const CONTACT_EMAIL = 'geral@classicaag.pt';
+import { buildPath } from '../../data/navigation';
 
-const MenuBar = memo(function MenuBar({ categories, onCategoryClick, currentTime }) {
-    const formatTime = (date) =>
-        date.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', hour12: false });
+/** Relógio local: só a MenuBar precisa da hora, logo só ela re-renderiza. */
+function useClock(enabled) {
+    const [now, setNow] = useState(() => new Date());
 
-    const formatDate = (date) =>
-        date.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' });
+    useEffect(() => {
+        if (!enabled) return;
+        // Alinha o primeiro tick com a mudança de minuto, em vez de contar 60s
+        // a partir da montagem (a hora podia estar até 59s desalinhada).
+        let interval;
+        const align = setTimeout(() => {
+            setNow(new Date());
+            interval = setInterval(() => setNow(new Date()), 60000);
+        }, (60 - new Date().getSeconds()) * 1000);
+
+        return () => { clearTimeout(align); clearInterval(interval); };
+    }, [enabled]);
+
+    return now;
+}
+
+const MenuBar = memo(function MenuBar({ categories, isCompact, onOpenContact }) {
+    const now = useClock(!isCompact);
 
     return (
         <header className="menubar">
-            {/* Logo */}
-            <div className="menubar-logo">
+            <Link to="/" className="menubar-logo" aria-label="Clássica Artes Gráficas — página inicial">
                 <span className="menubar-logo-text">Clássica</span>
-            </div>
+            </Link>
 
-            {/* Navegação por categorias */}
-            <nav className="menubar-nav" aria-label="Menu principal">
-                {categories.map((category) => (
-                    <button
-                        key={category.id}
-                        className="menubar-item"
-                        onClick={() => onCategoryClick(category.id)}
-                        aria-label={`Abrir ${category.name}`}
-                    >
-                        {category.name}
-                    </button>
-                ))}
-            </nav>
+            {/* Em ecrãs compactos a navegação por categorias vive na TabBar
+                inferior; repeti-la aqui só roubava espaço horizontal. */}
+            {!isCompact && (
+                <nav className="menubar-nav" aria-label="Categorias de produtos">
+                    {categories.map((category) => (
+                        <NavLink
+                            key={category.id}
+                            to={buildPath(category)}
+                            className={({ isActive }) => `menubar-item ${isActive ? 'active' : ''}`}
+                        >
+                            {category.name}
+                        </NavLink>
+                    ))}
+                </nav>
+            )}
 
-            {/* Direita */}
             <div className="menubar-right">
-                {/* Contactos com hover dropdown */}
-                <div className="contacts-hover-wrapper">
-                    <button className="menubar-item contacts-trigger">
-                        Contactos
-                    </button>
-                    <div className="contacts-hover-dropdown">
-                        <div className="contacts-hover-content">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <polyline points="22,6 12,13 2,6" />
-                            </svg>
-                            <span>{CONTACT_EMAIL}</span>
+                <button type="button" className="menubar-item contacts-trigger" onClick={onOpenContact}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="menubar-icon" aria-hidden="true">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    Contactos
+                </button>
+
+                {!isCompact && (
+                    <>
+                        <span className="menubar-divider" aria-hidden="true" />
+                        <div className="menubar-datetime">
+                            <span className="menubar-date">
+                                {now.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' })}
+                            </span>
+                            <span className="menubar-time">
+                                {now.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                            </span>
                         </div>
-                    </div>
-                </div>
-
-                <div className="menubar-divider"></div>
-
-                {/* Data e hora */}
-                <div className="menubar-datetime">
-                    <span className="menubar-date">{formatDate(currentTime)}</span>
-                    <span className="menubar-time">{formatTime(currentTime)}</span>
-                </div>
+                    </>
+                )}
             </div>
         </header>
     );

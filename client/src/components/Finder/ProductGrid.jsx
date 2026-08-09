@@ -1,69 +1,118 @@
 import { memo, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useSpring, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
-// ─── 3D Tilt Card ─────────────────────────────────────────────────────────────
+import SmartImage from '../SmartImage';
+import { buildPath, getProductImages } from '../../data/navigation';
+import { useHasHover } from '../../hooks/useMediaQuery';
 
-function TiltCard({ children, className, onClick, style, ...motionProps }) {
-    const cardRef = useRef(null);
+const MAX_TILT = 8; // graus
 
-    const handleMouseMove = useCallback((e) => {
-        const card = cardRef.current;
-        if (!card) return;
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -8;  // tilt max 8°
-        const rotateY = ((x - centerX) / centerX) * 8;
-        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-    }, []);
+/**
+ * Card com tilt 3D.
+ *
+ * O tilt é feito com MotionValues em vez de escrever `element.style.transform`
+ * diretamente: deixa de competir com o Framer Motion pela mesma propriedade
+ * (a animação de entrada anima `y`, o tilt anima `rotateX/rotateY/scale` — o
+ * Framer compõe as duas num único transform) e o retângulo do card é medido
+ * uma vez por entrada do ponteiro, em vez de a cada evento de movimento.
+ *
+ * Só é ativado em dispositivos com ponteiro preciso. Em toque usa-se `whileTap`,
+ * que dá feedback imediato ao dedo.
+ */
+function TiltCard({ children, to, index, ariaLabel }) {
+    const hasHover = useHasHover();
+    const rectRef = useRef(null);
+    const nodeRef = useRef(null);
 
-    const handleMouseLeave = useCallback(() => {
-        const card = cardRef.current;
-        if (!card) return;
-        card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)';
-    }, []);
+    const rotateX = useSpring(0, { stiffness: 320, damping: 26 });
+    const rotateY = useSpring(0, { stiffness: 320, damping: 26 });
+    const lift = useSpring(0, { stiffness: 320, damping: 26 });
+    const scale = useTransform(lift, [0, 1], [1, 1.03]);
+
+    const handleEnter = useCallback(() => {
+        if (!hasHover || !nodeRef.current) return;
+        rectRef.current = nodeRef.current.getBoundingClientRect();
+        lift.set(1);
+    }, [hasHover, lift]);
+
+    const handleMove = useCallback((event) => {
+        if (!hasHover) return;
+        const rect = rectRef.current;
+        if (!rect) return;
+        const px = (event.clientX - rect.left) / rect.width - 0.5;
+        const py = (event.clientY - rect.top) / rect.height - 0.5;
+        rotateY.set(px * MAX_TILT * 2);
+        rotateX.set(py * -MAX_TILT * 2);
+    }, [hasHover, rotateX, rotateY]);
+
+    const handleLeave = useCallback(() => {
+        rotateX.set(0);
+        rotateY.set(0);
+        lift.set(0);
+    }, [rotateX, rotateY, lift]);
 
     return (
-        <motion.button
-            ref={cardRef}
-            className={className}
-            onClick={onClick}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ ...style, transition: 'transform 0.15s ease-out, box-shadow 0.2s ease' }}
-            {...motionProps}
+        <motion.li
+            ref={nodeRef}
+            className="product-card"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: Math.min(index, 8) * 0.045, duration: 0.3 }}
+            style={{ rotateX, rotateY, scale, transformPerspective: 700 }}
+            onPointerEnter={handleEnter}
+            onPointerMove={handleMove}
+            onPointerLeave={handleLeave}
+            whileTap={hasHover ? undefined : { scale: 0.97 }}
         >
-            {children}
-        </motion.button>
+            <Link to={to} className="product-card-link" aria-label={ariaLabel}>
+                {children}
+            </Link>
+        </motion.li>
     );
 }
 
-// ─── Product Grid ─────────────────────────────────────────────────────────────
-
-const ProductGrid = memo(function ProductGrid({ products, onProductClick }) {
+const ProductGrid = memo(function ProductGrid({ products, category, subcategory }) {
     return (
-        <motion.div className="product-grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.ul
+            className="product-grid"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+        >
             {products.map((product, index) => {
-                const thumbSrc = product.images ? product.images[0].src : product.image;
+                const [first] = getProductImages(product);
+                const extra = getProductImages(product).length - 1;
                 return (
                     <TiltCard
                         key={product.id}
-                        className="product-card"
-                        onClick={() => onProductClick(product)}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
+                        index={index}
+                        to={buildPath(category, subcategory, product)}
+                        ariaLabel={`Ver ${product.name}`}
                     >
                         <div className="product-card-image">
-                            <img src={thumbSrc} alt={product.name} loading="lazy" />
+                            {first && (
+                                <SmartImage
+                                    src={first.src}
+                                    alt={product.name}
+                                    sizes="(max-width: 480px) 46vw, (max-width: 900px) 30vw, 240px"
+                                    loading={index < 4 ? 'eager' : 'lazy'}
+                                    draggable={false}
+                                />
+                            )}
+                            {extra > 0 && (
+                                <span className="product-card-badge" aria-hidden="true">
+                                    +{extra}
+                                </span>
+                            )}
                         </div>
                         <span className="product-card-name">{product.name}</span>
+                        <span className="product-card-cta" aria-hidden="true">Ver ficha técnica</span>
                     </TiltCard>
                 );
             })}
-        </motion.div>
+        </motion.ul>
     );
 });
 

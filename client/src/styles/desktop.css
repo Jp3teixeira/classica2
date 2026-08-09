@@ -1,5 +1,5 @@
 /* ============================================
-   Desktop Background
+   Desktop (landing)
    ============================================ */
 
 .desktop {
@@ -11,18 +11,39 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: calc(var(--menubar-height) + 8px);
-  padding-bottom: 100px;
-  gap: 0;
+  gap: 24px;
+  padding:
+    calc(var(--menubar-height) + var(--safe-top) + 16px)
+    calc(24px + var(--safe-right))
+    calc(var(--dock-height) + var(--safe-bottom))
+    calc(24px + var(--safe-left));
+  /* Nunca deixa o conteúdo sair do ecrã: se a altura for muito pequena
+     (telefone em paisagem), o conteúdo encolhe em vez de ser cortado. */
+  overflow: hidden;
 }
 
+.desktop-logo-wrap {
+  width: min(420px, 70vw);
+  max-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* O <SmartImage> envolve a imagem num <picture>, que precisa de largura própria */
+.desktop-logo-wrap picture {
+  width: 100%;
+}
+
+/* aspect-ratio vem do width/height que o <SmartImage> emite,
+   pelo que o espaço já está reservado antes de a imagem carregar. */
 .desktop-logo {
-  width: min(420px, 55vw);
-  opacity: 0.85;
+  width: 100%;
+  height: auto;
+  opacity: 0.88;
   filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.06));
   user-select: none;
   pointer-events: none;
-  margin-bottom: 32px;
   border-radius: 8px;
 }
 
@@ -32,36 +53,42 @@
 
 .desktop-tagline {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 0;
+  justify-content: center;
+  max-width: 100%;
 }
 
 .tagline-text {
-  font-size: clamp(18px, 2.5vw, 26px);
+  font-size: clamp(13px, 2.4vw, 26px);
   font-weight: 300;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.35);
+  /* 0.55 de opacidade sobre o gradiente claro dá ≈4.9:1 — antes era 0.35 (≈2.6:1) */
+  color: rgba(0, 0, 0, 0.55);
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 4px;
+  text-align: center;
+}
+
+/* Quebra por palavra, nunca a meio de uma palavra */
+.tagline-word {
+  display: inline-flex;
+  white-space: pre;
 }
 
 .tagline-char {
   display: inline-block;
 }
 
-/* Linha decorativa fina abaixo da tagline */
 .tagline-line {
+  display: block;
   width: 60px;
   height: 1.5px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.15) 20%,
-    rgba(0, 0, 0, 0.15) 80%,
-    transparent 100%);
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 20%,
+      rgba(0, 0, 0, 0.2) 80%,
+      transparent 100%);
   transform-origin: center;
 }
-
-

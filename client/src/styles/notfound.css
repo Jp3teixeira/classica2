@@ -1,0 +1,101 @@
+/* ============================================
+   Página 404
+   ============================================
+   Overlay em ecrã inteiro: cobre o shell quando um URL não resolve,
+   mantendo a navegação disponível por baixo se o utilizador fechar. */
+
+.not-found {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding:
+    calc(32px + var(--safe-top))
+    calc(24px + var(--safe-right))
+    calc(32px + var(--safe-bottom))
+    calc(24px + var(--safe-left));
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+}
+
+.not-found-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 460px;
+}
+
+.not-found-logo {
+  width: 160px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.55;
+  margin-bottom: 8px;
+}
+
+.not-found-code {
+  font-size: clamp(64px, 14vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.not-found-title {
+  font-size: clamp(20px, 4vw, 25px);
+  font-weight: 600;
+  color: #fff;
+}
+
+.not-found-text {
+  font-size: 15px;
+  line-height: 1.6;
+  /* 0.68 sobre #1d1d1f dá ≈8:1 */
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 380px;
+}
+
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.not-found-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background var(--transition-fast);
+}
+
+.not-found-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  margin-top: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: #fff;
+  color: #1d1d1f;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .not-found-chip:hover { background: rgba(255, 255, 255, 0.2); }
+  .not-found-btn:hover { background: rgba(255, 255, 255, 0.88); }
+}

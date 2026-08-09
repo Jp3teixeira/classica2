@@ -1,55 +1,57 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+import SmartImage from '../SmartImage';
+import { getCategories, buildPath } from '../../data/navigation';
+import { useDocumentMeta } from '../../hooks/useDocumentMeta';
+
+const CATEGORIES = getCategories();
+
+/**
+ * Página 404.
+ *
+ * Em vez de um beco sem saída, oferece as categorias — se alguém chegou aqui
+ * por um link partilhado com erro, a intenção era ver trabalhos.
+ *
+ * `noindex` é definido em runtime para que o Google não indexe URLs inválidos
+ * (com o rewrite de SPA, a resposta HTTP é sempre 200).
+ */
 export default function NotFound() {
-    const navigate = useNavigate();
+    useDocumentMeta({ title: 'Página não encontrada', noindex: true });
 
     return (
         <div className="not-found">
-            {/* Logo */}
-            <motion.img
-                src="/imagens/Logos/logo_white.jpg"
-                alt="Clássica Artes Gráficas"
-                className="not-found-logo"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 0.6, y: 0 }}
-                transition={{ duration: 0.6 }}
-            />
-
-            {/* 404 */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-            >
-                <div className="not-found-code">404</div>
-            </motion.div>
-
-            {/* Mensagem */}
-            <motion.div
-                style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-                initial={{ opacity: 0, y: 20 }}
+                className="not-found-inner"
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.4 }}
             >
+                <SmartImage
+                    src="/imagens/Logos/logo_white.jpg"
+                    alt="Clássica Artes Gráficas"
+                    className="not-found-logo"
+                    sizes="200px"
+                    loading="eager"
+                />
+
+                <p className="not-found-code">404</p>
                 <h1 className="not-found-title">Página não encontrada</h1>
                 <p className="not-found-text">
-                    O endereço que introduziste não existe. Verifica o URL ou regressa à página principal.
+                    O endereço que introduziu não existe ou foi alterado.
+                    Pode ver os nossos trabalhos a partir daqui.
                 </p>
-            </motion.div>
 
-            {/* Botão */}
-            <motion.button
-                className="not-found-btn"
-                onClick={() => navigate('/')}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                whileHover={{ scale: 1.04, background: 'rgba(255,255,255,0.15)' }}
-                whileTap={{ scale: 0.98 }}
-            >
-                ← Voltar ao início
-            </motion.button>
+                <nav className="not-found-links" aria-label="Categorias de produtos">
+                    {CATEGORIES.map((category) => (
+                        <Link key={category.id} to={buildPath(category)} className="not-found-chip">
+                            {category.name}
+                        </Link>
+                    ))}
+                </nav>
+
+                <Link to="/" className="not-found-btn">Voltar ao início</Link>
+            </motion.div>
         </div>
     );
 }

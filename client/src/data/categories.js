@@ -1,13 +1,21 @@
 /**
  * Categorias de produtos da Clássica Artes Gráficas.
+ *
  * Para adicionar uma nova categoria, basta adicionar um novo objeto a este array
  * e adicionar os produtos correspondentes em products.js.
+ *
+ * Campos:
+ *   id          usado no URL (/livros) e como chave em products.js
+ *   name        nome apresentado na MenuBar, Dock e título da janela
+ *   shortName   (opcional) nome curto para a barra de navegação em telemóvel
+ *   description usada como subtítulo/meta description da categoria
+ *   subcategories  { id, name } — o id é a chave em products.js; o segmento do
+ *               URL é o id sem o prefixo da categoria ('livros-capa-dura' → 'capa-dura')
  */
 const CATEGORIES = [
     {
         id: 'catalogos',
         name: 'Catálogos',
-        icon: '📋',
         description: 'Catálogos profissionais para apresentação de produtos e serviços',
         subcategories: [
             { id: 'catalogos-todos', name: 'Catálogos' }
@@ -16,7 +24,6 @@ const CATEGORIES = [
     {
         id: 'livros',
         name: 'Livros',
-        icon: '📚',
         description: 'Impressão de livros de alta qualidade com diversos acabamentos',
         subcategories: [
             { id: 'livros-capa-mole', name: 'Livros de Capa Mole' },
@@ -26,7 +33,7 @@ const CATEGORIES = [
     {
         id: 'calendarios',
         name: 'Calendários de Parede',
-        icon: '📅',
+        shortName: 'Calendários',
         description: 'Calendários de parede personalizados com vários formatos de macetes',
         subcategories: [
             { id: 'calendarios-3-macetes', name: 'Calendário 3 Macetes' },
@@ -36,7 +43,6 @@ const CATEGORIES = [
     {
         id: 'embalagens',
         name: 'Embalagens',
-        icon: '📦',
         description: 'Embalagens personalizadas para diversos produtos',
         subcategories: [
             { id: 'embalagens-micro-canelado', name: 'Micro Canelado' },
@@ -46,7 +52,7 @@ const CATEGORIES = [
     {
         id: 'rotulagem',
         name: 'Rotulagem',
-        icon: '🏷️',
+        shortName: 'Rótulos',
         description: 'Rótulos e etiquetas para todos os tipos de produtos',
         subcategories: [
             { id: 'rotulos', name: 'Rótulos' }
@@ -55,7 +61,6 @@ const CATEGORIES = [
     {
         id: 'outros',
         name: 'Outros',
-        icon: '🗂️',
         description: 'Outros produtos gráficos: brochuras, postais, calendários de secretária e mais',
         subcategories: [
             { id: 'outros-brochuras', name: 'Brochuras' },
