@@ -67,14 +67,18 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  /* O espaço entre palavras vem daqui, não de nós de texto: num contentor flex
+     um nó de texto só com espaços não gera flex item e seria descartado.
+     0.22em + os 0.1em de letter-spacing dão a largura de um espaço normal. */
+  column-gap: 0.22em;
   row-gap: 4px;
   text-align: center;
 }
 
-/* Quebra por palavra, nunca a meio de uma palavra */
+/* Cada palavra é um bloco: a quebra de linha acontece entre palavras, nunca a
+   meio de uma. */
 .tagline-word {
   display: inline-flex;
-  white-space: pre;
 }
 
 .tagline-char {

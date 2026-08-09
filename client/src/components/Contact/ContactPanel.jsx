@@ -44,10 +44,6 @@ export default function ContactPanel({ onClose }) {
                     </button>
                 </div>
 
-                <p className="contact-intro">
-                    Fale connosco sobre o seu projeto — orçamentos sem compromisso.
-                </p>
-
                 <ul className="contact-list">
                     <li>
                         <a className="contact-action" href={`mailto:${CONTACT.email}`}>
@@ -77,8 +73,6 @@ export default function ContactPanel({ onClose }) {
                         </a>
                     </li>
                 </ul>
-
-                <p className="contact-note">{CONTACT.locality}</p>
             </motion.div>
         </motion.div>
     );

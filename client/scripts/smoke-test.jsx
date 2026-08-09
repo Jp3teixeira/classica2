@@ -172,6 +172,23 @@ await test('/ mostra a landing sem diálogo aberto', async () => {
     assert.equal($('[role="dialog"]'), null, 'diálogo não devia estar aberto');
 });
 
+await test('a tagline tem as 5 palavras separadas e o texto acessível completo', async () => {
+    await go('/');
+    // O espaçamento visual vem de column-gap (não de nós de texto, que num
+    // contentor flex seriam descartados) — o que se pode verificar aqui é que
+    // cada palavra é um elemento próprio e que o texto para leitores de ecrã
+    // mantém os espaços.
+    const words = $$('.tagline-word');
+    assert.equal(words.length, 5, `esperava 5 palavras, obtive ${words.length}`);
+    assert.deepEqual(
+        words.map((w) => w.textContent),
+        ['Fique', 'com', 'boa', 'impressão', 'nossa']
+    );
+    const readable = $$('.visually-hidden').map((el) => el.textContent);
+    assert.ok(readable.includes('Fique com boa impressão nossa'),
+        'o texto com espaços devia estar disponível para leitores de ecrã');
+});
+
 await test('/livros normaliza para /livros/capa-mole', async () => {
     await go('/livros');
     assert.equal(currentPath, '/livros/capa-mole');

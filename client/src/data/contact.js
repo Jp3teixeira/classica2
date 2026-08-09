@@ -13,7 +13,6 @@ export const CONTACT = {
     email: 'geral@classicaag.pt',
     phoneDisplay: '917 206 087',
     phoneHref: '+351917206087',
-    locality: 'Porto, Portugal',
 };
 
 export default CONTACT;

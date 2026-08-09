@@ -39,7 +39,12 @@ const Desktop = memo(function Desktop() {
                 transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
             >
                 {/* Animação letra a letra, mas com o texto legível como um todo
-                    para leitores de ecrã e para quando o movimento é reduzido. */}
+                    para leitores de ecrã e para quando o movimento é reduzido.
+
+                    O espaçamento entre palavras é feito com `column-gap` no CSS,
+                    não com nós de texto: cada palavra é um flex item, e pela
+                    especificação do Flexbox um nó de texto só com espaços não
+                    gera flex item — era descartado e as palavras colavam-se. */}
                 <span className="visually-hidden">{TAGLINE}</span>
                 <span className="tagline-text" aria-hidden="true">
                     {TAGLINE.split(' ').map((word, wordIndex, words) => (
@@ -59,7 +64,6 @@ const Desktop = memo(function Desktop() {
                                     {char}
                                 </motion.span>
                             ))}
-                            {wordIndex < words.length - 1 && ' '}
                         </span>
                     ))}
                 </span>
