@@ -154,6 +154,33 @@ Telefone: 917 206 087
 > `client/index.html`, porque são lidos por motores de busca antes de o
 > JavaScript correr. **Se alterar num sítio, altere no outro.**
 
+## `vercel.json` — o que está lá e porquê
+
+O ficheiro **não pode ter comentários** (o Vercel valida-o contra um schema com
+`additionalProperties: false` — uma chave `"//"` faz o deploy falhar). As notas
+ficam aqui:
+
+- **`rewrites`: `/([^.]*)` → `/index.html`**
+  Só caminhos **sem ponto** vão para a aplicação. Assim `/livros/capa-dura` abre o
+  site, mas `/imagens/nao-existe.webp` devolve **404 real** em vez de HTML com
+  estado 200 (que era o comportamento do `/(.*)` anterior e escondia erros).
+  Os rewrites do Vercel só se aplicam depois da verificação do sistema de
+  ficheiros, pelo que assets existentes nunca são afetados.
+
+- **`Content-Security-Policy`**
+  Restritiva porque o site não carrega nada de terceiros. O `'sha256-…'` em
+  `script-src` cobre o único script inline — os dados estruturados do
+  `index.html`. Se editar esse bloco, o `postbuild` falha e imprime o hash novo
+  para colar aqui. `'unsafe-inline'` em `style-src` é necessário porque o React e
+  o Framer Motion escrevem atributos `style` (não permite executar scripts).
+
+- **`Cache-Control`**
+  `/assets/*` é imutável (o Vite põe hash no nome). `/imagens/*` tem um dia com
+  revalidação em segundo plano — se substituir uma fotografia, mude o nome do
+  ficheiro para forçar a atualização.
+
+- **`trailingSlash: false`** evita que `/livros/` e `/livros` sejam dois URLs.
+
 ## Comandos úteis
 
 ```bash
