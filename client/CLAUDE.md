@@ -62,7 +62,7 @@ classica2/
         ├── data/
         │   ├── products.js     ← BASE DE DADOS de todos os produtos ⚠️ ficheiro principal
         │   ├── categories.js   ← categorias e subcategorias
-        │   ├── contact.js      ← email e telefone (fonte única)
+        │   ├── contact.js      ← email (fonte única)
         │   ├── navigation.js   ← URLs/slugs derivados dos dados acima
         │   └── imageManifest.js ← GERADO, não editar
         ├── hooks/              ← useMediaQuery, useFocusTrap, useDocumentMeta
@@ -146,9 +146,11 @@ Os slugs são derivados automaticamente em `navigation.js` — não há nada a e
 Definidos em `client/src/data/contact.js`:
 
 ```
-Email:    geral@classicaag.pt
-Telefone: 917 206 087
+Email: geral@classicaag.pt
 ```
+
+Só o email é publicado. Para juntar telefone ou morada mais tarde, o
+`contact.js` tem as instruções no cabeçalho.
 
 > Os mesmos valores estão repetidos nos dados estruturados e no `<noscript>` do
 > `client/index.html`, porque são lidos por motores de busca antes de o

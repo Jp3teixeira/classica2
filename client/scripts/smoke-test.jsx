@@ -13,7 +13,7 @@
  *   · Escape sai um nível de cada vez
  *   · todas as imagens têm width/height e srcset AVIF+WebP
  *   · em modo compacto aparece a TabBar e a barra de subcategorias
- *   · o contacto tem mailto: e tel: reais
+ *   · o contacto abre por clique e tem um mailto: real
  *
  * Correr com: npm run test
  */
@@ -423,14 +423,14 @@ await test('existe botão de fechar explícito na janela', async () => {
     assert.equal(close.getAttribute('aria-label'), 'Fechar janela');
 });
 
-await test('o contacto abre por clique e tem mailto: e tel:', async () => {
+await test('o contacto abre por clique e tem um mailto: real', async () => {
     await go('/');
     const trigger = $$('.tabbar-link').find((b) => b.textContent.includes('Contacto'));
     assert.ok(trigger, 'falta o botão de contacto na TabBar');
     await click(trigger);
     assert.ok($('.contact-panel'), 'o painel de contacto não abriu');
     assert.ok($('a[href^="mailto:"]'), 'falta link mailto:');
-    assert.ok($('a[href^="tel:"]'), 'falta link tel:');
+    assert.equal($$('.contact-action').length, 1, 'devia haver apenas o card de email');
     const panel = $('[role="dialog"][aria-modal="true"]');
     assert.ok(panel, 'o painel devia ser um diálogo modal');
     await press('Escape');
