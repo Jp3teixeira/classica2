@@ -21,7 +21,7 @@ export default function ProductDetail({ product, onBack }) {
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.22 }}
+            transition={{ duration: 0.14 }}
         >
             <div className="detail-header">
                 <button type="button" className="back-btn" onClick={onBack}>

@@ -21,7 +21,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: var(--z-dock);
+  /* Acima da janela do Finder, como a MenuBar: a navegação tem de continuar
+     tocável com a janela aberta, para se trocar de categoria diretamente.
+     Com o z-index da Dock ficava por baixo do overlay e um toque fechava a
+     janela em vez de navegar. */
+  z-index: var(--z-menubar);
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);

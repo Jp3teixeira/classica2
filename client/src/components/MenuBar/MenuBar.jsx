@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { buildPath } from '../../data/navigation';
+import { categoryEntryPath } from '../../data/navigation';
 
 /** Relógio local: só a MenuBar precisa da hora, logo só ela re-renderiza. */
 function useClock(enabled) {
@@ -23,7 +23,7 @@ function useClock(enabled) {
     return now;
 }
 
-const MenuBar = memo(function MenuBar({ categories, isCompact, onOpenContact }) {
+const MenuBar = memo(function MenuBar({ categories, activeCategorySlug, isCompact, onOpenContact }) {
     const now = useClock(!isCompact);
 
     return (
@@ -36,15 +36,19 @@ const MenuBar = memo(function MenuBar({ categories, isCompact, onOpenContact }) 
                 inferior; repeti-la aqui só roubava espaço horizontal. */}
             {!isCompact && (
                 <nav className="menubar-nav" aria-label="Categorias de produtos">
-                    {categories.map((category) => (
-                        <NavLink
-                            key={category.id}
-                            to={buildPath(category)}
-                            className={({ isActive }) => `menubar-item ${isActive ? 'active' : ''}`}
-                        >
-                            {category.name}
-                        </NavLink>
-                    ))}
+                    {categories.map((category) => {
+                        const isActive = category.slug === activeCategorySlug;
+                        return (
+                            <Link
+                                key={category.id}
+                                to={categoryEntryPath(category)}
+                                className={`menubar-item ${isActive ? 'active' : ''}`}
+                                aria-current={isActive ? 'true' : undefined}
+                            >
+                                {category.name}
+                            </Link>
+                        );
+                    })}
                 </nav>
             )}
 

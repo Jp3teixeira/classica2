@@ -21,13 +21,16 @@ import ErrorBoundary from './components/ErrorBoundary';
  *
  * `location` é passado explicitamente a <Routes> para que o AnimatePresence
  * possa manter a rota anterior montada durante a animação de saída.
- * A chave é o primeiro segmento do URL: muda de categoria → remonta (evita
- * mostrar produtos da categoria anterior); muda de subcategoria ou de produto
- * → não remonta (a janela mantém-se aberta e só o conteúdo transita).
+ *
+ * A chave distingue apenas "janela aberta" de "janela fechada" — e não a
+ * categoria. Trocar de categoria mantém a mesma janela montada e só troca o
+ * conteúdo lá dentro; só sair para "/" é que a fecha com animação. A janela não
+ * tem estado próprio (tudo vem do URL), pelo que re-renderizar com outra
+ * categoria dá conteúdo correto num único passo, sem remontagem.
  */
 export default function App() {
     const location = useLocation();
-    const finderKey = location.pathname.split('/')[1] || 'home';
+    const finderKey = location.pathname === '/' ? 'home' : 'finder';
 
     return (
         <ErrorBoundary>

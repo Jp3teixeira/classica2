@@ -272,14 +272,17 @@ await test('cada subcategoria é alcançável a partir da janela aberta', async 
 
 begin('a11y', 'Acessibilidade');
 
-await test('o Finder é um diálogo modal com nome acessível', async () => {
+await test('o Finder é um diálogo com nome acessível', async () => {
     await go('/catalogos/todos');
-    const dialog = $('[role="dialog"]');
+    const dialog = $('.finder-window[role="dialog"]');
     assert.ok(dialog, 'falta role="dialog"');
-    assert.equal(dialog.getAttribute('aria-modal'), 'true');
     const labelId = dialog.getAttribute('aria-labelledby');
     assert.ok(labelId, 'falta aria-labelledby');
     assert.ok(document.getElementById(labelId), 'aria-labelledby aponta para id inexistente');
+    // Não é modal de propósito: a navegação tem de continuar utilizável para se
+    // trocar de categoria sem fechar a janela.
+    assert.equal(dialog.getAttribute('aria-modal'), null,
+        'a janela não deve declarar aria-modal enquanto a navegação continuar ativa');
 });
 
 await test('o foco entra na janela ao abrir', async () => {
@@ -291,16 +294,41 @@ await test('o foco entra na janela ao abrir', async () => {
         `foco em <${document.activeElement?.tagName}> fora do diálogo`);
 });
 
-await test('o conteúdo de fundo fica inert enquanto o diálogo está aberto', async () => {
+await test('a navegação continua utilizável com a janela aberta', async () => {
     await go('/catalogos/todos');
-    const inert = $$('[inert]');
-    assert.ok(inert.length > 0, 'nada foi marcado inert');
-    // O diálogo e os seus ancestrais têm de continuar ativos
-    const dialog = $('[role="dialog"]');
-    assert.ok(!inert.some((el) => el === dialog || el.contains(dialog)),
-        'o diálogo (ou um ancestral) ficou inert');
-    // A navegação de fundo tem de estar fora de alcance
-    assert.ok($('.menubar')?.hasAttribute('inert'), 'a MenuBar devia ficar inert');
+    assert.equal($$('[inert]').length, 0,
+        'nada deve ficar inert: a janela do Finder não é modal');
+    const menubarLinks = $$('.menubar-item[href]');
+    assert.ok(menubarLinks.length >= 6, 'a MenuBar devia manter os links de categoria');
+    assert.ok(!$('.menubar').hasAttribute('inert'), 'a MenuBar não deve ficar inert');
+});
+
+await test('trocar de categoria não fecha nem remonta a janela', async () => {
+    await go('/livros/capa-dura/gps-peregrino');
+    const janelaAntes = $('.finder-window');
+    assert.ok(janelaAntes, 'a janela devia estar aberta');
+    assert.ok($('.product-detail'), 'devia estar na ficha do produto');
+
+    // Os links de categoria apontam já para a 1ª subcategoria: uma navegação
+    // só, sem o redirecionamento de /categoria que desmontava a janela durante
+    // um render e a fazia reabrir com a animação de entrada.
+    const outros = $$('.menubar-item[href]').find((a) => a.textContent.trim() === 'Outros');
+    assert.ok(outros, 'falta o link "Outros" na MenuBar');
+    assert.equal(outros.getAttribute('href'), '/outros/brochuras',
+        'o link devia apontar diretamente para a 1ª subcategoria');
+
+    await click(outros);
+
+    assert.equal(currentPath, '/outros/brochuras', 'devia ir direto, sem redirecionamento');
+    // A verificação que interessa: é o MESMO elemento no DOM, não um novo.
+    // (O conteúdo interior transita por AnimatePresence, cuja animação de saída
+    //  não completa em jsdom por falta de motor de layout — por isso aqui
+    //  verifica-se a identidade da janela e o cabeçalho, que são síncronos.)
+    assert.equal($('.finder-window'), janelaAntes,
+        'a janela foi remontada — devia manter-se a mesma e só trocar o conteúdo');
+    assert.match($('.finder-title').textContent, /Outros/, 'o título devia atualizar de imediato');
+    assert.ok($$('.subcat-chip, .finder-sidebar-item').some((a) => a.getAttribute('href') === '/outros/postais'),
+        'a navegação de subcategorias devia ser a da nova categoria');
 });
 
 await test('Escape no detalhe volta à grelha; na grelha fecha a janela', async () => {
@@ -431,6 +459,8 @@ await test('o contacto abre por clique e tem um mailto: real', async () => {
     assert.ok($('.contact-panel'), 'o painel de contacto não abriu');
     assert.ok($('a[href^="mailto:"]'), 'falta link mailto:');
     assert.equal($$('.contact-action').length, 1, 'devia haver apenas o card de email');
+    // Este sim é modal — bloqueia o resto da página enquanto está aberto.
+    assert.ok($$('[inert]').length > 0, 'o painel de contacto devia isolar o fundo');
     const panel = $('[role="dialog"][aria-modal="true"]');
     assert.ok(panel, 'o painel devia ser um diálogo modal');
     await press('Escape');

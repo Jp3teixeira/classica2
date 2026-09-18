@@ -19,18 +19,29 @@ function focusableWithin(root) {
 }
 
 /**
- * Torna um contentor um diálogo modal utilizável por teclado:
+ * Gestão de foco para janelas e painéis sobrepostos.
  *
+ * Em ambos os modos:
  *  1. move o foco para dentro ao abrir;
- *  2. mantém o foco preso enquanto está aberto (Tab / Shift+Tab circulam);
- *  3. devolve o foco ao elemento que abriu o diálogo ao fechar;
- *  4. marca o conteúdo de fundo como `inert`, para que leitores de ecrã e
- *     o Tab não o alcancem.
+ *  2. devolve o foco ao elemento que abriu, ao fechar;
+ *  3. fecha com Escape.
  *
- * @param {boolean} active   diálogo aberto
- * @param {() => void} onEscape  chamado ao premir Escape
+ * `modal: true` (predefinição) acrescenta o isolamento de um diálogo modal:
+ * prende o Tab lá dentro e marca o resto da página como `inert`. É o correto
+ * para o lightbox e para o painel de contactos, que de facto bloqueiam tudo.
+ *
+ * `modal: false` para a janela do Finder. A janela é sobreposta mas **não**
+ * bloqueia o site: a MenuBar e a barra de navegação continuam clicáveis, para
+ * se poder saltar direto de uma categoria para outra sem fechar nada — tal
+ * como uma janela do Finder no macOS, onde a barra de menus nunca fica presa.
+ * Marcá-la como `aria-modal` e torná-la `inert` seria, além de inconveniente,
+ * mentira para quem usa leitor de ecrã.
+ *
+ * @param {boolean} active      painel aberto
+ * @param {() => void} onEscape chamado ao premir Escape
+ * @param {{ modal?: boolean }} [options]
  */
-export function useFocusTrap(active, onEscape) {
+export function useFocusTrap(active, onEscape, { modal = true } = {}) {
     const containerRef = useRef(null);
     const previousFocusRef = useRef(null);
 
@@ -47,7 +58,7 @@ export function useFocusTrap(active, onEscape) {
         };
     }, [active]);
 
-    // Foco inicial dentro do diálogo.
+    // Foco inicial dentro do painel.
     useEffect(() => {
         if (!active) return;
         const container = containerRef.current;
@@ -61,14 +72,12 @@ export function useFocusTrap(active, onEscape) {
         return () => cancelAnimationFrame(id);
     }, [active]);
 
-    // Isola tudo o que não é o diálogo.
+    // Isola o resto da página — só em modo modal.
     //
     // Sobe do contentor até <body> e marca os IRMÃOS de cada nível como `inert`
-    // — nunca os ancestrais, que têm de continuar ativos. Assim o resto da
-    // página fica fora do alcance do Tab, do rato e do cursor virtual de um
-    // leitor de ecrã, independentemente da profundidade a que o diálogo esteja.
+    // — nunca os ancestrais, que têm de continuar ativos.
     useEffect(() => {
-        if (!active) return;
+        if (!active || !modal) return;
         const container = containerRef.current;
         if (!container) return;
 
@@ -85,9 +94,9 @@ export function useFocusTrap(active, onEscape) {
         }
 
         return () => marked.forEach((el) => el.removeAttribute('inert'));
-    }, [active]);
+    }, [active, modal]);
 
-    // Tab preso + Escape.
+    // Escape sempre; Tab preso só em modo modal.
     useEffect(() => {
         if (!active) return;
 
@@ -97,7 +106,7 @@ export function useFocusTrap(active, onEscape) {
                 onEscape?.();
                 return;
             }
-            if (event.key !== 'Tab') return;
+            if (!modal || event.key !== 'Tab') return;
 
             const container = containerRef.current;
             const items = focusableWithin(container);
@@ -126,7 +135,7 @@ export function useFocusTrap(active, onEscape) {
 
         document.addEventListener('keydown', onKeyDown, true);
         return () => document.removeEventListener('keydown', onKeyDown, true);
-    }, [active, onEscape]);
+    }, [active, modal, onEscape]);
 
     return containerRef;
 }

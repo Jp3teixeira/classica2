@@ -106,6 +106,20 @@ export function resolveRoute({ categorySlug, subcategorySlug, productSlug }) {
     return { ok: true, category, subcategory, product };
 }
 
+/**
+ * Caminho de entrada de uma categoria, já com a primeira subcategoria.
+ *
+ * `/livros` funciona (redireciona), mas os links de navegação apontam
+ * diretamente para `/livros/capa-mole`: assim uma troca de categoria é uma
+ * única navegação, em vez de navegação + redirecionamento. O redirecionamento
+ * desmontava a janela do Finder durante um render, e ela reabria com a animação
+ * de entrada — o efeito de "sair do visualizador e abrir outra vez".
+ */
+export function categoryEntryPath(category) {
+    if (!category) return '/';
+    return buildPath(category, category.subcategories[0]);
+}
+
 /** Constrói o caminho canónico para qualquer nível da hierarquia. */
 export function buildPath(category, subcategory, product) {
     if (!category) return '/';

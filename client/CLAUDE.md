@@ -162,12 +162,21 @@ O ficheiro **não pode ter comentários** (o Vercel valida-o contra um schema co
 `additionalProperties: false` — uma chave `"//"` faz o deploy falhar). As notas
 ficam aqui:
 
-- **`rewrites`: `/([^.]*)` → `/index.html`**
-  Só caminhos **sem ponto** vão para a aplicação. Assim `/livros/capa-dura` abre o
-  site, mas `/imagens/nao-existe.webp` devolve **404 real** em vez de HTML com
-  estado 200 (que era o comportamento do `/(.*)` anterior e escondia erros).
-  Os rewrites do Vercel só se aplicam depois da verificação do sistema de
-  ficheiros, pelo que assets existentes nunca são afetados.
+- **`rewrites`: `/(.*)` → `/index.html`**
+  O padrão SPA documentado pelo Vercel. Tudo o que não corresponda a um ficheiro
+  real vai para a aplicação, que decide a rota (ou mostra a 404).
+
+  > ⚠️ **Não tentar ser esperto aqui.** Já tentei `/([^.]*)` para que um asset
+  > inexistente desse 404 real em vez de HTML com estado 200. O padrão é válido
+  > em `path-to-regexp`, mas o router do Vercel **não compila grupos anónimos com
+  > regex** — o rewrite deixou de disparar e *todos* os URLs excepto a raiz
+  > passaram a dar 404 em produção, sem que o build falhasse.
+  > Se algum dia for mesmo necessário, a forma suportada é um parâmetro
+  > **nomeado** (`/:path((?!.*\.).*)`) e tem de ser testada num deploy de preview
+  > antes de ir para `main`.
+  > Custo de ficar assim: uma imagem em falta devolve 200 com HTML. Na prática o
+  > `<SmartImage>` apanha isso no `onError` e mostra o placeholder, por isso o
+  > impacto visível é nenhum.
 
 - **`Content-Security-Policy`**
   Restritiva porque o site não carrega nada de terceiros. O `'sha256-…'` em
@@ -182,6 +191,10 @@ ficam aqui:
   ficheiro para forçar a atualização.
 
 - **`trailingSlash: false`** evita que `/livros/` e `/livros` sejam dois URLs.
+
+- **`cleanUrls` foi removido.** Não trazia nada (só existe um ficheiro HTML) e
+  fazia `/google…​.html` — o ficheiro de verificação do Google Search Console —
+  redirecionar para uma versão sem extensão.
 
 ## Comandos úteis
 

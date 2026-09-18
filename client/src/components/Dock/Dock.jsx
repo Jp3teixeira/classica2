@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect, memo, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ICONS from './icons';
-import { buildPath } from '../../data/navigation';
+import { categoryEntryPath } from '../../data/navigation';
 
 const REVEAL_AT = 2600;
 const HIDE_AFTER = 7000;
@@ -20,7 +20,7 @@ const HIDE_DELAY = 350;
  * agora a barra fina do fundo é um botão real: focável por teclado, com nome
  * acessível e área de toque utilizável.
  */
-const Dock = memo(function Dock({ categories }) {
+const Dock = memo(function Dock({ categories, activeCategorySlug }) {
     const [isVisible, setIsVisible] = useState(false);
     const hideTimeoutRef = useRef(null);
 
@@ -79,14 +79,19 @@ const Dock = memo(function Dock({ categories }) {
                 }}
             >
                 {categories.map((category) => (
-                    <DockItem key={category.id} category={category} icon={ICONS[category.id]} />
+                    <DockItem
+                        key={category.id}
+                        category={category}
+                        icon={ICONS[category.id]}
+                        isActive={category.slug === activeCategorySlug}
+                    />
                 ))}
             </motion.nav>
         </div>
     );
 });
 
-const DockItem = memo(function DockItem({ category, icon }) {
+const DockItem = memo(function DockItem({ category, icon, isActive }) {
     return (
         <motion.div
             className="dock-item-wrap"
@@ -94,14 +99,15 @@ const DockItem = memo(function DockItem({ category, icon }) {
             whileTap={{ scale: 1.04, y: -6 }}
             transition={{ type: 'spring', stiffness: 400, damping: 17 }}
         >
-            <NavLink
-                to={buildPath(category)}
-                className={({ isActive }) => `dock-item ${isActive ? 'active' : ''}`}
+            <Link
+                to={categoryEntryPath(category)}
+                className={`dock-item ${isActive ? 'active' : ''}`}
+                aria-current={isActive ? 'true' : undefined}
                 title={category.description}
             >
                 <span className="dock-icon" aria-hidden="true">{icon}</span>
                 <span className="dock-label">{category.name}</span>
-            </NavLink>
+            </Link>
         </motion.div>
     );
 });

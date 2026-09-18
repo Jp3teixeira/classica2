@@ -19,9 +19,10 @@ import { useIsCompact } from '../../hooks/useMediaQuery';
  * elimina a cascata de três efeitos encadeados que existia antes (e o flash de
  * produtos da categoria anterior ao trocar de categoria).
  *
- * Acessibilidade: é um `role="dialog"` `aria-modal` com foco preso, foco
- * inicial dentro da janela, devolução de foco ao fechar e Escape hierárquico
- * (do detalhe volta à grelha; da grelha fecha a janela).
+ * Acessibilidade: é um `role="dialog"` **não modal** — o foco entra na janela
+ * ao abrir e é devolvido ao fechar, e o Escape é hierárquico (do detalhe volta
+ * à grelha; da grelha fecha a janela), mas a MenuBar e a barra de navegação
+ * continuam utilizáveis, para se trocar de categoria sem fechar a janela.
  */
 export default function FinderWindow({ category, subcategory, product, onClose }) {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function FinderWindow({ category, subcategory, product, onClose }
         else onClose();
     }, [product, category, subcategory, navigate, onClose]);
 
-    const dialogRef = useFocusTrap(true, handleEscape);
+    const dialogRef = useFocusTrap(true, handleEscape, { modal: false });
 
     const backToGrid = useCallback(
         () => navigate(buildPath(category, subcategory)),
@@ -56,7 +57,6 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                 className="finder-window"
                 ref={dialogRef}
                 role="dialog"
-                aria-modal="true"
                 aria-labelledby={titleId}
                 onClick={(e) => e.stopPropagation()}
                 initial={{ opacity: 0, scale: 0.96, y: 24 }}

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 import MenuBar from './MenuBar/MenuBar';
@@ -23,10 +24,17 @@ const CATEGORIES = getCategories();
  */
 export default function Shell({ children }) {
     const isCompact = useIsCompact();
+    const location = useLocation();
     const [contactOpen, setContactOpen] = useState(false);
 
     const openContact = useCallback(() => setContactOpen(true), []);
     const closeContact = useCallback(() => setContactOpen(false), []);
+
+    // Categoria em exibição, lida do URL. Os links de navegação apontam para o
+    // caminho de entrada da categoria (já com a 1ª subcategoria), pelo que o
+    // estado ativo não pode vir do `isActive` do NavLink — seria falso assim que
+    // o utilizador mudasse de subcategoria.
+    const activeCategorySlug = location.pathname.split('/')[1] || null;
 
     return (
         <>
@@ -34,6 +42,7 @@ export default function Shell({ children }) {
 
             <MenuBar
                 categories={CATEGORIES}
+                activeCategorySlug={activeCategorySlug}
                 isCompact={isCompact}
                 onOpenContact={openContact}
             />
@@ -43,8 +52,8 @@ export default function Shell({ children }) {
             {children}
 
             {isCompact
-                ? <TabBar categories={CATEGORIES} onOpenContact={openContact} />
-                : <Dock categories={CATEGORIES} />
+                ? <TabBar categories={CATEGORIES} activeCategorySlug={activeCategorySlug} onOpenContact={openContact} />
+                : <Dock categories={CATEGORIES} activeCategorySlug={activeCategorySlug} />
             }
 
             <AnimatePresence>

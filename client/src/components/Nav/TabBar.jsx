@@ -1,8 +1,8 @@
 import { memo } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ICONS from '../Dock/icons';
-import { buildPath } from '../../data/navigation';
+import { categoryEntryPath } from '../../data/navigation';
 
 /**
  * Navegação para ecrãs compactos.
@@ -20,21 +20,25 @@ import { buildPath } from '../../data/navigation';
  * Aqui está sempre visível, cada alvo tem ≥56px de altura, os nomes são
  * legíveis e respeita a área segura do iPhone.
  */
-const TabBar = memo(function TabBar({ categories, onOpenContact }) {
+const TabBar = memo(function TabBar({ categories, activeCategorySlug, onOpenContact }) {
     return (
         <nav className="tabbar" aria-label="Navegação principal">
             <ul className="tabbar-list">
-                {categories.map((category) => (
-                    <li key={category.id} className="tabbar-item">
-                        <NavLink
-                            to={buildPath(category)}
-                            className={({ isActive }) => `tabbar-link ${isActive ? 'active' : ''}`}
-                        >
-                            <span className="tabbar-icon" aria-hidden="true">{ICONS[category.id]}</span>
-                            <span className="tabbar-label">{category.shortName || category.name}</span>
-                        </NavLink>
-                    </li>
-                ))}
+                {categories.map((category) => {
+                    const isActive = category.slug === activeCategorySlug;
+                    return (
+                        <li key={category.id} className="tabbar-item">
+                            <Link
+                                to={categoryEntryPath(category)}
+                                className={`tabbar-link ${isActive ? 'active' : ''}`}
+                                aria-current={isActive ? 'true' : undefined}
+                            >
+                                <span className="tabbar-icon" aria-hidden="true">{ICONS[category.id]}</span>
+                                <span className="tabbar-label">{category.shortName || category.name}</span>
+                            </Link>
+                        </li>
+                    );
+                })}
                 <li className="tabbar-item">
                     <button type="button" className="tabbar-link" onClick={onOpenContact}>
                         <span className="tabbar-icon" aria-hidden="true">

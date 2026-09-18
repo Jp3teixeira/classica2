@@ -79,7 +79,9 @@ const ProductGrid = memo(function ProductGrid({ products, category, subcategory 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
+            // Saída curta de propósito: o AnimatePresence está em mode="wait",
+            // pelo que este é o tempo morto antes de a nova grelha entrar.
+            transition={{ duration: 0.12 }}
         >
             {products.map((product, index) => {
                 const [first] = getProductImages(product);
