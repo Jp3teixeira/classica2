@@ -58,15 +58,18 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                 role="dialog"
                 aria-labelledby={titleId}
                 onClick={(e) => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.965, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98, y: 6 }}
+                // Em ecrã compacto a janela ocupa o ecrã inteiro: um "zoom" de
+                // 96,5% para 100% lia-se como um salto, não como uma janela a
+                // abrir. Aí sobe um pouco e aparece, como uma folha no telemóvel.
+                initial={isCompact ? { opacity: 0, y: 18 } : { opacity: 0, scale: 0.965, y: 10 }}
+                animate={isCompact ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1, y: 0 }}
+                exit={isCompact ? { opacity: 0, y: 12 } : { opacity: 0, scale: 0.98, y: 6 }}
                 // Easing fixo em vez de spring: uma janela do macOS abre com um
                 // movimento rápido e decidido, sem oscilar — uma spring com
                 // stiffness/damping moderados dá sempre um bocadinho de
                 // "balanço" que, por cima do resto do conteúdo a entrar, lia-se
                 // como lentidão.
-                transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}
+                transition={{ duration: isCompact ? 0.2 : 0.24, ease: [0.2, 0.8, 0.2, 1] }}
             >
                 <header className="finder-titlebar">
                     <div className="finder-traffic-lights">

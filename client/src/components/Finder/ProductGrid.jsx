@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SmartImage from '../SmartImage';
 import { buildPath, getProductImages } from '../../data/navigation';
 import { useHasHover } from '../../hooks/useMediaQuery';
+import { GRID_SIZES } from '../../utils/prefetch';
 
 const MAX_TILT = 8; // graus
 
@@ -109,8 +110,9 @@ const ProductGrid = memo(function ProductGrid({ products, category, subcategory 
                                 <SmartImage
                                     src={first.src}
                                     alt={product.name}
-                                    sizes="(max-width: 480px) 46vw, (max-width: 900px) 30vw, 240px"
-                                    loading={index < 4 ? 'eager' : 'lazy'}
+                                    sizes={GRID_SIZES}
+                                    loading={index < 8 ? 'eager' : 'lazy'}
+                                    fadeIn
                                     draggable={false}
                                 />
                             )}
