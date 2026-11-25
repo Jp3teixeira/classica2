@@ -28,7 +28,7 @@ export default function NotFound() {
                 transition={{ duration: 0.4 }}
             >
                 <SmartImage
-                    src="/imagens/Logos/logo_white.jpg"
+                    src="/imagens/Logos/classica-icon.png"
                     alt="Clássica Artes Gráficas"
                     className="not-found-logo"
                     sizes="200px"

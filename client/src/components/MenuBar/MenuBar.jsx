@@ -1,6 +1,7 @@
 import { useState, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 
+import SmartImage from '../SmartImage';
 import { categoryEntryPath } from '../../data/navigation';
 
 /** Relógio local: só a MenuBar precisa da hora, logo só ela re-renderiza. */
@@ -39,7 +40,15 @@ const MenuBar = memo(function MenuBar({ categories, activeCategorySlug, isCompac
     return (
         <header className="menubar">
             <Link to="/" className="menubar-logo" aria-label="Clássica Artes Gráficas — página inicial">
-                <span className="menubar-logo-text">clássica</span>
+                <SmartImage
+                    src="/imagens/Logos/classica-icon.png"
+                    alt=""
+                    className="menubar-logo-icon"
+                    sizes="22px"
+                    loading="eager"
+                    fetchPriority="high"
+                    draggable={false}
+                />
             </Link>
 
             {/* Em ecrãs compactos a navegação por categorias vive na TabBar

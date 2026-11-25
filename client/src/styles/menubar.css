@@ -27,16 +27,15 @@
   display: inline-flex;
   align-items: center;
   height: 26px;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 0 10px;
+  padding: 0 9px;
   border-radius: 6px;
   transition: background var(--transition-fast);
-  letter-spacing: -0.03em;
 }
 
-.menubar-logo-text {
-  color: var(--text);
+.menubar-logo-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 .menubar-nav {

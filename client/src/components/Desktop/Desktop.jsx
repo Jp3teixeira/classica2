@@ -22,7 +22,7 @@ const Desktop = memo(function Desktop() {
                 transition={{ duration: 0.8, ease: 'easeOut' }}
             >
                 <SmartImage
-                    src="/imagens/Logos/logo_white.jpg"
+                    src="/imagens/Logos/classica-logo.png"
                     alt="Clássica Artes Gráficas"
                     className="desktop-logo"
                     sizes="(max-width: 600px) 70vw, 420px"

@@ -19,29 +19,32 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const LOGO = path.join(ROOT, 'assets-source', 'imagens', 'Logos', 'logo_white.jpg'); // é PNG com alfa
+// Ícone (só a marca "C") para contextos pequenos e quadrados — o lockup
+// completo (com "Artes Gráficas") fica ilegível a 32px. Ambos são PNG com alfa.
+const ICON = path.join(ROOT, 'assets-source', 'imagens', 'Logos', 'classica-icon.png');
+const LOGO = path.join(ROOT, 'assets-source', 'imagens', 'Logos', 'classica-logo.png');
 const PUBLIC = path.join(ROOT, 'public');
 const BG = { r: 245, g: 245, b: 247, alpha: 1 }; // --surface-muted
 
-// ── Favicons: logótipo sobre fundo claro, em quadrado ────────────────────────
+// ── Favicons: ícone sobre fundo claro, em quadrado ───────────────────────────
 for (const size of [32, 192]) {
-    const logo = await sharp(LOGO)
+    const icon = await sharp(ICON)
         .resize({ width: Math.round(size * 0.86), fit: 'inside' })
         .toBuffer();
 
     await sharp({ create: { width: size, height: size, channels: 4, background: BG } })
-        .composite([{ input: logo, gravity: 'center' }])
+        .composite([{ input: icon, gravity: 'center' }])
         .png({ compressionLevel: 9 })
         .toFile(path.join(PUBLIC, `favicon-${size}.png`));
 }
 
-const appleLogo = await sharp(LOGO).resize({ width: 156, fit: 'inside' }).toBuffer();
+const appleIcon = await sharp(ICON).resize({ width: 156, fit: 'inside' }).toBuffer();
 await sharp({ create: { width: 180, height: 180, channels: 4, background: BG } })
-    .composite([{ input: appleLogo, gravity: 'center' }])
+    .composite([{ input: appleIcon, gravity: 'center' }])
     .png({ compressionLevel: 9 })
     .toFile(path.join(PUBLIC, 'apple-touch-icon.png'));
 
-// ── Imagem Open Graph 1200x630 ───────────────────────────────────────────────
+// ── Imagem Open Graph 1200x630 — aqui cabe o lockup completo ─────────────────
 const ogLogo = await sharp(LOGO).resize({ width: 760, fit: 'inside' }).toBuffer();
 await sharp({ create: { width: 1200, height: 630, channels: 3, background: { r: 240, g: 240, b: 243 } } })
     .composite([{ input: ogLogo, gravity: 'center' }])
