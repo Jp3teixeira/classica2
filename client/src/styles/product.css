@@ -383,7 +383,7 @@
   color: var(--text);
 }
 
-.quote-cta {
+.detail-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -400,7 +400,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .quote-cta:hover {
+  .detail-cta:hover {
     opacity: 0.88;
   }
 }

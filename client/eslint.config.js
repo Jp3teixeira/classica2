@@ -37,6 +37,16 @@ export default defineConfig([
     },
   },
 
+  // Contexto: ficheiro combina o Provider com o hook que o lê — padrão comum
+  // do React, mas a regra do fast refresh só tolera ficheiros que exportem
+  // só componentes. Não há aqui nenhum componente a perder hot-reload.
+  {
+    files: ['src/context/**/*.jsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+
   // Scripts de build (Node, não browser)
   {
     files: ['scripts/**/*.mjs', 'vite.config.js'],
