@@ -56,9 +56,14 @@ function TiltCard({ children, to, index, ariaLabel }) {
         <motion.li
             ref={nodeRef}
             className="product-card"
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: Math.min(index, 8) * 0.045, duration: 0.3 }}
+            // Atraso bem mais curto do que antes: com 0.045s por cartão, uma
+            // grelha de 8+ produtos demorava quase 700ms a assentar por
+            // completo, o que por cima da janela a abrir dava uma sensação de
+            // lentidão. Isto mantém o efeito de entrada em cascata sem ele se
+            // notar como atraso.
+            transition={{ delay: Math.min(index, 8) * 0.02, duration: 0.2 }}
             style={{ rotateX, rotateY, scale, transformPerspective: 700 }}
             onPointerEnter={handleEnter}
             onPointerMove={handleMove}
