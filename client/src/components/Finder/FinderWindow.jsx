@@ -49,7 +49,7 @@ export default function FinderWindow({ category, subcategory, product, onClose }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
             onClick={onClose}
         >
             <motion.div
@@ -58,10 +58,15 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                 role="dialog"
                 aria-labelledby={titleId}
                 onClick={(e) => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.96, y: 24 }}
+                initial={{ opacity: 0, scale: 0.965, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96, y: 24 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                exit={{ opacity: 0, scale: 0.98, y: 6 }}
+                // Easing fixo em vez de spring: uma janela do macOS abre com um
+                // movimento rápido e decidido, sem oscilar — uma spring com
+                // stiffness/damping moderados dá sempre um bocadinho de
+                // "balanço" que, por cima do resto do conteúdo a entrar, lia-se
+                // como lentidão.
+                transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}
             >
                 <header className="finder-titlebar">
                     <div className="finder-traffic-lights">

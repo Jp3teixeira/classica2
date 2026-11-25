@@ -50,9 +50,9 @@ export default function ProductDetail({ product, onBack, category, subcategory }
 
                 <motion.div
                     className="detail-info"
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
+                    transition={{ duration: 0.18, delay: 0.04 }}
                 >
                     {eyebrow && <p className="detail-eyebrow">{eyebrow}</p>}
                     <h2 className="product-title">{product.name}</h2>
