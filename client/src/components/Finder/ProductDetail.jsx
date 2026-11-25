@@ -6,7 +6,7 @@ import Lightbox from './Lightbox';
 import { getProductImages } from '../../data/navigation';
 import { CONTACT } from '../../data/contact';
 
-export default function ProductDetail({ product, onBack }) {
+export default function ProductDetail({ product, onBack, category, subcategory }) {
     const images = getProductImages(product);
     const [activeIdx, setActiveIdx] = useState(0);
     const [zoomed, setZoomed] = useState(false);
@@ -15,6 +15,9 @@ export default function ProductDetail({ product, onBack }) {
     const closeZoom = useCallback(() => setZoomed(false), []);
 
     const hasSpecs = Array.isArray(product.characteristics) && product.characteristics.length > 0;
+    const eyebrow = subcategory && subcategory.name !== category?.name
+        ? `${category?.name} · ${subcategory.name}`
+        : category?.name;
 
     return (
         <motion.div
@@ -33,67 +36,52 @@ export default function ProductDetail({ product, onBack }) {
                 </button>
             </div>
 
-            {images.length > 0 && (
-                <Gallery
-                    images={images}
-                    productName={product.name}
-                    activeIndex={activeIdx}
-                    onChange={setActiveIdx}
-                    onZoom={openZoom}
-                />
-            )}
-
-            <motion.div
-                className="detail-info"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-            >
-                <h2 className="product-title">{product.name}</h2>
-
-                <section className="detail-section">
-                    <div className="detail-section-header">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="detail-section-icon" aria-hidden="true">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                            <line x1="16" y1="13" x2="8" y2="13" />
-                            <line x1="16" y1="17" x2="8" y2="17" />
-                        </svg>
-                        <h3 className="detail-section-title">Descrição</h3>
-                    </div>
-                    <p className="product-description">{product.description}</p>
-                </section>
-
-                {hasSpecs && (
-                    <section className="detail-section">
-                        <div className="detail-section-header">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="detail-section-icon" aria-hidden="true">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <line x1="3" y1="9" x2="21" y2="9" />
-                                <line x1="9" y1="21" x2="9" y2="9" />
-                            </svg>
-                            <h3 className="detail-section-title">Especificações</h3>
-                        </div>
-                        {/* <dl> em vez de divs: é uma lista de pares nome/valor,
-                            e assim um leitor de ecrã anuncia a relação. */}
-                        <dl className="detail-specs">
-                            {product.characteristics.map((char) => (
-                                <div key={`${char.label}-${char.value}`} className="detail-spec">
-                                    <dt className="spec-label">{char.label}</dt>
-                                    <dd className="spec-value">{char.value}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </section>
+            <div className="detail-layout">
+                {images.length > 0 && (
+                    <Gallery
+                        images={images}
+                        productName={product.name}
+                        activeIndex={activeIdx}
+                        onChange={setActiveIdx}
+                        onZoom={openZoom}
+                    />
                 )}
 
-                <a
-                    className="quote-cta"
-                    href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Pedido de orçamento: ${product.name}`)}`}
+                <motion.div
+                    className="detail-info"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
                 >
-                    Pedir orçamento semelhante
-                </a>
-            </motion.div>
+                    {eyebrow && <p className="detail-eyebrow">{eyebrow}</p>}
+                    <h2 className="product-title">{product.name}</h2>
+
+                    <p className="product-description">{product.description}</p>
+
+                    {hasSpecs && (
+                        <>
+                            <h3 className="detail-specs-title">Ficha técnica</h3>
+                            {/* <dl> em vez de divs: é uma lista de pares nome/valor,
+                                e assim um leitor de ecrã anuncia a relação. */}
+                            <dl className="detail-specs">
+                                {product.characteristics.map((char) => (
+                                    <div key={`${char.label}-${char.value}`} className="detail-spec">
+                                        <dt className="spec-label">{char.label}</dt>
+                                        <dd className="spec-value">{char.value}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </>
+                    )}
+
+                    <a
+                        className="quote-cta"
+                        href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Pedido de orçamento: ${product.name}`)}`}
+                    >
+                        Pedir orçamento semelhante
+                    </a>
+                </motion.div>
+            </div>
 
             <AnimatePresence>
                 {zoomed && (
