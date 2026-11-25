@@ -129,6 +129,37 @@ export function buildPath(category, subcategory, product) {
     return path;
 }
 
+/** Slug reservado para a vista agregada "Todos os trabalhos". */
+export const ALL_SLUG = 'todos';
+
+/**
+ * Categoria virtual "Todos os trabalhos" — agrega os produtos de todas as
+ * categorias numa única grelha, para quem prefere pesquisar em vez de navegar
+ * por categoria. Cada produto mantém uma referência à sua categoria e
+ * subcategoria reais (`realCategory`/`realSubcategory`), para que o link do
+ * cartão aponte sempre para o URL canónico do produto — "/todos" é só um
+ * ponto de entrada, nunca o dono do conteúdo (evita conteúdo duplicado).
+ *
+ * Não entra no sitemap nem é indexada (ver FinderRoute) pela mesma razão.
+ */
+export function getAllProductsCategory() {
+    const products = INDEX.flatMap((category) =>
+        category.subcategories.flatMap((sub) =>
+            sub.products.map((product) => ({
+                ...product,
+                realCategory: category,
+                realSubcategory: sub,
+            }))
+        )
+    );
+    return {
+        id: ALL_SLUG,
+        slug: ALL_SLUG,
+        name: 'Todos os trabalhos',
+        subcategories: [{ id: ALL_SLUG, slug: ALL_SLUG, name: 'Todos os trabalhos', products }],
+    };
+}
+
 /** Lista plana de todos os URLs canónicos — usada para gerar o sitemap. */
 export function getAllPaths() {
     const paths = ['/'];

@@ -265,13 +265,22 @@ const IMAGE_MANIFEST = {
             1366
         ]
     },
-    "/imagens/Logos/logo_white": {
-        "w": 1686,
-        "h": 418,
+    "/imagens/Logos/classica-icon": {
+        "w": 1024,
+        "h": 1024,
         "s": [
             400,
             900,
-            1686
+            1024
+        ]
+    },
+    "/imagens/Logos/classica-logo": {
+        "w": 2600,
+        "h": 1204,
+        "s": [
+            400,
+            900,
+            1800
         ]
     },
     "/imagens/Outros/Brochuras/Brochura_Kenwood_1": {

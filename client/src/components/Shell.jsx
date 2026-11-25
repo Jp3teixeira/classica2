@@ -27,7 +27,7 @@ export default function Shell({ children }) {
     const location = useLocation();
     const [contactOpen, setContactOpen] = useState(false);
 
-    const openContact = useCallback(() => setContactOpen(true), []);
+    const toggleContact = useCallback(() => setContactOpen((open) => !open), []);
     const closeContact = useCallback(() => setContactOpen(false), []);
 
     // Categoria em exibição, lida do URL. Os links de navegação apontam para o
@@ -44,7 +44,8 @@ export default function Shell({ children }) {
                 categories={CATEGORIES}
                 activeCategorySlug={activeCategorySlug}
                 isCompact={isCompact}
-                onOpenContact={openContact}
+                onOpenContact={toggleContact}
+                contactOpen={contactOpen}
             />
 
             <Desktop />
@@ -52,12 +53,12 @@ export default function Shell({ children }) {
             {children}
 
             {isCompact
-                ? <TabBar categories={CATEGORIES} activeCategorySlug={activeCategorySlug} onOpenContact={openContact} />
+                ? <TabBar categories={CATEGORIES} activeCategorySlug={activeCategorySlug} />
                 : <Dock categories={CATEGORIES} activeCategorySlug={activeCategorySlug} />
             }
 
             <AnimatePresence>
-                {contactOpen && <ContactPanel onClose={closeContact} />}
+                {contactOpen && <ContactPanel onClose={closeContact} isCompact={isCompact} />}
             </AnimatePresence>
         </>
     );

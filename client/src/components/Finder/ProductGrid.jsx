@@ -86,11 +86,17 @@ const ProductGrid = memo(function ProductGrid({ products, category, subcategory 
             {products.map((product, index) => {
                 const [first] = getProductImages(product);
                 const extra = getProductImages(product).length - 1;
+                // Em "Todos os trabalhos" cada produto carrega a sua categoria e
+                // subcategoria reais — o link tem de apontar sempre para o URL
+                // canónico do produto, nunca para um caminho debaixo de "/todos".
+                const realCategory = product.realCategory || category;
+                const realSubcategory = product.realSubcategory || subcategory;
+                const subLabel = realSubcategory?.name !== realCategory?.name ? (realSubcategory?.name || realCategory?.name) : realCategory?.name;
                 return (
                     <TiltCard
                         key={product.id}
                         index={index}
-                        to={buildPath(category, subcategory, product)}
+                        to={buildPath(realCategory, realSubcategory, product)}
                         ariaLabel={`Ver ${product.name}`}
                     >
                         <div className="product-card-image">
@@ -110,7 +116,10 @@ const ProductGrid = memo(function ProductGrid({ products, category, subcategory 
                             )}
                         </div>
                         <span className="product-card-name">{product.name}</span>
-                        <span className="product-card-cta" aria-hidden="true">Ver ficha técnica</span>
+                        <span className="product-card-meta">
+                            <span className="product-card-sub">{subLabel}</span>
+                            <span className="product-card-cta" aria-hidden="true">Ver ficha técnica →</span>
+                        </span>
                     </TiltCard>
                 );
             })}

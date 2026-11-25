@@ -1,11 +1,10 @@
 import { useCallback, useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-import SubcategoryNav from './SubcategoryNav';
-import ProductGrid from './ProductGrid';
+import CategoryNav from './CategoryNav';
+import FinderBrowser from './FinderBrowser';
 import ProductDetail from './ProductDetail';
-import { EmptyState } from './FinderStates';
 
 import { buildPath } from '../../data/navigation';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
@@ -29,7 +28,7 @@ export default function FinderWindow({ category, subcategory, product, onClose }
     const isCompact = useIsCompact();
     const titleId = useId();
 
-    const products = subcategory?.products ?? [];
+    const allProducts = subcategory?.products ?? [];
 
     // Escape sai um nível de cada vez, como qualquer navegação hierárquica.
     const handleEscape = useCallback(() => {
@@ -81,48 +80,41 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                         <span className="traffic-light maximize" aria-hidden="true" />
                     </div>
 
-                    <h1 className="finder-title" id={titleId}>
+                    <div className="finder-title" id={titleId}>
                         {category.name}
-                        {subcategory && products.length > 0 && (
-                            <span className="finder-title-count"> · {products.length} {products.length === 1 ? 'trabalho' : 'trabalhos'}</span>
+                        {allProducts.length > 0 && (
+                            <span className="finder-title-count"> · {allProducts.length} {allProducts.length === 1 ? 'trabalho' : 'trabalhos'}</span>
                         )}
-                    </h1>
-
-                    <button
-                        type="button"
-                        className="finder-close-text"
-                        onClick={onClose}
-                        aria-label="Fechar janela"
-                    >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                            <path d="M6 6l12 12M18 6L6 18" />
-                        </svg>
-                    </button>
+                    </div>
                 </header>
 
                 <div className="finder-content">
-                    <SubcategoryNav
-                        category={category}
-                        subcategory={subcategory}
-                        isCompact={isCompact}
-                    />
+                    <CategoryNav activeCategorySlug={category.slug} isCompact={isCompact} />
 
                     <div className="finder-main">
                         <div className="finder-main-content" id="finder-conteudo" tabIndex={-1}>
-                            <AnimatePresence mode="wait" initial={false}>
-                                {product ? (
-                                    <ProductDetail key={`detail-${product.id}`} product={product} onBack={backToGrid} />
-                                ) : products.length > 0 ? (
-                                    <ProductGrid
-                                        key={`grid-${subcategory?.id}`}
-                                        products={products}
-                                        category={category}
-                                        subcategory={subcategory}
-                                    />
-                                ) : (
-                                    <EmptyState key="empty" subcategory={subcategory} />
-                                )}
-                            </AnimatePresence>
+                            {/* Sem AnimatePresence aqui de propósito: a navegação de
+                                categoria/subcategoria (na sidebar/chips e nos
+                                separadores) tem de refletir a nova rota de imediato,
+                                nunca à espera de uma animação de saída terminar. Cada
+                                vista anima a sua PRÓPRIA entrada (ver ProductDetail e
+                                ProductGrid), o que já dá a sensação de transição suave
+                                sem atrasar o resto da interface. */}
+                            {product ? (
+                                <ProductDetail key={`detail-${product.id}`} product={product} onBack={backToGrid} />
+                            ) : (
+                                <FinderBrowser
+                                    key={`browse-${category.id}-${subcategory?.id}`}
+                                    allProducts={allProducts}
+                                    category={category}
+                                    subcategory={subcategory}
+                                />
+                            )}
+
+                            <footer className="finder-footer">
+                                <span>Feito à medida. Impresso para ficar.</span>
+                                <span>O detalhe faz a diferença.</span>
+                            </footer>
                         </div>
                     </div>
                 </div>

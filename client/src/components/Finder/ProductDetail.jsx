@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Gallery from './Gallery';
 import Lightbox from './Lightbox';
 import { getProductImages } from '../../data/navigation';
+import { CONTACT } from '../../data/contact';
 
 export default function ProductDetail({ product, onBack }) {
     const images = getProductImages(product);
@@ -85,6 +86,13 @@ export default function ProductDetail({ product, onBack }) {
                         </dl>
                     </section>
                 )}
+
+                <a
+                    className="quote-cta"
+                    href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Pedido de orçamento: ${product.name}`)}`}
+                >
+                    Pedir orçamento semelhante
+                </a>
             </motion.div>
 
             <AnimatePresence>

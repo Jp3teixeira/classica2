@@ -9,6 +9,8 @@
  *   name        nome apresentado na MenuBar, Dock e título da janela
  *   shortName   (opcional) nome curto para a barra de navegação em telemóvel
  *   description usada como subtítulo/meta description da categoria
+ *   color       cor de destaque da categoria — usada nos ícones da Dock, da
+ *               TabBar e da sidebar da janela do Finder
  *   subcategories  { id, name } — o id é a chave em products.js; o segmento do
  *               URL é o id sem o prefixo da categoria ('livros-capa-dura' → 'capa-dura')
  */
@@ -17,6 +19,7 @@ const CATEGORIES = [
         id: 'catalogos',
         name: 'Catálogos',
         description: 'Catálogos profissionais para apresentação de produtos e serviços',
+        color: '#5F7FA8',
         subcategories: [
             { id: 'catalogos-todos', name: 'Catálogos' }
         ]
@@ -25,6 +28,7 @@ const CATEGORIES = [
         id: 'livros',
         name: 'Livros',
         description: 'Impressão de livros de alta qualidade com diversos acabamentos',
+        color: '#A0704E',
         subcategories: [
             { id: 'livros-capa-mole', name: 'Livros de Capa Mole' },
             { id: 'livros-capa-dura', name: 'Livros de Capa Dura' }
@@ -35,6 +39,7 @@ const CATEGORIES = [
         name: 'Calendários de Parede',
         shortName: 'Calendários',
         description: 'Calendários de parede personalizados com vários formatos de macetes',
+        color: '#5E8A64',
         subcategories: [
             { id: 'calendarios-3-macetes', name: 'Calendário 3 Macetes' },
             { id: 'calendarios-4-macetes', name: 'Calendário 4 Macetes' }
@@ -44,6 +49,7 @@ const CATEGORIES = [
         id: 'embalagens',
         name: 'Embalagens',
         description: 'Embalagens personalizadas para diversos produtos',
+        color: '#9C7A3C',
         subcategories: [
             { id: 'embalagens-micro-canelado', name: 'Micro Canelado' },
             { id: 'embalagens-cartolina', name: 'Cartolina' }
@@ -54,6 +60,7 @@ const CATEGORIES = [
         name: 'Rotulagem',
         shortName: 'Rótulos',
         description: 'Rótulos e etiquetas para todos os tipos de produtos',
+        color: '#8A6AA3',
         subcategories: [
             { id: 'rotulos', name: 'Rótulos' }
         ]
@@ -62,6 +69,7 @@ const CATEGORIES = [
         id: 'outros',
         name: 'Outros',
         description: 'Outros produtos gráficos: brochuras, postais, calendários de secretária e mais',
+        color: '#6F767D',
         subcategories: [
             { id: 'outros-brochuras', name: 'Brochuras' },
             { id: 'outros-postais', name: 'Postais' },

@@ -48,6 +48,14 @@ const ICONS = {
             <rect x="3" y="14" width="7" height="7" rx="1" />
             <rect x="14" y="14" width="7" height="7" rx="1" />
         </svg>
+    ),
+    todos: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="4" y="4" width="7" height="7" rx="1.6" />
+            <rect x="13" y="4" width="7" height="7" rx="1.6" />
+            <rect x="4" y="13" width="7" height="7" rx="1.6" />
+            <rect x="13" y="13" width="7" height="7" rx="1.6" />
+        </svg>
     )
 };
 

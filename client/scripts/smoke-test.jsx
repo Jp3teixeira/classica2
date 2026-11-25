@@ -169,7 +169,11 @@ await test('/ mostra a landing sem diálogo aberto', async () => {
     await go('/');
     assert.ok($('h1'), 'falta <h1>');
     assert.match($('h1').textContent, /Clássica Artes Gráficas/);
-    assert.equal($('[role="dialog"]'), null, 'diálogo não devia estar aberto');
+    // assert.ok(!el) em vez de assert.equal(el, null): se isto alguma vez
+    // falhar porque o diálogo existe mesmo, assert.equal tentaria formatar o
+    // nó DOM (com a fiber do React lá presa) na mensagem de erro — e isso
+    // esgota a memória do processo em vez de simplesmente mostrar a falha.
+    assert.ok(!$('[role="dialog"]'), 'diálogo não devia estar aberto');
 });
 
 await test('a tagline tem as 5 palavras separadas e o texto acessível completo', async () => {
@@ -182,10 +186,10 @@ await test('a tagline tem as 5 palavras separadas e o texto acessível completo'
     assert.equal(words.length, 5, `esperava 5 palavras, obtive ${words.length}`);
     assert.deepEqual(
         words.map((w) => w.textContent),
-        ['Fique', 'com', 'boa', 'impressão', 'nossa']
+        ['Fique', 'com', 'boa', 'impressão', 'nossa.']
     );
     const readable = $$('.visually-hidden').map((el) => el.textContent);
-    assert.ok(readable.includes('Fique com boa impressão nossa'),
+    assert.ok(readable.includes('Fique com boa impressão nossa.'),
         'o texto com espaços devia estar disponível para leitores de ecrã');
 });
 
@@ -262,7 +266,7 @@ await test('cada subcategoria é alcançável a partir da janela aberta', async 
     for (const category of NAV) {
         if (category.subcategories.length <= 1) continue;
         await go(buildPath(category, category.subcategories[0]));
-        const hrefs = $$('.finder-sidebar-item, .subcat-chip').map((a) => a.getAttribute('href'));
+        const hrefs = $$('.subcat-tab').map((a) => a.getAttribute('href'));
         for (const sub of category.subcategories) {
             assert.ok(hrefs.includes(buildPath(category, sub)),
                 `falta link para ${buildPath(category, sub)} em ${category.id}`);
@@ -327,7 +331,7 @@ await test('trocar de categoria não fecha nem remonta a janela', async () => {
     assert.equal($('.finder-window'), janelaAntes,
         'a janela foi remontada — devia manter-se a mesma e só trocar o conteúdo');
     assert.match($('.finder-title').textContent, /Outros/, 'o título devia atualizar de imediato');
-    assert.ok($$('.subcat-chip, .finder-sidebar-item').some((a) => a.getAttribute('href') === '/outros/postais'),
+    assert.ok($$('.subcat-tab').some((a) => a.getAttribute('href') === '/outros/postais'),
         'a navegação de subcategorias devia ser a da nova categoria');
 });
 
@@ -339,10 +343,13 @@ await test('Escape no detalhe volta à grelha; na grelha fecha a janela', async 
     assert.equal(currentPath, '/', 'devia fechar a janela');
 });
 
-await test('a subcategoria ativa é comunicada com aria-current', async () => {
+await test('a subcategoria ativa é comunicada com aria-selected', async () => {
+    // Os separadores de subcategoria são um segmented control (role="tab"),
+    // por isso usam aria-selected — o padrão ARIA correto para abas — e não
+    // aria-current, que é para a categoria (ver teste seguinte).
     await go('/livros/capa-dura');
-    const current = $$('[aria-current="true"]').map((el) => el.getAttribute('href'));
-    assert.ok(current.includes('/livros/capa-dura'), 'falta aria-current na subcategoria ativa');
+    const current = $$('.subcat-tab[aria-selected="true"]').map((el) => el.getAttribute('href'));
+    assert.ok(current.includes('/livros/capa-dura'), 'falta aria-selected na subcategoria ativa');
 });
 
 await test('a categoria ativa é comunicada na MenuBar', async () => {
@@ -431,30 +438,37 @@ compact = true;
 await test('a TabBar substitui a Dock e mostra rótulos de texto', async () => {
     await go('/');
     assert.ok($('.tabbar'), 'falta a TabBar');
-    assert.equal($('.dock'), null, 'a Dock não devia existir em modo compacto');
+    assert.ok(!$('.dock'), 'a Dock não devia existir em modo compacto');
+    // "Outros" fica fora da TabBar de propósito (tal como da Dock) — é
+    // alcançável pela MenuBar e pela navegação de categorias dentro da janela.
+    // "Ver todos" ocupa o lugar, e o contacto passou para a MenuBar.
     const labels = $$('.tabbar-label').map((l) => l.textContent.trim());
-    assert.equal(labels.length, 7, `esperava 6 categorias + contacto, obtive ${labels.length}`);
+    assert.equal(labels.length, 6, `esperava 5 categorias + "Tudo", obtive ${labels.length}`);
     assert.ok(labels.every((l) => l.length > 0), 'algum rótulo está vazio');
+    assert.ok(!labels.includes('Outros'), '"Outros" não devia estar na TabBar');
+    assert.ok(labels.includes('Tudo'), 'falta "Ver todos" na TabBar');
 });
 
-await test('as subcategorias aparecem como barra horizontal, não sidebar', async () => {
+await test('as subcategorias aparecem como separadores inline, e as categorias como chips', async () => {
     await go('/livros/capa-mole');
-    assert.ok($('.subcat-strip'), 'falta a barra de subcategorias');
-    assert.equal($('.finder-sidebar'), null, 'a sidebar não devia ser renderizada');
-    assert.equal($$('.subcat-chip').length, 2);
+    assert.ok($('.catnav-strip'), 'falta a fila de categorias');
+    assert.ok(!$('.finder-sidebar'), 'a sidebar não devia ser renderizada em modo compacto');
+    assert.equal($$('.subcat-tab').length, 2);
 });
 
-await test('existe botão de fechar explícito na janela', async () => {
+await test('o botão de fechar (semáforo) funciona também em ecrã inteiro', async () => {
     await go('/livros/capa-mole');
-    const close = $('.finder-close-text');
+    const close = $('.traffic-light.close');
     assert.ok(close, 'falta o botão de fechar');
     assert.equal(close.getAttribute('aria-label'), 'Fechar janela');
+    await click(close);
+    assert.equal(currentPath, '/', 'devia fechar a janela');
 });
 
 await test('o contacto abre por clique e tem um mailto: real', async () => {
     await go('/');
-    const trigger = $$('.tabbar-link').find((b) => b.textContent.includes('Contacto'));
-    assert.ok(trigger, 'falta o botão de contacto na TabBar');
+    const trigger = $('.menubar-contact-icon');
+    assert.ok(trigger, 'falta o botão de contacto, só com ícone, na MenuBar');
     await click(trigger);
     assert.ok($('.contact-panel'), 'o painel de contacto não abriu');
     assert.ok($('a[href^="mailto:"]'), 'falta link mailto:');
@@ -464,7 +478,14 @@ await test('o contacto abre por clique e tem um mailto: real', async () => {
     const panel = $('[role="dialog"][aria-modal="true"]');
     assert.ok(panel, 'o painel devia ser um diálogo modal');
     await press('Escape');
-    assert.equal($('.contact-panel'), null, 'Escape devia fechar o painel');
+    // Não se verifica aqui a remoção do painel do DOM: a saída é uma animação
+    // do Framer Motion (AnimatePresence), e o jsdom não tem motor de layout
+    // para a resolver — o mesmo problema já documentado em "trocar de
+    // categoria não fecha nem remonta a janela", mais acima. O sinal correto
+    // e imediato de que o Escape realmente fechou o painel é o estado
+    // React a mudar de verdade, visível já aqui: o botão que o abre deixa de
+    // se anunciar como "expandido".
+    assert.equal(trigger.getAttribute('aria-expanded'), 'false', 'Escape devia fechar o painel');
 });
 
 compact = false;
@@ -512,3 +533,9 @@ if (failures.length) {
 }
 if (realNoise.length) process.exit(1);
 console.log('  ✓ tudo verde\n');
+
+// Sem isto, o processo nunca terminava sozinho quando tudo passava: o relógio
+// da MenuBar (setInterval) do último componente montado fica pendente, e é
+// só a falha explícita (process.exit(1) acima) que corta o event loop. Como
+// aqui não há falhas a cortar por nós, saímos nós mesmos.
+process.exit(0);
