@@ -266,21 +266,21 @@ const IMAGE_MANIFEST = {
         ]
     },
     "/imagens/Logos/classica-icon": {
-        "w": 1024,
-        "h": 1024,
+        "w": 1686,
+        "h": 418,
         "s": [
             400,
             900,
-            1024
+            1686
         ]
     },
     "/imagens/Logos/classica-logo": {
-        "w": 2600,
-        "h": 1204,
+        "w": 1686,
+        "h": 418,
         "s": [
             400,
             900,
-            1800
+            1686
         ]
     },
     "/imagens/Outros/Brochuras/Brochura_Kenwood_1": {
