@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, useCallback, memo } from 'react';
 
 import { toImageKey, imageEntry, buildSrcSet } from '../utils/images';
 
@@ -26,8 +26,20 @@ const SmartImage = memo(function SmartImage({
     decoding = 'async',
     draggable,
     onLoad,
+    fadeIn = false,
 }) {
     const [failed, setFailed] = useState(false);
+    // `fadeIn`: a imagem aparece com um fade curto quando chega, em vez de
+    // "saltar" para o ecrã. Se já estiver em cache (complete no momento em que
+    // o elemento é ligado), fica visível de imediato, sem fade nenhum.
+    const [loaded, setLoaded] = useState(false);
+    const imgRef = useCallback((node) => {
+        if (node && node.complete && node.naturalWidth > 0) setLoaded(true);
+    }, []);
+    const handleLoad = useCallback((event) => {
+        setLoaded(true);
+        onLoad?.(event);
+    }, [onLoad]);
     const entry = imageEntry(src);
 
     if (failed || !entry) {
@@ -59,12 +71,13 @@ const SmartImage = memo(function SmartImage({
                 alt={alt}
                 width={entry.w}
                 height={entry.h}
-                className={className}
+                ref={fadeIn ? imgRef : undefined}
+                className={[className, fadeIn && (loaded ? 'is-loaded' : 'is-loading')].filter(Boolean).join(' ') || undefined}
                 loading={loading}
                 fetchPriority={fetchPriority}
                 decoding={decoding}
                 draggable={draggable}
-                onLoad={onLoad}
+                onLoad={fadeIn ? handleLoad : onLoad}
                 onError={() => setFailed(true)}
             />
         </picture>

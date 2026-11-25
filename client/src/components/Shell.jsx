@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
@@ -11,6 +11,7 @@ import ContactPanel from './Contact/ContactPanel';
 import { getCategories } from '../data/navigation';
 import { useIsCompact } from '../hooks/useMediaQuery';
 import ContactContext from '../context/ContactContext';
+import { installPrefetch } from '../utils/prefetch';
 
 const CATEGORIES = getCategories();
 
@@ -27,6 +28,10 @@ export default function Shell({ children }) {
     const isCompact = useIsCompact();
     const location = useLocation();
     const [contactOpen, setContactOpen] = useState(false);
+
+    // Pré-carrega as fotos de uma categoria/produto quando o rato passa por
+    // cima de um link ou o dedo lhe toca (ver utils/prefetch.js).
+    useEffect(() => installPrefetch(), []);
 
     const toggleContact = useCallback(() => setContactOpen((open) => !open), []);
     const openContact = useCallback(() => setContactOpen(true), []);

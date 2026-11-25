@@ -14,9 +14,13 @@
     calc(20px + var(--safe-right))
     calc(var(--dock-height) + var(--safe-bottom))
     calc(20px + var(--safe-left));
-  background: rgba(232, 232, 229, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* Véu de cor sólida, SEM backdrop-filter. Um blur de ecrã inteiro obrigava o
+     browser a reamostrar tudo o que está por trás em cada frame da animação de
+     abertura — medido com um trace de desempenho, era o maior custo por frame
+     (cerca do dobro do tempo de composição). Uma cor semitransparente anima-se
+     em opacidade praticamente de graça. O tom é um pouco mais opaco do que o
+     antigo para compensar a ausência do desfoque. */
+  background: rgba(236, 236, 233, 0.72);
 }
 
 .finder-window {

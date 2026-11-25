@@ -45,6 +45,12 @@
   align-items: center;
   justify-content: center;
   padding: 4px;
+  /* Fundo branco em vez de mix-blend-mode: multiply nas fotos. O multiply
+     servia para "fundir" o branco das fotografias com o cinzento do cartão, mas
+     obriga o browser a compor cada foto em separado em cada frame em que a
+     grelha anima. Um poço branco dá o mesmo resultado limpo (foto sobre branco)
+     sem custo. */
+  background: #fff;
 }
 
 .product-card-image picture,
@@ -52,7 +58,18 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  mix-blend-mode: multiply;
+}
+
+/* Fotos que ainda não chegaram ficam invisíveis sobre o poço branco e
+   aparecem com um fade curto (ver a prop fadeIn do SmartImage). */
+.product-card-image img,
+.gallery-image {
+  transition: opacity 0.22s ease-out;
+}
+
+.product-card-image img.is-loading,
+.gallery-image.is-loading {
+  opacity: 0;
 }
 
 /* Indicador de que o produto tem mais fotografias */
@@ -134,6 +151,71 @@
 .detail-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Anterior / seguinte dentro da subcategoria */
+.detail-pager {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.detail-pager-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: background var(--transition-fast);
+}
+
+.detail-pager-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.detail-pager-link.is-disabled {
+  visibility: hidden;
+}
+
+.detail-pager-count {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .detail-pager-link:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Outros trabalhos da mesma categoria, no fim da ficha */
+.detail-related {
+  margin-top: 48px;
+  padding-top: 28px;
+  padding-bottom: 32px;
+  border-top: 1px solid var(--finder-border);
+}
+
+.detail-related-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.detail-related .product-grid {
+  margin-top: 16px;
 }
 
 .back-btn {
@@ -201,7 +283,6 @@
   width: 100%;
   max-height: min(440px, 52vh);
   object-fit: contain;
-  mix-blend-mode: multiply;
   filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
   pointer-events: none;
 }
@@ -279,7 +360,6 @@
   width: 100%;
   height: 56px;
   object-fit: contain;
-  mix-blend-mode: multiply;
   border-radius: 6px;
 }
 

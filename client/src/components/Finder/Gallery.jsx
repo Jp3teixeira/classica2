@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import SmartImage from '../SmartImage';
+import { GALLERY_SIZES } from '../../utils/prefetch';
 
 const SWIPE_DISTANCE = 60;
 const SWIPE_VELOCITY = 350;
@@ -83,10 +84,11 @@ export default function Gallery({ images, productName, activeIndex, onChange, on
                             src={active.src}
                             alt={label}
                             className="gallery-image"
-                            sizes="(max-width: 900px) 92vw, 640px"
+                            sizes={GALLERY_SIZES}
                             loading="eager"
                             fetchPriority="high"
                             draggable={false}
+                            fadeIn
                         />
                         <span className="gallery-zoom-hint" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
