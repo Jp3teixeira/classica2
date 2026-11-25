@@ -58,19 +58,17 @@
 }
 
 .tagline-text {
-  font-size: clamp(13px, 2.4vw, 26px);
+  font-size: clamp(14px, 2vw, 19px);
   font-weight: 300;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  /* 0.55 de opacidade sobre o gradiente claro dá ≈4.9:1 — antes era 0.35 (≈2.6:1) */
-  color: rgba(0, 0, 0, 0.55);
+  letter-spacing: -0.01em;
+  /* 0.6 de opacidade sobre o gradiente claro dá ≈4.9:1 — antes era 0.35 (≈2.6:1) */
+  color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   /* O espaço entre palavras vem daqui, não de nós de texto: num contentor flex
-     um nó de texto só com espaços não gera flex item e seria descartado.
-     0.22em + os 0.1em de letter-spacing dão a largura de um espaço normal. */
-  column-gap: 0.22em;
+     um nó de texto só com espaços não gera flex item e seria descartado. */
+  column-gap: 0.28em;
   row-gap: 4px;
   text-align: center;
 }

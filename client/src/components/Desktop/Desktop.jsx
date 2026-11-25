@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 import SmartImage from '../SmartImage';
 
-const TAGLINE = 'Fique com boa impressão nossa';
+const TAGLINE = 'Fique com boa impressão nossa.';
 
 const Desktop = memo(function Desktop() {
     return (

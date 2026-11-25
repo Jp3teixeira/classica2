@@ -67,23 +67,37 @@
 .product-card-name {
   font-size: 15px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.85);
-  line-height: 1.35;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
   /* Impede que nomes muito longos desalinhem a fila */
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+.product-card-meta {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.product-card-sub {
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Afordância: diz o que acontece ao clicar */
 .product-card-cta {
-  margin-top: auto;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent-blue);
-  opacity: 0.9;
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  transition: color var(--transition-medium);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -91,6 +105,10 @@
     background: var(--surface);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     border-color: rgba(0, 0, 0, 0.09);
+  }
+
+  .product-card:hover .product-card-cta {
+    color: var(--text);
   }
 }
 
@@ -269,12 +287,12 @@
 }
 
 .gallery-thumb.active {
-  border-color: var(--accent-blue);
-  background: var(--accent-blue-soft);
+  border-color: var(--text);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .gallery-thumb.active .gallery-thumb-label {
-  color: var(--accent-blue);
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -384,6 +402,28 @@
   text-align: right;
 }
 
+.quote-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  height: 40px;
+  margin-top: 4px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity var(--transition-fast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .quote-cta:hover {
+    opacity: 0.88;
+  }
+}
+
 /* ============================================
    Lightbox
    ============================================ */
@@ -392,7 +432,9 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-lightbox);
-  background: rgba(12, 12, 14, 0.97);
+  background: rgba(18, 18, 20, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
   padding-top: var(--safe-top);
@@ -521,22 +563,56 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
-  background: rgba(0, 0, 0, 0.32);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: calc(20px + var(--safe-top)) 20px calc(20px + var(--safe-bottom));
+}
+
+/* Desktop: só uma camada transparente para fechar ao clicar fora — o flyout
+   não precisa de escurecer o resto do ecrã. */
+.contact-overlay.is-flyout {
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: calc(var(--menubar-height) + var(--safe-top) + 6px) calc(16px + var(--safe-right)) 0 0;
+}
+
+/* Mobile: folha que sobe do fundo, com fundo escurecido por trás. */
+.contact-overlay.is-sheet {
+  align-items: flex-end;
+  justify-content: stretch;
+  background: rgba(20, 20, 22, 0.3);
 }
 
 .contact-panel {
-  width: min(420px, 100%);
-  background: var(--surface);
-  border-radius: 18px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 2px;
+}
+
+.contact-panel.is-flyout {
+  width: 340px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(250, 250, 248, 0.86);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 22px 54px rgba(0, 0, 0, 0.18);
+}
+
+.contact-panel.is-sheet {
+  width: 100%;
+  padding: 10px 20px calc(34px + var(--safe-bottom));
+  border-radius: 24px 24px 0 0;
+  background: rgba(251, 251, 249, 0.95);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.14);
+}
+
+.contact-sheet-handle {
+  width: 36px;
+  height: 5px;
+  margin: 0 auto 14px;
+  border-radius: 3px;
+  background: #d1d1cf;
 }
 
 .contact-header {
@@ -547,9 +623,24 @@
 }
 
 .contact-title {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+
+.is-sheet .contact-title {
+  font-size: 26px;
+}
+
+.contact-subtitle {
+  margin: 4px 0 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-tertiary);
+}
+
+.is-sheet .contact-subtitle {
+  font-size: 14px;
 }
 
 .contact-close {
@@ -559,8 +650,13 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   flex-shrink: 0;
+}
+
+.is-flyout .contact-close {
+  width: 28px;
+  height: 28px;
 }
 
 .contact-close svg {
@@ -571,36 +667,61 @@
 .contact-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2px;
 }
 
 .contact-action {
   display: flex;
   align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 9px;
+  transition: background var(--transition-fast);
+}
+
+.is-sheet .contact-action {
   gap: 14px;
-  min-height: 60px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--surface-muted);
-  border: 1px solid var(--hairline);
-  transition: background var(--transition-fast), border-color var(--transition-fast);
+  min-height: 62px;
+  padding: 0 16px;
+  margin: 0;
+  border-radius: 0;
+  background: var(--surface);
+}
+
+.is-sheet .contact-list {
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--hairline);
+  overflow: hidden;
 }
 
 .contact-action-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: var(--accent-blue-soft);
-  color: var(--accent-blue);
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
+.is-sheet .contact-action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
 .contact-action-icon svg {
-  width: 19px;
-  height: 19px;
+  width: 16px;
+  height: 16px;
+}
+
+.is-sheet .contact-action-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .contact-action-body {
@@ -612,23 +733,41 @@
 
 .contact-action-label {
   font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--text-tertiary);
 }
 
 .contact-action-value {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
   color: var(--text);
   overflow-wrap: anywhere;
 }
 
+.is-sheet .contact-action-value {
+  font-size: 15px;
+}
+
+.contact-cta {
+  height: 40px;
+  margin-top: 16px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.is-sheet .contact-cta {
+  height: 52px;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .contact-action:hover {
-    background: #eef4fc;
-    border-color: rgba(0, 100, 210, 0.28);
+    background: rgba(0, 0, 0, 0.04);
   }
 
   .contact-close:hover {

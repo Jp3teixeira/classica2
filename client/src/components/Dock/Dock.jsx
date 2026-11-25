@@ -1,114 +1,61 @@
-import { useState, useCallback, useEffect, memo, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import ICONS from './icons';
-import { categoryEntryPath } from '../../data/navigation';
-
-const REVEAL_AT = 2600;
-const HIDE_AFTER = 7000;
-const HIDE_DELAY = 350;
+import { categoryEntryPath, ALL_SLUG } from '../../data/navigation';
 
 /**
  * Dock estilo macOS — apenas em ecrãs com hover (desktop).
  *
  * Em dispositivos de toque este componente não é montado: o <TabBar> ocupa o
- * seu lugar. Isso permite manter aqui a interação por hover na sua forma
- * original, sem os malabarismos de deteção de toque que existiam antes.
+ * seu lugar.
  *
- * A Dock continua a mostrar-se sozinha no arranque e a esconder-se depois, mas
- * agora a barra fina do fundo é um botão real: focável por teclado, com nome
- * acessível e área de toque utilizável.
+ * "Outros" fica de fora da Dock de propósito — é a categoria residual, menos
+ * relevante para acesso rápido — mas continua alcançável pela MenuBar e pela
+ * sidebar da janela do Finder. "Todos os trabalhos" entra no lugar, separado
+ * das restantes por um traço vertical.
  */
 const Dock = memo(function Dock({ categories, activeCategorySlug }) {
-    const [isVisible, setIsVisible] = useState(false);
-    const hideTimeoutRef = useRef(null);
-
-    useEffect(() => {
-        const showTimer = setTimeout(() => setIsVisible(true), REVEAL_AT);
-        const hideTimer = setTimeout(() => setIsVisible(false), HIDE_AFTER);
-        return () => { clearTimeout(showTimer); clearTimeout(hideTimer); };
-    }, []);
-
-    useEffect(() => () => clearTimeout(hideTimeoutRef.current), []);
-
-    const show = useCallback(() => {
-        clearTimeout(hideTimeoutRef.current);
-        hideTimeoutRef.current = null;
-        setIsVisible(true);
-    }, []);
-
-    const hide = useCallback(() => {
-        hideTimeoutRef.current = setTimeout(() => setIsVisible(false), HIDE_DELAY);
-    }, []);
+    const pinned = categories.filter((c) => c.id !== 'outros');
 
     return (
-        <div className="dock-container">
-            {/* Alça de abertura: visível quando a Dock está recolhida. */}
-            <motion.button
-                type="button"
-                className="dock-handle"
-                onMouseEnter={show}
-                onFocus={show}
-                onClick={show}
-                aria-label="Mostrar barra de categorias"
-                aria-expanded={isVisible}
-                animate={{ opacity: isVisible ? 0 : 1 }}
-                transition={{ duration: 0.25 }}
-                style={{ pointerEvents: isVisible ? 'none' : 'auto' }}
-            >
-                <span className="dock-handle-bar" aria-hidden="true" />
-            </motion.button>
+        <nav className="dock" aria-label="Categorias de produtos">
+            {pinned.map((category) => (
+                <DockItem
+                    key={category.id}
+                    to={categoryEntryPath(category)}
+                    name={category.name}
+                    icon={ICONS[category.id]}
+                    color={category.color}
+                    isActive={category.slug === activeCategorySlug}
+                />
+            ))}
 
-            {/* Zona invisível de hover ao longo do fundo do ecrã. */}
-            <div className="dock-trigger" onMouseEnter={show} aria-hidden="true" />
+            <span className="dock-separator" aria-hidden="true" />
 
-            <motion.nav
-                className="dock"
-                onMouseEnter={show}
-                onMouseLeave={hide}
-                aria-label="Categorias de produtos"
-                initial={{ opacity: 0, y: 100 }}
-                animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 100 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                // visibility (não só opacity) impede que o Tab alcance botões
-                // invisíveis, que era possível anteriormente.
-                style={{
-                    pointerEvents: isVisible ? 'auto' : 'none',
-                    visibility: isVisible ? 'visible' : 'hidden',
-                }}
-            >
-                {categories.map((category) => (
-                    <DockItem
-                        key={category.id}
-                        category={category}
-                        icon={ICONS[category.id]}
-                        isActive={category.slug === activeCategorySlug}
-                    />
-                ))}
-            </motion.nav>
-        </div>
+            <DockItem
+                to={`/${ALL_SLUG}`}
+                name="Ver todos os trabalhos"
+                icon={ICONS.todos}
+                color="#55595E"
+                isActive={activeCategorySlug === ALL_SLUG}
+            />
+        </nav>
     );
 });
 
-const DockItem = memo(function DockItem({ category, icon, isActive }) {
+const DockItem = memo(function DockItem({ to, name, icon, color, isActive }) {
     return (
-        <motion.div
-            className="dock-item-wrap"
-            whileHover={{ scale: 1.18, y: -14 }}
-            whileTap={{ scale: 1.04, y: -6 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        <Link
+            to={to}
+            className="dock-item"
+            aria-current={isActive ? 'true' : undefined}
+            style={{ '--cat-color': color }}
         >
-            <Link
-                to={categoryEntryPath(category)}
-                className={`dock-item ${isActive ? 'active' : ''}`}
-                aria-current={isActive ? 'true' : undefined}
-                title={category.description}
-            >
-                <span className="dock-icon" aria-hidden="true">{icon}</span>
-                <span className="dock-label">{category.name}</span>
-            </Link>
-        </motion.div>
+            <span className="dock-label" aria-hidden="true">{name}</span>
+            <span className="dock-icon">{icon}</span>
+            <span className="dock-dot" aria-hidden="true" data-active={isActive} />
+        </Link>
     );
 });
 

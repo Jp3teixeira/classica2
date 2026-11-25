@@ -2,56 +2,58 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import ICONS from '../Dock/icons';
-import { categoryEntryPath } from '../../data/navigation';
+import { categoryEntryPath, ALL_SLUG } from '../../data/navigation';
 
 /**
- * Navegação para ecrãs compactos.
+ * Navegação para ecrãs compactos — equivalente em toque da Dock.
  *
- * Substitui a Dock em dispositivos de toque. É a tradução direta do conceito —
- * a Dock do macOS e a tab bar do iOS são a mesma ideia — e resolve os três
- * problemas que a Dock tinha em mobile:
- *
- *  1. estava escondida atrás de uma barra de 6px colada ao fundo do ecrã,
- *     exactamente onde o iOS Safari desenha a sua própria barra;
- *  2. desaparecia sozinha depois de alguns segundos;
- *  3. os nomes das categorias só apareciam em hover, pelo que num telefone
- *     a navegação eram seis ícones sem texto.
- *
- * Aqui está sempre visível, cada alvo tem ≥56px de altura, os nomes são
- * legíveis e respeita a área segura do iPhone.
+ * "Outros" fica de fora de propósito, tal como na Dock: é alcançável pela
+ * sidebar/chips de categorias dentro da janela do Finder. "Ver todos" ocupa o
+ * lugar. Os contactos deixaram de viver aqui — passam a um botão só com ícone
+ * na MenuBar, junto do relógio, libertando os seis alvos da barra para
+ * categorias.
  */
-const TabBar = memo(function TabBar({ categories, activeCategorySlug, onOpenContact }) {
+const TabBar = memo(function TabBar({ categories, activeCategorySlug }) {
+    const pinned = categories.filter((c) => c.id !== 'outros');
+
     return (
         <nav className="tabbar" aria-label="Navegação principal">
             <ul className="tabbar-list">
-                {categories.map((category) => {
-                    const isActive = category.slug === activeCategorySlug;
-                    return (
-                        <li key={category.id} className="tabbar-item">
-                            <Link
-                                to={categoryEntryPath(category)}
-                                className={`tabbar-link ${isActive ? 'active' : ''}`}
-                                aria-current={isActive ? 'true' : undefined}
-                            >
-                                <span className="tabbar-icon" aria-hidden="true">{ICONS[category.id]}</span>
-                                <span className="tabbar-label">{category.shortName || category.name}</span>
-                            </Link>
-                        </li>
-                    );
-                })}
-                <li className="tabbar-item">
-                    <button type="button" className="tabbar-link" onClick={onOpenContact}>
-                        <span className="tabbar-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <polyline points="22,6 12,13 2,6" />
-                            </svg>
-                        </span>
-                        <span className="tabbar-label">Contacto</span>
-                    </button>
-                </li>
+                {pinned.map((category) => (
+                    <TabBarItem
+                        key={category.id}
+                        to={categoryEntryPath(category)}
+                        name={category.shortName || category.name}
+                        icon={ICONS[category.id]}
+                        color={category.color}
+                        isActive={category.slug === activeCategorySlug}
+                    />
+                ))}
+                <TabBarItem
+                    to={`/${ALL_SLUG}`}
+                    name="Tudo"
+                    icon={ICONS.todos}
+                    color="#55595E"
+                    isActive={activeCategorySlug === ALL_SLUG}
+                />
             </ul>
         </nav>
+    );
+});
+
+const TabBarItem = memo(function TabBarItem({ to, name, icon, color, isActive }) {
+    return (
+        <li className="tabbar-item">
+            <Link
+                to={to}
+                className={`tabbar-link ${isActive ? 'active' : ''}`}
+                aria-current={isActive ? 'true' : undefined}
+                style={{ '--cat-color': color }}
+            >
+                <span className="tabbar-icon" aria-hidden="true">{icon}</span>
+                <span className="tabbar-label">{name}</span>
+            </Link>
+        </li>
     );
 });
 

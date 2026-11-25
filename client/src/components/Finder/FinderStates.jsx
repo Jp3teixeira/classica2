@@ -22,7 +22,7 @@ export const FolderIcon = ({ className = 'folder-icon' }) => (
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
-export const EmptyState = memo(function EmptyState({ subcategory }) {
+export const EmptyState = memo(function EmptyState({ subcategory, isSearch }) {
     return (
         <motion.div
             className="empty-state"
@@ -32,9 +32,11 @@ export const EmptyState = memo(function EmptyState({ subcategory }) {
         >
             <FolderIcon className="empty-state-icon" />
             <p className="empty-state-text">
-                {subcategory
-                    ? `Ainda não existem trabalhos em "${subcategory.name}".`
-                    : 'Selecione um tipo de produto.'}
+                {isSearch
+                    ? 'Nenhum trabalho encontrado.'
+                    : subcategory
+                        ? `Ainda não existem trabalhos em "${subcategory.name}".`
+                        : 'Selecione um tipo de produto.'}
             </p>
         </motion.div>
     );

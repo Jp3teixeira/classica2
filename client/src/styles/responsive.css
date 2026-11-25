@@ -14,24 +14,25 @@
 
 /* ============================================
    TabBar — navegação em ecrãs compactos
-   ============================================ */
+   ============================================
+   Equivalente em toque da Dock: barra flutuante em vidro fosco, com os
+   mesmos ícones e cores por categoria. */
 
 .tabbar {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 8px;
+  right: 8px;
+  bottom: calc(10px + var(--safe-bottom));
   /* Acima da janela do Finder, como a MenuBar: a navegação tem de continuar
      tocável com a janela aberta, para se trocar de categoria diretamente.
      Com o z-index da Dock ficava por baixo do overlay e um toque fechava a
      janela em vez de navegar. */
   z-index: var(--z-menubar);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-top: 1px solid var(--hairline);
-  /* Respeita o home indicator do iPhone */
-  padding-bottom: var(--safe-bottom);
+  border-radius: 24px;
+  background: rgba(252, 252, 250, 0.74);
+  backdrop-filter: saturate(170%) blur(24px);
+  -webkit-backdrop-filter: saturate(170%) blur(24px);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 12px 32px rgba(0, 0, 0, 0.12);
   padding-left: var(--safe-left);
   padding-right: var(--safe-right);
 }
@@ -39,9 +40,8 @@
 .tabbar-list {
   display: flex;
   align-items: stretch;
-  justify-content: space-between;
-  gap: 2px;
-  padding: 4px 4px 2px;
+  justify-content: space-around;
+  padding: 0 4px;
 }
 
 .tabbar-item {
@@ -53,48 +53,53 @@
 .tabbar-link {
   flex: 1;
   min-width: 0;
-  min-height: 54px;
+  min-height: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 5px 2px;
-  border-radius: 10px;
-  color: var(--text-tertiary);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  gap: 4px;
+  padding: 4px 2px;
+  color: var(--text-secondary);
 }
 
 .tabbar-icon {
+  width: 42px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  border-radius: 10px;
+  color: var(--cat-color, var(--text-secondary));
+  transition: background var(--transition-fast);
 }
 
 .tabbar-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 21px;
+  height: 21px;
 }
 
 /* Os nomes das categorias estão SEMPRE visíveis — em mobile a Dock só os
    mostrava em hover, o que deixava seis ícones sem texto. */
 .tabbar-label {
-  font-size: 10.5px;
-  font-weight: 500;
-  line-height: 1.15;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1;
   text-align: center;
   letter-spacing: -0.01em;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--text-secondary);
 }
 
-.tabbar-link.active {
-  color: var(--accent-blue);
-  background: var(--accent-blue-soft);
+.tabbar-link.active .tabbar-icon {
+  background: color-mix(in srgb, var(--cat-color, var(--text)) 15%, transparent);
+}
+
+.tabbar-link.active .tabbar-label {
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -107,13 +112,8 @@
     /* A barra inferior passa a ser a TabBar; a superior cresce para acomodar
        alvos de toque de 44px. Ambos os valores são tokens porque o .desktop e
        o .finder-overlay calculam o seu espaço a partir deles. */
-    --dock-height: var(--tabbar-height);
-    --menubar-height: 52px;
-  }
-
-  .menubar-item {
-    min-height: var(--touch-target);
-    padding: 8px 12px;
+    --dock-height: calc(var(--tabbar-height) + 22px);
+    --menubar-height: 48px;
   }
 
   /* Finder em ecrã inteiro, encaixado ENTRE a MenuBar e a TabBar.
@@ -128,6 +128,8 @@
     align-items: stretch;
     justify-content: stretch;
     background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .finder-window {
@@ -139,47 +141,29 @@
   }
 
   .finder-titlebar {
-    min-height: 56px;
-    padding: 0 8px 0 14px;
+    min-height: 44px;
   }
 
-  /* Em ecrã inteiro os semáforos do macOS deixam de fazer sentido:
-     dá lugar a um botão de fechar explícito e tocável. */
-  .finder-traffic-lights,
-  .finder-titlebar::after {
-    display: none;
-  }
-
-  .finder-close-text {
-    display: flex;
-    order: 2;
-  }
-
-  .finder-title {
-    text-align: left;
-    order: 1;
-    font-size: 17px;
-  }
-
-  .finder-title-count {
-    display: none;
-  }
-
-  /* A sidebar dá lugar à barra horizontal de subcategorias */
+  /* A sidebar dá lugar à fila horizontal de categorias */
   .finder-content {
     flex-direction: column;
   }
 
-  .finder-sidebar {
-    display: none;
-  }
-
-  .subcat-strip {
-    display: block;
-  }
-
   .finder-main-content {
-    padding: 18px 16px calc(24px + var(--safe-bottom));
+    padding: 22px 16px 0;
+  }
+
+  .finder-main-header {
+    align-items: flex-start;
+  }
+
+  .finder-search {
+    width: 100%;
+    order: 3;
+  }
+
+  .finder-cat-title {
+    font-size: 26px;
   }
 
   .product-grid {
@@ -206,6 +190,12 @@
 
   .detail-info {
     padding-bottom: 16px;
+  }
+
+  .quote-cta {
+    align-self: stretch;
+    height: 50px;
+    border-radius: 14px;
   }
 
   /* Especificações em duas linhas: label acima, valor abaixo.
@@ -249,7 +239,11 @@
   }
 
   .finder-main-content {
-    padding: 14px 12px calc(20px + var(--safe-bottom));
+    padding: 16px 12px 0;
+  }
+
+  .finder-cat-title {
+    font-size: 22px;
   }
 
   .gallery-thumb {
@@ -261,8 +255,8 @@
     height: 48px;
   }
 
-  .contact-panel {
-    padding: 18px 16px;
+  .contact-panel.is-sheet {
+    padding: 10px 16px calc(28px + var(--safe-bottom));
   }
 }
 
@@ -282,8 +276,7 @@
   }
 
   .tagline-text {
-    font-size: clamp(11px, 1.6vw, 16px);
-    letter-spacing: 0.08em;
+    font-size: clamp(11px, 1.6vw, 15px);
   }
 
   .tagline-line {

@@ -3,47 +3,49 @@
    ============================================ */
 
 :root {
-  /* Superfícies */
-  --macos-bg-gradient: linear-gradient(180deg, #e8e8ed 0%, #f5f5f7 50%, #e0e0e5 100%);
+  /* Superfícies — tons claros e neutros, quase sem textura */
+  --macos-bg-gradient: linear-gradient(180deg, #f7f7f5 0%, #ebebe8 100%);
   --surface: #ffffff;
-  --surface-muted: #f5f5f7;
-  --surface-sunken: #fafafa;
+  --surface-muted: #f3f3f1;
+  --surface-sunken: #f6f6f4;
 
   /* Texto — valores escolhidos para cumprir 4.5:1 sobre as superfícies acima */
   --text: #1d1d1f;
-  --text-secondary: rgba(0, 0, 0, 0.66);
-  --text-tertiary: rgba(0, 0, 0, 0.56);
-  --hairline: rgba(0, 0, 0, 0.1);
+  --text-secondary: #3a3a3c;
+  --text-tertiary: #6e6e73;
+  --hairline: #ecece9;
   --hairline-strong: rgba(0, 0, 0, 0.16);
 
   /* Menu Bar */
-  --menubar-bg: rgba(255, 255, 255, 0.78);
-  --menubar-blur: saturate(180%) blur(20px);
-  --menubar-height: 32px;
+  --menubar-bg: rgba(248, 248, 246, 0.72);
+  --menubar-blur: saturate(170%) blur(20px);
+  --menubar-height: 34px;
 
   /* Dock / TabBar */
   --dock-height: 92px;
-  --tabbar-height: 60px;
+  --tabbar-height: 72px;
 
   /* Finder Window */
-  --finder-titlebar: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
-  --finder-border: rgba(0, 0, 0, 0.12);
+  --finder-titlebar: rgba(246, 246, 244, 0.95);
+  --finder-border: #e8e8e5;
   --finder-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.25),
-    0 15px 30px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
-  --finder-radius: 12px;
+    0 30px 90px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+  --finder-radius: 14px;
 
   /* Traffic Lights */
   --traffic-close: #ff5f57;
-  --traffic-minimize: #ffbd2e;
-  --traffic-maximize: #28c940;
+  --traffic-minimize: #febc2e;
+  --traffic-maximize: #28c840;
 
   /* Acento */
   --accent-blue: #0064d2;      /* 4.6:1 sobre branco */
   --accent-blue-soft: rgba(0, 100, 210, 0.1);
 
-  /* Tipografia */
+  /* Tipografia — pilha de sistema: o site não carrega nenhum tipo de letra de
+     terceiros (ver CSP em vercel.json). Em macOS/iOS isto já é a SF Pro, que é
+     visualmente muito próxima da Inter usada no protótipo de design. */
   --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display',
     'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
 

@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 
 import { largestSrc, aspectOf } from '../../utils/images';
@@ -57,7 +58,11 @@ export default function Lightbox({ images, index, productName, onClose, onChange
     const label = image.label ? `${productName} — ${image.label}` : productName;
     const ratio = aspectOf(image.src);
 
-    return (
+    // Portal para o <body>: a janela do Finder anima `transform` (scale/y), o
+    // que cria um novo containing block para descendentes `position: fixed` —
+    // sem o portal, o lightbox ficava "preso" dentro da janela em vez de
+    // cobrir o ecrã todo, e a MenuBar aparecia por cima dele.
+    return createPortal(
         <motion.div
             className="lightbox"
             ref={containerRef}
@@ -117,6 +122,7 @@ export default function Lightbox({ images, index, productName, onClose, onChange
                     </button>
                 </div>
             )}
-        </motion.div>
+        </motion.div>,
+        document.body
     );
 }

@@ -10,66 +10,75 @@
   min-height: var(--menubar-height);
   padding:
     var(--safe-top)
-    calc(12px + var(--safe-right))
+    calc(10px + var(--safe-right))
     0
-    calc(12px + var(--safe-left));
+    calc(10px + var(--safe-left));
   background: var(--menubar-bg);
   backdrop-filter: var(--menubar-blur);
   -webkit-backdrop-filter: var(--menubar-blur);
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   z-index: var(--z-menubar);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
 }
 
 .menubar-logo {
   display: inline-flex;
   align-items: center;
+  height: 26px;
   font-weight: 600;
   font-size: 14px;
-  padding: 4px 10px;
+  padding: 0 10px;
   border-radius: 6px;
   transition: background var(--transition-fast);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 
 .menubar-logo-text {
-  background: linear-gradient(135deg, #1d1d1f 0%, #4a4a4e 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text);
 }
 
 .menubar-nav {
   display: flex;
   gap: 2px;
-  margin-left: 4px;
+  margin-left: 8px;
   min-width: 0;
 }
 
 .menubar-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
+  height: 26px;
+  gap: 7px;
+  padding: 0 10px;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 400;
   white-space: nowrap;
   transition: background var(--transition-fast);
-  color: rgba(0, 0, 0, 0.85);
+  color: var(--text);
 }
 
 /* Estado ativo — agora realmente aplicado (via NavLink) */
 .menubar-item.active {
-  background: rgba(0, 0, 0, 0.09);
-  font-weight: 600;
+  background: rgba(0, 0, 0, 0.075);
+}
+
+.menubar-item.contacts-trigger.active {
+  background: rgba(0, 0, 0, 0.075);
 }
 
 .menubar-icon {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.menubar-chevron {
+  width: 11px;
+  height: 11px;
+  opacity: 0.6;
   flex-shrink: 0;
 }
 
@@ -77,32 +86,39 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 2px;
 }
 
-.menubar-divider {
-  width: 1px;
-  height: 14px;
-  background: var(--hairline-strong);
-}
-
-.menubar-datetime {
-  display: flex;
-  gap: 8px;
+.menubar-clock {
+  padding: 0 10px 0 12px;
   font-size: 13px;
-  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
   white-space: nowrap;
 }
 
-.menubar-time {
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
+/* Botão de contactos só com ícone — usado em ecrãs compactos, junto ao relógio */
+.menubar-contact-icon {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  margin-right: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  border-radius: 50%;
+}
+
+.menubar-contact-icon svg {
+  width: 21px;
+  height: 21px;
 }
 
 /* Hover apenas onde existe ponteiro preciso */
 @media (hover: hover) and (pointer: fine) {
   .menubar-logo:hover,
-  .menubar-item:hover {
-    background: rgba(0, 0, 0, 0.07);
+  .menubar-item:hover,
+  .menubar-contact-icon:hover {
+    background: rgba(0, 0, 0, 0.075);
   }
 }
