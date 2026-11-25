@@ -101,7 +101,13 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                                 ProductGrid), o que já dá a sensação de transição suave
                                 sem atrasar o resto da interface. */}
                             {product ? (
-                                <ProductDetail key={`detail-${product.id}`} product={product} onBack={backToGrid} />
+                                <ProductDetail
+                                    key={`detail-${product.id}`}
+                                    product={product}
+                                    category={category}
+                                    subcategory={subcategory}
+                                    onBack={backToGrid}
+                                />
                             ) : (
                                 <FinderBrowser
                                     key={`browse-${category.id}-${subcategory?.id}`}
@@ -110,11 +116,6 @@ export default function FinderWindow({ category, subcategory, product, onClose }
                                     subcategory={subcategory}
                                 />
                             )}
-
-                            <footer className="finder-footer">
-                                <span>Feito à medida. Impresso para ficar.</span>
-                                <span>O detalhe faz a diferença.</span>
-                            </footer>
                         </div>
                     </div>
                 </div>
