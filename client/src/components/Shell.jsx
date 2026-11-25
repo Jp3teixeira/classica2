@@ -10,6 +10,7 @@ import ContactPanel from './Contact/ContactPanel';
 
 import { getCategories } from '../data/navigation';
 import { useIsCompact } from '../hooks/useMediaQuery';
+import ContactContext from '../context/ContactContext';
 
 const CATEGORIES = getCategories();
 
@@ -28,6 +29,7 @@ export default function Shell({ children }) {
     const [contactOpen, setContactOpen] = useState(false);
 
     const toggleContact = useCallback(() => setContactOpen((open) => !open), []);
+    const openContact = useCallback(() => setContactOpen(true), []);
     const closeContact = useCallback(() => setContactOpen(false), []);
 
     // Categoria em exibição, lida do URL. Os links de navegação apontam para o
@@ -37,7 +39,7 @@ export default function Shell({ children }) {
     const activeCategorySlug = location.pathname.split('/')[1] || null;
 
     return (
-        <>
+        <ContactContext.Provider value={openContact}>
             <a className="skip-link" href="#finder-conteudo">Saltar para o conteúdo</a>
 
             <MenuBar
@@ -60,6 +62,6 @@ export default function Shell({ children }) {
             <AnimatePresence>
                 {contactOpen && <ContactPanel onClose={closeContact} isCompact={isCompact} />}
             </AnimatePresence>
-        </>
+        </ContactContext.Provider>
     );
 }

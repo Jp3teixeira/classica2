@@ -4,12 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Gallery from './Gallery';
 import Lightbox from './Lightbox';
 import { getProductImages } from '../../data/navigation';
-import { CONTACT } from '../../data/contact';
+import { useContact } from '../../context/ContactContext';
 
 export default function ProductDetail({ product, onBack, category, subcategory }) {
     const images = getProductImages(product);
     const [activeIdx, setActiveIdx] = useState(0);
     const [zoomed, setZoomed] = useState(false);
+    const openContact = useContact();
 
     const openZoom = useCallback(() => setZoomed(true), []);
     const closeZoom = useCallback(() => setZoomed(false), []);
@@ -74,12 +75,9 @@ export default function ProductDetail({ product, onBack, category, subcategory }
                         </>
                     )}
 
-                    <a
-                        className="quote-cta"
-                        href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Pedido de orçamento: ${product.name}`)}`}
-                    >
-                        Pedir orçamento semelhante
-                    </a>
+                    <button type="button" className="detail-cta" onClick={openContact}>
+                        Saber mais
+                    </button>
                 </motion.div>
             </div>
 
